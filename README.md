@@ -5,7 +5,7 @@ Semantic UI utils for personal use. Encapsulate some sample functions
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-Describe react-loading-button here.
+Describe react-smtc-ui-utils here.
 
 [build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
 [build]: https://travis-ci.org/user/repo
@@ -15,3 +15,11 @@ Describe react-loading-button here.
 
 [coveralls-badge]: https://img.shields.io/coveralls/user/repo/master.png?style=flat-square
 [coveralls]: https://coveralls.io/github/user/repo
+
+
+#step
+npm run clean
+
+npm run build
+
+npm run start
