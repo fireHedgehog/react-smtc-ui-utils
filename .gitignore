@@ -81,3 +81,9 @@ yarn-error.log*
 /.project
 /.idea
 /.settings
+
+/demo/dist
+/dist
+/es
+/lib
+/umd
