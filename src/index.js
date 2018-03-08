@@ -1,9 +1,10 @@
-import React, {Component} from 'react'
+import PublicTables,{PublicTableHeaders} from './tables/PublicTables';
+import PublicStep from "./PublicStep";
 
-export default class extends Component {
-  render() {
-    return <div>
-      <h2>Welcome to React components</h2>
-    </div>
-  }
-}
+// export components as named exports
+export { PublicTables ,PublicTableHeaders,PublicStep}
+
+// alternative, more concise syntax for named exports
+
+// you can optionally also set a default export for your module
+export default { PublicTables,PublicTableHeaders,PublicStep}

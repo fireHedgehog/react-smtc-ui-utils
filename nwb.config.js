@@ -5,7 +5,8 @@ module.exports = {
     umd: {
       global: 'reactSmtcUiUtils',
       externals: {
-        react: 'React'
+        react: 'React',
+        'react-router': 'ReactRouter'
       }
     }
   }
