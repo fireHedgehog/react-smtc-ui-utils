@@ -157,6 +157,10 @@ export class CustomizedFooter extends Component {
 
     static propTypes = {}
 
+    static defaultProps = {
+        tableElementType: "CustomizedFooter",
+    }
+
     constructor(props) {
         super(props);
         this.state = {}

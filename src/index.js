@@ -1,4 +1,5 @@
-import PublicTables,{PublicTableHeaders} from './tables/PublicTables';
+import PublicTables from './tables/PublicTables';
+import PublicTableHeaders from './tables/PublicTableHeaders';
 import {CustomizedFooter} from './tables/PublicTableFooters'
 import PublicStep from "./PublicStep";
 

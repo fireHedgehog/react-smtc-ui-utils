@@ -234,10 +234,10 @@ export default class PublicTables extends React.Component {
         }
     }
 
-    handleSort = (clickedColumn,sortable) => () => {
+    handleSort = (clickedColumn, sortable) => () => {
 
-        if(sortable){
-            const { column, data, direction } = this.state
+        if (sortable) {
+            const {column, data, direction} = this.state
 
             if (column !== clickedColumn) {
                 this.setState({
@@ -275,8 +275,11 @@ export default class PublicTables extends React.Component {
         let dataSet = Object.assign([], data);//always assign to a new Array to avoid pointer issue.
 
         React.Children.forEach(this.props.children, (column, i) => {
-            // type should be PublicTableHeaders
-            if (column.type.name === "PublicTableHeaders") {
+
+            //console.log(column, column.type.name);
+            // type should be PublicTableHeaders tableHeader, if cannot read element type , read default props
+            let tableElementType =  column.props.tableElementType;
+            if (column.type.name === "PublicTableHeaders" || tableElementType === "PublicTableHeaders") {
                 //console.log(i,"textAlign:",column.props.textAlign);
                 const filterContext = column.props.filterContext === undefined ? "" : column.props.filterContext;
                 const accessor = column.props.accessor === undefined ? "" : column.props.accessor;
@@ -302,7 +305,8 @@ export default class PublicTables extends React.Component {
                 }
             }
 
-            if (column.type.name === "CustomizedFooter") {
+            // type should be CustomizedFooter , if cannot read element type , read default props
+            if (column.type.name === "CustomizedFooter" || tableElementType === "CustomizedFooter") {
                 React.Children.forEach(column.props.children, (foot, i) => {
                     footerMap.push(foot)
                 });
@@ -310,7 +314,7 @@ export default class PublicTables extends React.Component {
             }
 
         })
-
+        //console.log(headerMap, footerMap);
         // pagination footer if is false don't show it
         let paginationFooter = (
             <Table.Row/>
@@ -414,7 +418,6 @@ export default class PublicTables extends React.Component {
                                     if (showAllCheck === true && colAsCheckBox === true) {
 
 
-
                                         return (
                                             <Table.HeaderCell collapsing key={i}>
                                                 <Checkbox
@@ -434,7 +437,7 @@ export default class PublicTables extends React.Component {
                                                 collapsing={collapsing}
                                                 textAlign={textAlign}
                                                 sorted={column === accessor ? direction : null}
-                                                onClick={this.handleSort(accessor,sortable)}
+                                                onClick={this.handleSort(accessor, sortable)}
                                             >
                                                 {header}
                                             </Table.HeaderCell>
@@ -541,61 +544,6 @@ export class PublicTableFooter extends React.Component {
         } = this.props;
         return (
             <div header={header} accessor={accessor} textAlign={textAlign} collapsing={collapsing}/>
-        )
-    }
-}
-
-
-export class PublicTableHeaders extends React.Component {
-
-    static propTypes = {
-        header: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-        accessor: PropTypes.string.isRequired,
-        textAlign: PropTypes.string,
-        collapsing: PropTypes.bool,
-        columnFormat: PropTypes.func,
-        customizeText: PropTypes.func,
-        columnAlign: PropTypes.string,
-        isHidden: PropTypes.bool,
-        filterContext: PropTypes.string,
-        colAsCheckBox: PropTypes.bool,
-        checkBoxStyle: PropTypes.string,
-        rowSpan:PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    }
-
-    constructor(props) {
-        super(props);
-        /**
-         *
-         * @type {{header:the title and header of this column,
-         *         accessor: the key of this column, most of times are the key of an JSON array,
-         *         textAlign: "left,right,center",
-         *         columnAlign: "left,right,center",
-         *         collapsing: true or false, compact the space of this column,
-         *         isHidden: true or false whether hide this column,
-         *         filterContext: can always filter by this props, always be string.includes('filterContext'),
-         *         colAsCheckBox: whether show this column as check boxes, at least need a accessor to be the value and id of the check box,
-         *         styles: always be check box by default, can also be : slider,toggle,radio as well
-         *       }}
-         */
-        this.state = {
-            header: props.header,
-            accessor: props.accessor,
-            textAlign: props.textAlign === undefined ? "center" : props.textAlign,
-            columnAlign: props.columnAlign === undefined ? "left" : props.columnAlign,
-            collapsing: props.columnFormat === undefined ? false : props.columnFormat,
-            isHidden: props.isHidden === undefined ? false : props.isHidden,
-            filterContext: props.filterContext === undefined ? "" : props.filterContext,
-            colAsCheckBox: props.colAsCheckBox === undefined ? false : props.colAsCheckBox,
-            checkBoxStyle: props.checkBoxStyle === undefined ? "slider" : props.checkBoxStyle,
-        }
-    }
-
-
-    //return is does not matter, the key is props
-    render() {
-        return (
-            <div/>
         )
     }
 }

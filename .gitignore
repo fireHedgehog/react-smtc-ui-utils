@@ -82,6 +82,7 @@ yarn-error.log*
 /.idea
 /.settings
 
+/demo/dist
 /dist
 /es
 /lib
