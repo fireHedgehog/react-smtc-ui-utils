@@ -18,6 +18,7 @@ export default class TablePagination extends Component {
         showFirstAndLastNav: PropTypes.bool,
         showPreviousAndNextNav: PropTypes.bool,
         displaySize: PropTypes.string,//mini,tiny,small,medium,large,big,huge,massive
+        currentPage:PropTypes.number,
     }
 
     constructor(props) {
@@ -25,7 +26,7 @@ export default class TablePagination extends Component {
 
         this.state = {
             totalPages: props.totalPages,
-            activePage: 1, // always show page one by default
+            activePage: props.currentPage, // always show page one by default
             boundaryRange: props.boundaryRange === undefined ? 1 : props.boundaryRange,
             showEllipsis: props.showEllipsis === undefined ? true : props.showEllipsis,
             showFirstAndLastNav: props.showFirstAndLastNav === undefined ? true : props.showFirstAndLastNav,
@@ -36,6 +37,7 @@ export default class TablePagination extends Component {
 
 
     handlePaginationChange = (e, {activePage}) => {
+        //console.log(activePage)
         this.setState(
             {activePage: activePage}
         );
@@ -52,6 +54,8 @@ export default class TablePagination extends Component {
             totalPages,
             displaySize,
         } = this.state
+
+        //console.log(activePage)
 
         return (
 

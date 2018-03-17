@@ -25,24 +25,39 @@ export class PaginationFooter extends Component {
         colCount: PropTypes.number.isRequired,
         pageSize: PropTypes.number.isRequired,
         handlePageClick: PropTypes.func.isRequired,
-        dataCount:PropTypes.number.isRequired,
+        dataCount: PropTypes.number.isRequired,
+        currentPage: PropTypes.number.isRequired,
+        onPageSizeChange: PropTypes.func.isRequired,
     }
 
-    state={
-        footerKey:getRandomNumber(),
+    constructor(props) {
+        super(props);
+        this.state = {
+            footerKey: getRandomNumber(),
+        }
     }
 
     handlePageClick(val) {
         this.props.handlePageClick(val);
+    }
+
+    handlePageSizeChange = (e, {value}) => {
+
+        //Auto set page to page 1
+        this.props.handlePageClick(1);
+
         this.setState({
-            pageSize:val,
+            pageSize: value,
             footerKey: getRandomNumber(),
         });
+
+        this.props.onPageSizeChange(value);
     }
 
     render() {
 
-        const {colCount, pageSize,dataCount} = this.props;
+        //currently only show the first Item of "footerMap" by default
+        const {colCount, pageSize, dataCount, currentPage, footerMap} = this.props;
 
         const {footerKey} = this.state;
 
@@ -62,7 +77,15 @@ export class PaginationFooter extends Component {
 
                 <Table.HeaderCell key={footerKey} colSpan={colCount - 1 <= 0 ? 1 : colCount - 1}>
 
+                    {
+                        footerMap.map((elm, j) => {
+
+                            return(elm)
+                        })
+                    }
+
                     <TablePagination
+                        currentPage={currentPage}
                         totalPages={Math.ceil((dataCount === undefined ? 1 : dataCount) / pageSize)}
                         getActivePages={(val) => this.handlePageClick(val)}
                     />
@@ -83,33 +106,38 @@ export class PaginationFooterSecondary extends Component {
         colCount: PropTypes.number.isRequired,
         pageSize: PropTypes.number.isRequired,
         handlePageClick: PropTypes.func.isRequired,
-        dataCount:PropTypes.number.isRequired,
+        dataCount: PropTypes.number.isRequired,
+        currentPage: PropTypes.number.isRequired,
     }
 
-    state={
-        footerKey:getRandomNumber(),
+    state = {
+        footerKey: getRandomNumber(),
     }
 
     handlePageClick(val) {
         this.props.handlePageClick(val);
-        this.setState({
-            pageSize:val,
-            footerKey: getRandomNumber(),
-        });
     }
 
     render() {
 
-        const {colCount, pageSize,dataCount} = this.props;
+        //currently only show the first Item of "footerMap" by default
+        const {colCount, pageSize, dataCount, currentPage, footerMap} = this.props;
 
         const {footerKey} = this.state;
+
 
         return (
             <Table.Row>
 
                 <Table.HeaderCell key={footerKey} colSpan={colCount}>
+                    {
+                        footerMap.map((elm, j) => {
 
+                            return(elm)
+                        })
+                    }
                     <TablePagination
+                        currentPage={currentPage}
                         totalPages={Math.ceil((dataCount === undefined ? 1 : dataCount) / pageSize)}
                         getActivePages={(val) => this.handlePageClick(val)}
                     />
@@ -119,6 +147,25 @@ export class PaginationFooterSecondary extends Component {
             </Table.Row>
 
 
+        )
+    }
+}
+
+//CustomizedFooter
+export class CustomizedFooter extends Component {
+
+
+    static propTypes = {}
+
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
+
+    render() {
+
+        return (
+            <div/>
         )
     }
 }

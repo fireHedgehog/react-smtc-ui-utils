@@ -3,6 +3,7 @@ import {Table, Checkbox} from 'semantic-ui-react'
 import PropTypes from "prop-types";
 import {PaginationFooter, PaginationFooterSecondary} from "./PublicTableFooters";
 import {isArrayEmpty, getRandomNumber, isStringEmpty} from "../static/ObjectsUtils";
+import _ from 'lodash';
 //import update from "immutability-helper";
 
 /*
@@ -86,11 +87,11 @@ export default class PublicTables extends React.Component {
         definition: PropTypes.bool,
         inverted: PropTypes.bool,
         fixed: PropTypes.bool,
-        padded:PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-        singleLine:PropTypes.bool,
-        sortable:PropTypes.bool,
-        stackable:PropTypes.bool,
-        verticalAlign:PropTypes.oneOf(['bottom','middle','top'])
+        padded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+        singleLine: PropTypes.bool,
+        sortable: PropTypes.bool,
+        stackable: PropTypes.bool,
+        verticalAlign: PropTypes.oneOf(['bottom', 'middle', 'top'])
         /**
          *
 
@@ -116,12 +117,14 @@ export default class PublicTables extends React.Component {
             allChecked: false,
             checkedIds: [],
             currentPage: 1,
+            column: null,
+            direction: null,
         };
     }
 
-    handlePageSizeChange = (e, {name, value}) => {
+    handlePageSizeChange = (value) => {
         this.setState({
-                [name]: value,
+                pageSize: parseInt(value, 20),
             }
         );
     }
@@ -231,6 +234,28 @@ export default class PublicTables extends React.Component {
         }
     }
 
+    handleSort = (clickedColumn,sortable) => () => {
+
+        if(sortable){
+            const { column, data, direction } = this.state
+
+            if (column !== clickedColumn) {
+                this.setState({
+                    column: clickedColumn,
+                    data: _.sortBy(data, [clickedColumn]),
+                    direction: 'ascending',
+                })
+
+                return
+            }
+
+            this.setState({
+                data: data.reverse(),
+                direction: direction === 'ascending' ? 'descending' : 'ascending',
+            })
+        }
+    }
+
     render() {
         const {
             data,
@@ -239,10 +264,13 @@ export default class PublicTables extends React.Component {
             allChecked,
             showAllCheck,
             pagination,
+            currentPage,
+            direction,
         } = this.state;
 
         let colCount = 0; // calculate the total columns
         const headerMap = [];//headerMap, check props
+        const footerMap = [];
 
         let dataSet = Object.assign([], data);//always assign to a new Array to avoid pointer issue.
 
@@ -273,6 +301,14 @@ export default class PublicTables extends React.Component {
                     colCount += 1; //calculate total unhidden columns
                 }
             }
+
+            if (column.type.name === "CustomizedFooter") {
+                React.Children.forEach(column.props.children, (foot, i) => {
+                    footerMap.push(foot)
+                });
+
+            }
+
         })
 
         // pagination footer if is false don't show it
@@ -289,7 +325,10 @@ export default class PublicTables extends React.Component {
                     colCount={colCount}
                     dataCount={data.length}
                     pageSize={pageSize}
+                    currentPage={currentPage}
                     handlePageClick={(val) => this.handlePageClick(val)}
+                    onPageSizeChange={(val) => this.handlePageSizeChange(val)}
+                    footerMap={footerMap}
                 />
 
             );
@@ -297,13 +336,15 @@ export default class PublicTables extends React.Component {
             //dataSet pagination, based on current page
             dataSet = this.TablePagination(dataSet)
 
-        }else if(pagination === "secondary"){
+        } else if (pagination === "secondary") {
             paginationFooter = (
                 <PaginationFooterSecondary
                     colCount={colCount}
                     dataCount={data.length}
                     pageSize={pageSize}
+                    currentPage={currentPage}
                     handlePageClick={(val) => this.handlePageClick(val)}
+                    footerMap={footerMap}
                 />
             )
             dataSet = this.TablePagination(dataSet)
@@ -357,7 +398,8 @@ export default class PublicTables extends React.Component {
                                     let header = column.props.header === undefined ? 'undefined' : column.props.header;
                                     const textAlign = isStringEmpty(column.props.textAlign) ? 'center' : column.props.textAlign;
                                     const colAsCheckBox = column.props.colAsCheckBox === undefined ? false : column.props.colAsCheckBox;
-
+                                    const accessor = column.props.accessor === undefined ? false : column.props.accessor;
+                                    //TODO: structured table :  const rowSpan = column.props.rowSpan;
 
                                     // if customizeText is not none, call this function
                                     if (column.props.customizeText) {
@@ -371,7 +413,7 @@ export default class PublicTables extends React.Component {
                                     */
                                     if (showAllCheck === true && colAsCheckBox === true) {
 
-                                        const accessor = column.props.accessor === undefined ? false : column.props.accessor;
+
 
                                         return (
                                             <Table.HeaderCell collapsing key={i}>
@@ -382,12 +424,17 @@ export default class PublicTables extends React.Component {
                                             </Table.HeaderCell>
                                         )
                                     } else {
+
+                                        //if this column can be sorted
+
                                         return (
 
                                             <Table.HeaderCell
                                                 key={i}
                                                 collapsing={collapsing}
                                                 textAlign={textAlign}
+                                                sorted={column === accessor ? direction : null}
+                                                onClick={this.handleSort(accessor,sortable)}
                                             >
                                                 {header}
                                             </Table.HeaderCell>
@@ -513,6 +560,7 @@ export class PublicTableHeaders extends React.Component {
         filterContext: PropTypes.string,
         colAsCheckBox: PropTypes.bool,
         checkBoxStyle: PropTypes.string,
+        rowSpan:PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }
 
     constructor(props) {
@@ -607,6 +655,9 @@ class ColumnCheckBox extends React.Component {
                     break;
                 case "toggle":
                     isToggle = true;
+                    break;
+                default:
+                    isSlider = true;
                     break;
             }
         }

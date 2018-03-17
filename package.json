@@ -4,6 +4,7 @@
   "description": "react-smtc-ui-utils React component",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "homepage": "",
   "files": [
     "css",
     "es",
@@ -16,15 +17,21 @@
     "start": "nwb serve-react-demo",
     "test": "nwb test-react",
     "test:coverage": "nwb test-react --coverage",
-    "test:watch": "nwb test-react --server"
+    "test:watch": "nwb test-react --server",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d demo/dist"
   },
-  "dependencies": {},
+  "dependencies": {
+    "gh-pages": "^1.1.0"
+  },
   "peerDependencies": {
     "react": "16.x"
   },
   "devDependencies": {
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "html-entities": "^1.2.1",
+    "json-loader": "^0.5.7",
+    "lodash": "^4.17.5",
     "nwb": "0.21.x",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
@@ -34,7 +41,6 @@
     "semantic-ui-react": "^0.78.3"
   },
   "author": "",
-  "homepage": "",
   "license": "MIT",
   "repository": "",
   "keywords": [

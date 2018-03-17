@@ -1,10 +1,11 @@
 import PublicTables,{PublicTableHeaders} from './tables/PublicTables';
+import {CustomizedFooter} from './tables/PublicTableFooters'
 import PublicStep from "./PublicStep";
 
 // export components as named exports
-export { PublicTables ,PublicTableHeaders,PublicStep}
+export { PublicTables ,PublicTableHeaders,PublicStep,CustomizedFooter}
 
 // alternative, more concise syntax for named exports
 
 // you can optionally also set a default export for your module
-export default { PublicTables,PublicTableHeaders,PublicStep}
+export default { PublicTables,PublicTableHeaders,PublicStep,CustomizedFooter}

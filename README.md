@@ -23,3 +23,6 @@ npm run clean
 npm run build
 
 npm run start
+
+
+#npm run deploy to github pages
