@@ -572,6 +572,7 @@ class ColumnCheckBox extends React.Component {
     componentWillReceiveProps(nextProps) {
         //console.log(nextProps)
         this.setState({
+            id: nextProps.id,
             checked: nextProps.checked,
         });
 
