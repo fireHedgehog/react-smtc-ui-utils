@@ -19,12 +19,14 @@ class Index extends Component {
             <Router>
                 <div>
                     <MainMenu {...this.props}/>
-                    <Container>
-                        <Route exact path="/" component={Home}/>
-                        <Route path={`/table`} component={BasicTableDemo}/>
-                        <Route path={`/start`} component={Test}/>
-                        <Route path={`/others`} component={Test}/>
-                    </Container>
+                    <div style={{marginTop:'50px'}}>
+                        <Container>
+                            <Route exact path="/" component={Home}/>
+                            <Route path={`/table`} component={BasicTableDemo}/>
+                            <Route path={`/start`} component={Test}/>
+                            <Route path={`/others`} component={Test}/>
+                        </Container>
+                    </div>
                 </div>
             </Router>
         )

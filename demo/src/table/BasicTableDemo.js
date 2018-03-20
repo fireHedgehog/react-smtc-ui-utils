@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Button, Label, Icon, Input, Grid, Segment, Message, Header} from 'semantic-ui-react';
+import {Button, Label, Icon, Input, Grid, Segment, Message, Header,Divider} from 'semantic-ui-react';
 import json from "json-loader!../data/MOCK_DATA.json";
 import {PublicStep, PublicTables, CustomizedFooter, PublicTableHeaders} from '../../../src'
 import renderLinks from "../../../src/static/CodeSource";
@@ -11,6 +11,7 @@ export class BasicTableDemo extends Component {
     state = {
         bundleName: '',
         checked: [],
+        btnName:'',
     }
 
     formatNameAndTitle(cellValue, rowObject) {
@@ -35,10 +36,17 @@ export class BasicTableDemo extends Component {
         );
     }
 
+    onButtonClick(item){
+        this.setState(
+            {
+                btnName: item
+            }
+        );
+    }
 
     render() {
 
-        const {bundleName, checked} = this.state;
+        const {bundleName, checked,btnName} = this.state;
 
         return (
             <Grid>
@@ -51,11 +59,26 @@ export class BasicTableDemo extends Component {
                         <Segment>
 
                             <Header as={'h5'}>
+                                Original Library
+                            </Header>
+
+                            <Message color={'teal'}>
+                                This table util is using Semantic-UI(URL is react.semantic-ui.com).
+                            </Message>
+
+
+
+                        </Segment>
+
+                        <Segment>
+
+                            <Header as={'h5'}>
                                 Column filter:
                             </Header>
 
                             <Message color={'blue'}>
-                                Customized column filter, in this case, filtered column is a 'Hidden' column,
+                                Each column can be filtered by passing a props named 'filterContext'.
+                                 In this case, filtered column is a 'Hidden' column.
                                 'Accessor' of this column is 'app_bundle_id'. Such as 'com.google.Job'.
                             </Message>
 
@@ -70,7 +93,7 @@ export class BasicTableDemo extends Component {
                                 Check Box:
                             </Header>
 
-                            <Message color={'blue'}>
+                            <Message color={'yellow'}>
                                 Check Box value array depends on the given 'Accessor' of certain column.
                                 In this case, Accessor is 'ID'.
                             </Message>
@@ -78,6 +101,43 @@ export class BasicTableDemo extends Component {
                             <strong>checkedCallBackFunction:</strong>
                             <pre>{JSON.stringify({checked}, null, 2)}</pre>
                         </Segment>
+
+                        <Segment>
+
+                            <Header as={'h5'}>
+                                Customized cell context:
+                            </Header>
+
+                            <Message color={'blue'}>
+                                This example is concatenating first_name and last_name, then wrap it in a 'Label Tag'.
+                            </Message>
+
+                            <Header as={'h5'}>
+                                Pagination:
+                            </Header>
+
+                            <Message color={'yellow'}>
+                                'Primary Pagination' has a page size selection, 'Secondary Pagination' does't.
+                            </Message>
+
+                            <Header as={'h5'}>
+                                Sortable column:
+                            </Header>
+
+                            <Message color={'blue'}>
+                                Click on table header.
+                            </Message>
+
+                            <Header as={'h5'}>
+                                Customized footer:
+                            </Header>
+
+                            <Message color={'yellow'}>
+                                This example adds 2 'Button' in footer,
+                            </Message>
+                            <Header as={'h5'} color={btnName}>You are clicking {btnName} Button in customized footer.</Header>
+                        </Segment>
+
 
                     </Grid.Column>
 
@@ -129,9 +189,9 @@ export class BasicTableDemo extends Component {
 
                             <CustomizedFooter>
                                 <Button.Group>
-                                    <Button color={'blue'}>Add</Button>
+                                    <Button color={'blue'} onClick={() => this.onButtonClick('blue')}>Customized</Button>
                                     <Button.Or/>
-                                    <Button color={'red'}>Delete</Button>
+                                    <Button color={'red'} onClick={() => this.onButtonClick('red')}>Footer</Button>
                                 </Button.Group>
                             </CustomizedFooter>
 
@@ -140,14 +200,12 @@ export class BasicTableDemo extends Component {
 
                 </Grid.Row>
 
-                {renderLinks('demo/src/table/BasicTableDemo.js')}
-                <Gist id='b66a45c2e7f0a734597b63891f7a25db'/>
+
                 <Grid.Row>
-                    <Grid.Column width={'5'}>
-
-                    </Grid.Column>
-                    <Grid.Column width={'11'}>
-
+                    <Grid.Column width={'16'}>
+                        <Divider/>
+                        {renderLinks('demo/src/table/BasicTableDemo.js')}
+                        <Gist id='b66a45c2e7f0a734597b63891f7a25db'/>
                     </Grid.Column>
                 </Grid.Row>
 

@@ -36,9 +36,9 @@ class MainMenu extends Component {
         console.log(match);
         return (
             <Menu inverted
-                  stackable
                   tabular
                   size={'massive'}
+                  fixed={'top'}
             >
 
                 <Menu.Item
