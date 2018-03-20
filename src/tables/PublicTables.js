@@ -137,7 +137,7 @@ export default class PublicTables extends React.Component {
     }
 
     //filter the column by given params
-    filterDataByFilterContext(columnAccessor, filterContext, dataSet) {
+    filterDataByFilterContext=(columnAccessor, filterContext, dataSet)=> {
         //console.log(columnAccessor, filterContext, dataSet)
         try {
             dataSet = dataSet.filter(function (ele) {
@@ -327,7 +327,7 @@ export default class PublicTables extends React.Component {
 
                 <PaginationFooter
                     colCount={colCount}
-                    dataCount={data.length}
+                    dataCount={dataSet.length}
                     pageSize={pageSize}
                     currentPage={currentPage}
                     handlePageClick={(val) => this.handlePageClick(val)}
@@ -344,7 +344,7 @@ export default class PublicTables extends React.Component {
             paginationFooter = (
                 <PaginationFooterSecondary
                     colCount={colCount}
-                    dataCount={data.length}
+                    dataCount={dataSet.length}
                     pageSize={pageSize}
                     currentPage={currentPage}
                     handlePageClick={(val) => this.handlePageClick(val)}

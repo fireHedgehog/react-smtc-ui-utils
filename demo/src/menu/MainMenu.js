@@ -1,49 +1,83 @@
 import React, {Component} from 'react'
-import { Menu , Icon} from 'semantic-ui-react'
+import {Menu, Icon} from 'semantic-ui-react'
+import {withRouter} from "react-router-dom";
 
-
-export default class MainMenu extends Component {
+class MainMenu extends Component {
 
     state = {}
 
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+    handleItemClick = (e, {name,nexturl}) => {
+        this.setState(
+            {
+                activeItem: name
+            }
+        );
+        const {history, match} = this.props;
+        //console.log(history);
+        history.push(`${match.url}/${nexturl}`);
+    }
+
+    handleClick = (e, {name,nexturl}) => {
+        this.setState(
+            {
+                activeItem: name
+            }
+        );
+        const {history, match} = this.props;
+        console.log(history);
+        history.push(`/${nexturl}`);
+    }
 
     render() {
-        const { activeItem } = this.state
+        const {activeItem} = this.state
 
+        const {match} = this.props;
+
+        console.log(match);
         return (
-            <Menu inverted borderless size={'massive'}>
+            <Menu inverted
+                  stackable
+                  tabular
+                  size={'massive'}
+            >
 
-                <Menu.Item>
-                    <Icon name={'table'} />
+                <Menu.Item
+                    name='Home'
+                    nexturl=''
+                    active={activeItem === 'Home'}
+                    onClick={this.handleClick}>
+                    <Icon name="home"/>
                 </Menu.Item>
 
                 <Menu.Item header>react-smtc-ui-utils</Menu.Item>
 
                 <Menu.Menu position='right'>
                     <Menu.Item
-                        name='Home'
-                        active={activeItem === 'Home'}
-                        color={activeItem === 'Home' ? 'blue' : 'black'}
-                        onClick={this.handleItemClick}
+                        name='start'
+                        nexturl='start'
+                        active={activeItem === 'start'}
+                        color={activeItem === 'start' ? 'blue' : 'black'}
+                        onClick={this.handleClick}
                     >
-                        Home
+                        Get Start
                     </Menu.Item>
 
                     <Menu.Item
-                        name='Table'
-                        active={activeItem === 'Table'}
-                        color={activeItem === 'Table' ? 'blue' : 'black'}
-                        onClick={this.handleItemClick}
+                        nexturl="table"
+                        name='table'
+                        active={activeItem === 'table'}
+                        color={activeItem === 'table' ? 'blue' : 'black'}
+                        onClick={this.handleClick}
                     >
                         Table
                     </Menu.Item>
 
                     <Menu.Item
-                        name='Others'
-                        active={activeItem === 'Others'}
-                        color={activeItem === 'Others' ? 'blue' : 'black'}
-                        onClick={this.handleItemClick}
+                        nexturl="others"
+                        name='others'
+                        active={activeItem === 'others'}
+                        color={activeItem === 'others' ? 'blue' : 'black'}
+                        onClick={this.handleClick}
                     >
                         Others
                     </Menu.Item>
@@ -55,3 +89,4 @@ export default class MainMenu extends Component {
     }
 }
 
+export default withRouter(MainMenu);
