@@ -8,8 +8,9 @@ import {
 import Home from "./Home";
 import MainMenu from "./menu/MainMenu";
 import {BasicTableDemo} from "./table/BasicTableDemo";
-import Test from "./others/Test";
 import {Container} from "semantic-ui-react";
+import {StepDemo} from "./others/StepDemo";
+import {GetStart} from "./others/GetStart";
 
 class Index extends Component {
 
@@ -23,8 +24,8 @@ class Index extends Component {
                         <Container>
                             <Route exact path="/" component={Home}/>
                             <Route path={`/react-smtc-ui-utils/table`} component={BasicTableDemo}/>
-                            <Route path={`/react-smtc-ui-utils/start`} component={Test}/>
-                            <Route path={`/react-smtc-ui-utils/others`} component={Test}/>
+                            <Route path={`/react-smtc-ui-utils/start`} component={GetStart}/>
+                            <Route path={`/react-smtc-ui-utils/others`} component={StepDemo}/>
                         </Container>
                     </div>
                 </div>
