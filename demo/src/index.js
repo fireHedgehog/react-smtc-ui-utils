@@ -22,9 +22,9 @@ class Index extends Component {
                     <div style={{marginTop:'50px'}}>
                         <Container>
                             <Route exact path="/" component={Home}/>
-                            <Route path={`/table`} component={BasicTableDemo}/>
-                            <Route path={`/start`} component={Test}/>
-                            <Route path={`/others`} component={Test}/>
+                            <Route path={`/react-smtc-ui-utils/table`} component={BasicTableDemo}/>
+                            <Route path={`/react-smtc-ui-utils/start`} component={Test}/>
+                            <Route path={`/react-smtc-ui-utils/others`} component={Test}/>
                         </Container>
                     </div>
                 </div>

@@ -43,7 +43,7 @@ class MainMenu extends Component {
 
                 <Menu.Item
                     name='Home'
-                    nexturl=''
+                    nexturl='react-smtc-ui-utils'
                     active={activeItem === 'Home'}
                     onClick={this.handleClick}>
                     <Icon name="home"/>
@@ -54,7 +54,7 @@ class MainMenu extends Component {
                 <Menu.Menu position='right'>
                     <Menu.Item
                         name='start'
-                        nexturl='start'
+                        nexturl='react-smtc-ui-utils/start'
                         active={activeItem === 'start'}
                         color={activeItem === 'start' ? 'blue' : 'black'}
                         onClick={this.handleClick}
@@ -63,7 +63,7 @@ class MainMenu extends Component {
                     </Menu.Item>
 
                     <Menu.Item
-                        nexturl="table"
+                        nexturl="react-smtc-ui-utils/table"
                         name='table'
                         active={activeItem === 'table'}
                         color={activeItem === 'table' ? 'blue' : 'black'}
@@ -73,7 +73,7 @@ class MainMenu extends Component {
                     </Menu.Item>
 
                     <Menu.Item
-                        nexturl="others"
+                        nexturl="react-smtc-ui-utils/others"
                         name='others'
                         active={activeItem === 'others'}
                         color={activeItem === 'others' ? 'blue' : 'black'}

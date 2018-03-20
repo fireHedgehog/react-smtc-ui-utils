@@ -23,7 +23,7 @@ export class PaginationFooter extends Component {
 
     static propTypes = {
         colCount: PropTypes.number.isRequired,
-        pageSize: PropTypes.number.isRequired,
+        pageSize: PropTypes.oneOfType([PropTypes.number,PropTypes.string]).isRequired,
         handlePageClick: PropTypes.func.isRequired,
         dataCount: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,

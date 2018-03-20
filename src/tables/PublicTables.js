@@ -125,7 +125,7 @@ export default class PublicTables extends React.Component {
 
     handlePageSizeChange = (value) => {
         this.setState({
-                pageSize: parseInt(value, 20),
+                pageSize: parseInt(value, 10),
             }
         );
     }
@@ -283,6 +283,7 @@ export default class PublicTables extends React.Component {
             currentPage,
             direction,
         } = this.state;
+
 
         let colCount = 0; // calculate the total columns
         const headerMap = [];//headerMap, check props
