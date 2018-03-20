@@ -110,6 +110,7 @@ export default class PublicTables extends React.Component {
         super(props);
         this.state = {
             data: props.data,
+            sortedData: props.data,
             tableStyle: isArrayEmpty(props.tableStyle) ? [] : props.tableStyle,
             showAllCheck: props.showAllCheck === undefined ? false : props.showAllCheck,
             pagination: props.pagination === undefined ? false : props.pagination,
@@ -129,15 +130,30 @@ export default class PublicTables extends React.Component {
         );
     }
 
+
     componentWillReceiveProps(newProps) {
-        this.setState({
-            data: newProps.data,
-            key: getRandomNumber(1000000),
-        });
+
+        /*
+         *  for performance reason. avoid useless re-render
+         *  re-render entire component when pass new data
+         */
+        if (newProps.data !== this.state.data) {
+            this.setState({
+                data: newProps.data,
+                sortedData:newProps.data,
+                key: getRandomNumber(1000000),
+            });
+        }
     }
 
+
+    /* shouldComponentUpdate(nextProps, nextState){
+         console.log(nextProps === this.props)
+         return true;
+     }*/
+
     //filter the column by given params
-    filterDataByFilterContext=(columnAccessor, filterContext, dataSet)=> {
+    filterDataByFilterContext = (columnAccessor, filterContext, dataSet) => {
         //console.log(columnAccessor, filterContext, dataSet)
         try {
             dataSet = dataSet.filter(function (ele) {
@@ -201,11 +217,11 @@ export default class PublicTables extends React.Component {
        using given accessor
     */
     toggleCheckAll = (accessor) => {
-        const {allChecked, data, checkedIds} = this.state;
+        const {allChecked, sortedData, checkedIds} = this.state;
         //console.log(accessor)
         this.setState({allChecked: !allChecked});
 
-        let currentPageList = this.TablePagination(data);
+        let currentPageList = this.TablePagination(sortedData);
 
         if (!allChecked === true) {
             for (let i = 0; i < currentPageList.length; i++) {
@@ -237,12 +253,12 @@ export default class PublicTables extends React.Component {
     handleSort = (clickedColumn, sortable) => () => {
 
         if (sortable) {
-            const {column, data, direction} = this.state
+            const {column, sortedData, direction} = this.state
 
             if (column !== clickedColumn) {
                 this.setState({
                     column: clickedColumn,
-                    data: _.sortBy(data, [clickedColumn]),
+                    sortedData: _.sortBy(sortedData, [clickedColumn]),
                     direction: 'ascending',
                 })
 
@@ -250,7 +266,7 @@ export default class PublicTables extends React.Component {
             }
 
             this.setState({
-                data: data.reverse(),
+                sortedData: sortedData.reverse(),
                 direction: direction === 'ascending' ? 'descending' : 'ascending',
             })
         }
@@ -258,7 +274,7 @@ export default class PublicTables extends React.Component {
 
     render() {
         const {
-            data,
+            sortedData,
             pageSize,
             key,
             allChecked,
@@ -272,13 +288,13 @@ export default class PublicTables extends React.Component {
         const headerMap = [];//headerMap, check props
         const footerMap = [];
 
-        let dataSet = Object.assign([], data);//always assign to a new Array to avoid pointer issue.
+        let dataSet = Object.assign([], sortedData);//always assign to a new Array to avoid pointer issue.
 
         React.Children.forEach(this.props.children, (column, i) => {
 
             //console.log(column, column.type.name);
             // type should be PublicTableHeaders tableHeader, if cannot read element type , read default props
-            let tableElementType =  column.props.tableElementType;
+            let tableElementType = column.props.tableElementType;
             if (column.type.name === "PublicTableHeaders" || tableElementType === "PublicTableHeaders") {
                 //console.log(i,"textAlign:",column.props.textAlign);
                 const filterContext = column.props.filterContext === undefined ? "" : column.props.filterContext;
