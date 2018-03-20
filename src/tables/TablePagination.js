@@ -44,6 +44,12 @@ export default class TablePagination extends Component {
         this.props.getActivePages(activePage);
     }
 
+    componentWillReceiveProps(props){
+        this.setState(
+            {totalPages: props.totalPages}
+        );
+    }
+
     render() {
         const {
             activePage,
