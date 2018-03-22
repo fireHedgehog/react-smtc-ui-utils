@@ -11,7 +11,7 @@ Currently only there are only data table and a step util.
 [build]: https://travis-ci.org/fireHedgehog/react-smtc-ui-utils
 
 [npm-badge]: https://img.shields.io/npm/v/npm-package.png?style=flat-square
-[npm]: https://www.npmjs.org/package/npm-package
+[npm]: https://www.npmjs.com/package/react-smtc-ui-utils
 
 [coveralls-badge]: https://img.shields.io/coveralls/user/repo/master.png?style=flat-square
 [coveralls]: https://coveralls.io/github/user/repo
