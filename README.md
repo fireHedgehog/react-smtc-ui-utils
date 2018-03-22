@@ -1,11 +1,11 @@
 # react-smtc-ui-utils
-Semantic UI utils for personal use. Encapsulate some sample functions
+Semantic UI utils for personal interests use.
 
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-Describe react-smtc-ui-utils here.
+Currently only there are only data table and a step util.
 
 [build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
 [build]: https://travis-ci.org/user/repo
@@ -18,11 +18,6 @@ Describe react-smtc-ui-utils here.
 
 
 #step
-npm run clean
+See the get start page of github pages:
+https://firehedgehog.github.io/react-smtc-ui-utils/
 
-npm run build
-
-npm run start
-
-
-#npm run deploy to github pages

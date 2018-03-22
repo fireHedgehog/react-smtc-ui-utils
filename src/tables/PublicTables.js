@@ -216,16 +216,16 @@ export default class PublicTables extends React.Component {
     /* check all button click
        using given accessor
     */
-    toggleCheckAll = (accessor) => {
-        const {allChecked, sortedData, checkedIds} = this.state;
+    toggleCheckAll = (accessor,dataSet) => {
+        const {allChecked, checkedIds} = this.state;
         //console.log(accessor)
         this.setState({allChecked: !allChecked});
 
-        let currentPageList = this.TablePagination(sortedData);
+        //let currentPageList = dataSet;
 
         if (!allChecked === true) {
-            for (let i = 0; i < currentPageList.length; i++) {
-                checkedIds.push(currentPageList[i][accessor]);
+            for (let i = 0; i < dataSet.length; i++) {
+                checkedIds.push(dataSet[i][accessor]);
             }
             this.setState({checkedIds: checkedIds});
             //if call back function is not undefined , call it
@@ -438,7 +438,7 @@ export default class PublicTables extends React.Component {
                                         return (
                                             <Table.HeaderCell collapsing key={i}>
                                                 <Checkbox
-                                                    onChange={() => this.toggleCheckAll(accessor)}
+                                                    onChange={() => this.toggleCheckAll(accessor,dataSet)}
                                                     checked={allChecked}
                                                 />
                                             </Table.HeaderCell>

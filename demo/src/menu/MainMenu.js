@@ -6,7 +6,7 @@ class MainMenu extends Component {
 
     state = {}
 
-    handleItemClick = (e, {name,nexturl}) => {
+    handleItemClick = (e, {name, nexturl}) => {
         this.setState(
             {
                 activeItem: name
@@ -17,7 +17,7 @@ class MainMenu extends Component {
         history.push(`${match.url}/${nexturl}`);
     }
 
-    handleClick = (e, {name,nexturl}) => {
+    handleClick = (e, {name, nexturl}) => {
         this.setState(
             {
                 activeItem: name
@@ -26,6 +26,10 @@ class MainMenu extends Component {
         const {history, match} = this.props;
         console.log(history);
         history.push(`/${nexturl}`);
+    }
+
+    onRepoNameClick(){
+        window.location.href= "https://github.com/fireHedgehog/react-smtc-ui-utils";
     }
 
     render() {
@@ -49,7 +53,12 @@ class MainMenu extends Component {
                     <Icon name="home"/>
                 </Menu.Item>
 
-                <Menu.Item header>react-smtc-ui-utils</Menu.Item>
+                <Menu.Item
+                    header
+                    onClick={() => this.onRepoNameClick()}
+                >
+                    react-smtc-ui-utils
+                </Menu.Item>
 
                 <Menu.Menu position='right'>
                     <Menu.Item

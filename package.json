@@ -1,6 +1,6 @@
 {
   "name": "react-smtc-ui-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "react-smtc-ui-utils React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -38,10 +38,10 @@
     "react-dom": "^16.2.0",
     "react-gist": "^1.2.1",
     "react-router-dom": "^4.2.2",
-    "semantic-ui-css": "^2.3.0",
+    "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.78.3"
   },
-  "author": "",
+  "author": "rockychen",
   "license": "MIT",
   "repository": "",
   "keywords": [
