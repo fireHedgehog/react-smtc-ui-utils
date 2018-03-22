@@ -8,7 +8,7 @@ Semantic UI utils for personal interests use.
 Currently only there are only data table and a step util.
 
 [build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
-[build]: https://travis-ci.org/user/repo
+[build]: https://travis-ci.org/fireHedgehog/react-smtc-ui-utils
 
 [npm-badge]: https://img.shields.io/npm/v/npm-package.png?style=flat-square
 [npm]: https://www.npmjs.org/package/npm-package
