@@ -24,7 +24,7 @@ class MainMenu extends Component {
             }
         );
         const {history, match} = this.props;
-        console.log(history);
+        //console.log(history);
         history.push(`/${nexturl}`);
     }
 
@@ -41,8 +41,8 @@ class MainMenu extends Component {
         return (
             <Menu inverted
                   tabular
+                  stackable
                   size={'massive'}
-                  fixed={'top'}
             >
 
                 <Menu.Item

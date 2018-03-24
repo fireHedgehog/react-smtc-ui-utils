@@ -20,14 +20,14 @@ class Index extends Component {
             <Router>
                 <div>
                     <MainMenu {...this.props}/>
-                    <div style={{marginTop:'50px'}}>
+
                         <Container>
                             <Route exact path="/" component={Home}/>
                             <Route path={`/react-smtc-ui-utils/table`} component={BasicTableDemo}/>
                             <Route path={`/react-smtc-ui-utils/start`} component={GetStart}/>
                             <Route path={`/react-smtc-ui-utils/others`} component={StepDemo}/>
                         </Container>
-                    </div>
+
                 </div>
             </Router>
         )

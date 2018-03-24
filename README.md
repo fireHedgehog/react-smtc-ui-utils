@@ -1,11 +1,11 @@
 # react-smtc-ui-utils
-Semantic UI utils for personal interests use.
+Semantic UI utils for personal interests.
 
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-Currently only there are only data table and a step util.
+Currently there are only data table and a step util.
 
 [build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
 [build]: https://travis-ci.org/fireHedgehog/react-smtc-ui-utils
