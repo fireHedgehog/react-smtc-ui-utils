@@ -76,6 +76,7 @@ export default class PublicTables extends React.Component {
         checkedCallBackFunction: PropTypes.func,
         onRowSelectCallBack: PropTypes.func,
         pagination: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(["primary", "secondary"])]).isRequired,
+        pageSize: PropTypes.PropTypes.oneOf([10, 20, 50]),
         selectable: PropTypes.bool,
         color: PropTypes.string,
         onRowClickFunc: PropTypes.func,
@@ -114,7 +115,7 @@ export default class PublicTables extends React.Component {
             tableStyle: isArrayEmpty(props.tableStyle) ? [] : props.tableStyle,
             showAllCheck: props.showAllCheck === undefined ? false : props.showAllCheck,
             pagination: props.pagination === undefined ? false : props.pagination,
-            pageSize: 20,
+            pageSize: (props.pageSize === undefined) || !([10, 20, 50].includes(props.pageSize)) ? 20 : props.pageSize,
             allChecked: false,
             checkedIds: [],
             currentPage: 1,
@@ -140,7 +141,7 @@ export default class PublicTables extends React.Component {
         if (newProps.data !== this.state.data) {
             this.setState({
                 data: newProps.data,
-                sortedData:newProps.data,
+                sortedData: newProps.data,
                 key: getRandomNumber(1000000),
             });
         }
@@ -154,12 +155,12 @@ export default class PublicTables extends React.Component {
 
     //filter the column by given params
     filterDataByFilterContext = (columnAccessor, filterContext, dataSet) => {
-        //console.log(columnAccessor, filterContext, dataSet)
+        //TODO : using lodash improve it
         try {
             dataSet = dataSet.filter(function (ele) {
                 //always using toSting() to simplify the compare
-                const origin = "string" === ele[columnAccessor] ? ele[columnAccessor] : ele[columnAccessor].toString();
-                const filter = "string" === filterContext ? filterContext : filterContext.toString();
+                const origin = "string" === typeof ele[columnAccessor] ? ele[columnAccessor] : ele[columnAccessor].toString();
+                const filter = "string" === typeof filterContext ? filterContext : filterContext.toString();
                 //console.log(origin,filter)
                 return origin.includes(filter);
             });
@@ -216,7 +217,7 @@ export default class PublicTables extends React.Component {
     /* check all button click
        using given accessor
     */
-    toggleCheckAll = (accessor,dataSet) => {
+    toggleCheckAll = (accessor, dataSet) => {
         const {allChecked, checkedIds} = this.state;
         //console.log(accessor)
         this.setState({allChecked: !allChecked});
@@ -302,7 +303,7 @@ export default class PublicTables extends React.Component {
                 const accessor = column.props.accessor === undefined ? "" : column.props.accessor;
 
                 /*
-                * TODO: customization filter function needed:
+                * TODO: customization filter function using loadash  needed:
                 * give a dataSet as arg[], give a dataSet Back, that means can write
                 * customized filters such as :
                 * 1 using 'greater than' or 'less than',
@@ -438,7 +439,7 @@ export default class PublicTables extends React.Component {
                                         return (
                                             <Table.HeaderCell collapsing key={i}>
                                                 <Checkbox
-                                                    onChange={() => this.toggleCheckAll(accessor,dataSet)}
+                                                    onChange={() => this.toggleCheckAll(accessor, dataSet)}
                                                     checked={allChecked}
                                                 />
                                             </Table.HeaderCell>

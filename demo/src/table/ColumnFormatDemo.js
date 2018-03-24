@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Button, Label, Icon,Input} from 'semantic-ui-react';
 import json from "json-loader!../data/MOCK_DATA.json";
-import {PublicStep, PublicTables, CustomizedFooter, PublicTableHeaders} from '../../../src'
+import { PublicTables, CustomizedFooter, PublicTableHeaders} from '../../../src'
 import renderLinks from "../../../src/static/CodeSource";
 import Gist from 'react-gist';
 

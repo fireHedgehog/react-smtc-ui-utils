@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Menu, Icon} from 'semantic-ui-react'
+import {Menu, Icon, Dropdown} from 'semantic-ui-react'
 import {withRouter} from "react-router-dom";
 
 class MainMenu extends Component {
@@ -28,16 +28,16 @@ class MainMenu extends Component {
         history.push(`/${nexturl}`);
     }
 
-    onRepoNameClick(){
-        window.location.href= "https://github.com/fireHedgehog/react-smtc-ui-utils";
+    onRepoNameClick() {
+        window.location.href = "https://github.com/fireHedgehog/react-smtc-ui-utils";
     }
 
     render() {
         const {activeItem} = this.state
 
-        const {match} = this.props;
+        //const {match} = this.props;
 
-        console.log(match);
+        //console.log(match);
         return (
             <Menu inverted
                   tabular
@@ -49,6 +49,7 @@ class MainMenu extends Component {
                     name='Home'
                     nexturl='react-smtc-ui-utils'
                     active={activeItem === 'Home'}
+                    color={activeItem === 'Home' ? 'blue' : 'black'}
                     onClick={this.handleClick}>
                     <Icon name="home"/>
                 </Menu.Item>
@@ -71,15 +72,22 @@ class MainMenu extends Component {
                         Get Start
                     </Menu.Item>
 
-                    <Menu.Item
-                        nexturl="react-smtc-ui-utils/table"
-                        name='table'
-                        active={activeItem === 'table'}
-                        color={activeItem === 'table' ? 'blue' : 'black'}
-                        onClick={this.handleClick}
-                    >
-                        Table
-                    </Menu.Item>
+                    <Dropdown item text='Data Table'>
+                        <Dropdown.Menu>
+                            <Dropdown.Item
+                                nexturl="react-smtc-ui-utils/table"
+                                onClick={this.handleClick}>
+                                Example
+                            </Dropdown.Item>
+
+                            <Dropdown.Item
+                                nexturl="react-smtc-ui-utils/tableProps"
+                                onClick={this.handleClick}>
+                                Props
+                            </Dropdown.Item>
+
+                        </Dropdown.Menu>
+                    </Dropdown>
 
                     <Menu.Item
                         nexturl="react-smtc-ui-utils/others"

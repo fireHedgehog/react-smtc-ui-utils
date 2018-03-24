@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import {Button, Label, Icon, Input, Grid, Segment, Message, Header,Divider} from 'semantic-ui-react';
+import {Button, Label, Icon, Input, Grid, Segment, Message, Header, Divider} from 'semantic-ui-react';
 import json from "json-loader!../data/MOCK_DATA.json";
-import {PublicStep, PublicTables, CustomizedFooter, PublicTableHeaders} from '../../../src'
+import {PublicTables, CustomizedFooter, PublicTableHeaders} from '../../../src'
 import renderLinks from "../../../src/static/CodeSource";
 import Gist from 'react-gist';
 
@@ -11,7 +11,7 @@ export class BasicTableDemo extends Component {
     state = {
         bundleName: '',
         checked: [],
-        btnName:'',
+        btnName: 'black',
     }
 
     formatNameAndTitle(cellValue, rowObject) {
@@ -36,7 +36,7 @@ export class BasicTableDemo extends Component {
         );
     }
 
-    onButtonClick(item){
+    onButtonClick(item) {
         this.setState(
             {
                 btnName: item
@@ -46,7 +46,7 @@ export class BasicTableDemo extends Component {
 
     render() {
 
-        const {bundleName, checked,btnName} = this.state;
+        const {bundleName, checked, btnName} = this.state;
 
         return (
             <Grid>
@@ -67,7 +67,6 @@ export class BasicTableDemo extends Component {
                             </Message>
 
 
-
                         </Segment>
 
                         <Segment>
@@ -78,7 +77,7 @@ export class BasicTableDemo extends Component {
 
                             <Message color={'blue'}>
                                 Each column can be filtered by passing a props named 'filterContext'.
-                                 In this case, filtered column is a 'Hidden' column.
+                                In this case, filtered column is a 'Hidden' column.
                                 'Accessor' of this column is 'app_bundle_id'. Such as 'com.google.Job'.
                             </Message>
 
@@ -135,7 +134,8 @@ export class BasicTableDemo extends Component {
                             <Message color={'yellow'}>
                                 This example adds 2 'Button' in footer,
                             </Message>
-                            <Header as={'h5'} color={btnName}>You are clicking {btnName} Button in customized footer.</Header>
+                            <Header as={'h5'} color={btnName}>You are
+                                clicking {btnName === "black" ? "" : btnName} Button in customized footer.</Header>
                         </Segment>
 
 
@@ -189,7 +189,8 @@ export class BasicTableDemo extends Component {
 
                             <CustomizedFooter>
                                 <Button.Group>
-                                    <Button color={'blue'} onClick={() => this.onButtonClick('blue')}>Customized</Button>
+                                    <Button color={'blue'}
+                                            onClick={() => this.onButtonClick('blue')}>Customized</Button>
                                     <Button.Or/>
                                     <Button color={'red'} onClick={() => this.onButtonClick('red')}>Footer</Button>
                                 </Button.Group>

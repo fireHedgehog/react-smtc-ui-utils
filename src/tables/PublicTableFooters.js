@@ -7,9 +7,9 @@ import {getRandomNumber} from "../static/ObjectsUtils";
 
 //{key: 't', text: '1', value: '1'},
 const pageOptions = [
-    {key: 's', text: '10', value: '10'},
-    {key: 'm', text: '20', value: '20'},
-    {key: 'l', text: '50', value: '50'},
+    {key: 's', text: '10', value: 10},
+    {key: 'm', text: '20', value: 20},
+    {key: 'l', text: '50', value: 50},
 ]
 
 /**
@@ -68,7 +68,7 @@ export class PaginationFooter extends Component {
                         <Label color='purple' ribbon>Page Size:</Label>
                         <Dropdown upward floating inline
                                   options={pageOptions}
-                                  defaultValue={'20'}
+                                  defaultValue={pageSize}
                                   name={"pageSize"}
                                   onChange={this.handlePageSizeChange}
                         />
