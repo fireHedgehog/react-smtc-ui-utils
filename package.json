@@ -1,6 +1,6 @@
 {
   "name": "react-smtc-ui-utils",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "react-smtc-ui-utils React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -21,15 +21,14 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d demo/dist"
   },
-  "dependencies": {
-    "gh-pages": "^1.1.0",
-    "highlight.js": "^9.12.0",
-    "react-highlight": "^0.12.0"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "16.x"
   },
   "devDependencies": {
+    "gh-pages": "^1.1.0",
+    "highlight.js": "^9.12.0",
+    "react-highlight": "^0.12.0",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "html-entities": "^1.2.1",
     "json-loader": "^0.5.7",
