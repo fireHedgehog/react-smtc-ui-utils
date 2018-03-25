@@ -1,5 +1,5 @@
 # react-smtc-ui-utils
-This Lib wraps some react-semantic-ui tags, such as <Table/> tag.
+This Lib wraps some react-semantic-ui tags, such as 'Table' tag.
 
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
