@@ -13,7 +13,7 @@ export default class FilterDemo extends Component {
     state = {email: "",gender:""}
 
     handleChange = (e, {name, value}) =>{
-        console.log(name, value)
+        //console.log(name, value)
         this.setState({[name]: value});
     }
 
@@ -63,7 +63,6 @@ export default class FilterDemo extends Component {
                             {key: "Male", text: "Male", value: "Male"},
                             {key: "Female", text: "Female", value: "Female"}
                         ]}
-                                  clearable
                                   selection
                                   value={gender}
                                   name='gender'

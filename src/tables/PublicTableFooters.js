@@ -28,6 +28,7 @@ export class PaginationFooter extends Component {
         dataCount: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,
         onPageSizeChange: PropTypes.func.isRequired,
+        footerMap:PropTypes.array,
     }
 
     constructor(props) {
@@ -108,6 +109,7 @@ export class PaginationFooterSecondary extends Component {
         handlePageClick: PropTypes.func.isRequired,
         dataCount: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,
+        footerMap:PropTypes.array,
     }
 
     state = {
@@ -170,6 +172,44 @@ export class CustomizedFooter extends Component {
 
         return (
             <div/>
+        )
+    }
+}
+
+
+
+export class NoPaginationUserFooter extends Component {
+
+
+    static propTypes = {
+        colCount: PropTypes.number.isRequired,
+        footerMap:PropTypes.array,
+    }
+
+
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
+
+    render() {
+
+        const {colCount,footerMap} =this.props;
+
+        return (
+            <Table.Row>
+
+                <Table.HeaderCell colSpan={colCount}>
+                    {
+                        footerMap.map((elm, j) => {
+
+                            return(elm)
+                        })
+                    }
+
+                </Table.HeaderCell>
+
+            </Table.Row>
         )
     }
 }

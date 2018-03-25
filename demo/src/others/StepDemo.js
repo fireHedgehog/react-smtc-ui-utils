@@ -82,8 +82,8 @@ export class StepDemo extends Component {
                             </Header>
 
                             <Message color={'blue'}>
-                                Pass a stepOptions JSON array to initialize, and pass a number
-                                as current step. Array should use Semantic 'step option' format.
+                                Pass a step JSON array to initialize (see array format on semantic official page).
+                                Then pass a number as current step.
                             </Message>
 
                             <Input placeholder='Enter a number'

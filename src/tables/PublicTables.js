@@ -1,7 +1,7 @@
 import React from 'react'
 import {Table, Checkbox} from 'semantic-ui-react'
 import PropTypes from "prop-types";
-import {PaginationFooter, PaginationFooterSecondary} from "./PublicTableFooters";
+import {NoPaginationUserFooter, PaginationFooter, PaginationFooterSecondary} from "./PublicTableFooters";
 import {isArrayEmpty, getRandomNumber, isStringEmpty} from "../static/ObjectsUtils";
 import _ from 'lodash';
 //import update from "immutability-helper";
@@ -75,7 +75,7 @@ export default class PublicTables extends React.Component {
         showAllCheck: PropTypes.bool,
         checkedCallBackFunction: PropTypes.func,
         onRowSelectCallBack: PropTypes.func,
-        pagination: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(["primary", "secondary"])]).isRequired,
+        pagination: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(["primary", "secondary"])]),
         pageSize: PropTypes.PropTypes.oneOf([10, 20, 50]),
         selectable: PropTypes.bool,
         color: PropTypes.string,
@@ -335,8 +335,15 @@ export default class PublicTables extends React.Component {
         //console.log(headerMap, footerMap);
         // pagination footer if is false don't show it
         let paginationFooter = (
-            <Table.Row/>
+            <Table.Row>
+            </Table.Row>
         );
+
+        if(![true,"primary","secondary"].includes(pagination) && footerMap.length > 0){
+            paginationFooter = (
+                <NoPaginationUserFooter colCount={colCount} footerMap={footerMap}/>
+            );
+        }
 
         //if need pagination or pagination type is primary,
         //add new footer include pagination menu and calculate data set
