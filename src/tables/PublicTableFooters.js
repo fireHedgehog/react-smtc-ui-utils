@@ -23,12 +23,12 @@ export class PaginationFooter extends Component {
 
     static propTypes = {
         colCount: PropTypes.number.isRequired,
-        pageSize: PropTypes.oneOfType([PropTypes.number,PropTypes.string]).isRequired,
+        pageSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
         handlePageClick: PropTypes.func.isRequired,
         dataCount: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,
         onPageSizeChange: PropTypes.func.isRequired,
-        footerMap:PropTypes.array,
+        footerMap: PropTypes.array,
     }
 
     constructor(props) {
@@ -81,7 +81,7 @@ export class PaginationFooter extends Component {
                     {
                         footerMap.map((elm, j) => {
 
-                            return(elm)
+                            return (elm)
                         })
                     }
 
@@ -109,7 +109,7 @@ export class PaginationFooterSecondary extends Component {
         handlePageClick: PropTypes.func.isRequired,
         dataCount: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,
-        footerMap:PropTypes.array,
+        footerMap: PropTypes.array,
     }
 
     state = {
@@ -135,7 +135,7 @@ export class PaginationFooterSecondary extends Component {
                     {
                         footerMap.map((elm, j) => {
 
-                            return(elm)
+                            return (elm)
                         })
                     }
                     <TablePagination
@@ -177,24 +177,20 @@ export class CustomizedFooter extends Component {
 }
 
 
-
 export class NoPaginationUserFooter extends Component {
 
 
     static propTypes = {
         colCount: PropTypes.number.isRequired,
-        footerMap:PropTypes.array,
+        footerMap: PropTypes.array,
     }
 
 
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
+    state = {}
 
     render() {
 
-        const {colCount,footerMap} =this.props;
+        const {colCount, footerMap} = this.props;
 
         return (
             <Table.Row>
@@ -203,7 +199,7 @@ export class NoPaginationUserFooter extends Component {
                     {
                         footerMap.map((elm, j) => {
 
-                            return(elm)
+                            return (elm)
                         })
                     }
 

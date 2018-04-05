@@ -6,7 +6,7 @@ This Lib wraps some react-semantic-ui tags, such as 'Table' tag.
 [![Coveralls][coveralls-badge]][coveralls]
 
 Currently this Lib is just partially finished, only implement a "data table" and a "step util". 
-Since this is only been using in my mini project, probably got some bug.
+Since it is only been using in my mini project, some functionality currently is not complete.
 
 [build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
 [build]: https://travis-ci.org/fireHedgehog/react-smtc-ui-utils
@@ -19,6 +19,7 @@ Since this is only been using in my mini project, probably got some bug.
 
 
 #step
+
 See the get-start page of github pages:
 https://firehedgehog.github.io/react-smtc-ui-utils/
 

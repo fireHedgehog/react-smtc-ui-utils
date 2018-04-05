@@ -1,6 +1,6 @@
 {
   "name": "react-smtc-ui-utils",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "react-smtc-ui-utils React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -48,6 +48,8 @@
   "repository": "",
   "keywords": [
     "react-component",
-    "react-smtc-ui-utils"
+    "react-smtc-ui-utils",
+    "react-semantic-ui",
+    "react-data-table"
   ]
 }

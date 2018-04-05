@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 export default class PublicTableHeaders extends React.Component {
 
     static propTypes = {
-        header: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+        header: PropTypes.oneOfType([PropTypes.string, PropTypes.number,PropTypes.element]).isRequired,
         accessor: PropTypes.string.isRequired,
         textAlign: PropTypes.string,
         collapsing: PropTypes.bool,
@@ -12,7 +12,7 @@ export default class PublicTableHeaders extends React.Component {
         customizeText: PropTypes.func,
         columnAlign: PropTypes.string,
         isHidden: PropTypes.bool,
-        filterContext: PropTypes.string,
+        filterContext: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         colAsCheckBox: PropTypes.bool,
         checkBoxStyle: PropTypes.string,
         rowSpan: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

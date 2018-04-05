@@ -1,7 +1,8 @@
 import React from 'react'
 import {Table, Checkbox} from 'semantic-ui-react'
 import PropTypes from "prop-types";
-import {NoPaginationUserFooter, PaginationFooter, PaginationFooterSecondary} from "./PublicTableFooters";
+import {PaginationFooter, PaginationFooterSecondary} from "./PublicTableFooters";
+import {NoPaginationUserFooter} from "./PublicTableFooters";
 import {isArrayEmpty, getRandomNumber, isStringEmpty} from "../static/ObjectsUtils";
 import _ from 'lodash';
 //import update from "immutability-helper";
@@ -79,7 +80,6 @@ export default class PublicTables extends React.Component {
         pageSize: PropTypes.PropTypes.oneOf([10, 20, 50]),
         selectable: PropTypes.bool,
         color: PropTypes.string,
-        onRowClickFunc: PropTypes.func,
         unstackable: PropTypes.bool,
         celled: PropTypes.bool,
         basic: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),//"very"
