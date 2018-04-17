@@ -77,13 +77,19 @@ class MainMenu extends Component {
                             <Dropdown.Item
                                 nexturl="react-smtc-ui-utils/table"
                                 onClick={this.handleClick}>
-                                Example
+                                Demo
+                            </Dropdown.Item>
+
+                            <Dropdown.Item
+                                nexturl="react-smtc-ui-utils/Props"
+                                onClick={this.handleClick}>
+                                Props-Doc
                             </Dropdown.Item>
 
                             <Dropdown.Item
                                 nexturl="react-smtc-ui-utils/tableProps"
                                 onClick={this.handleClick}>
-                                Props
+                                Props-Examples
                             </Dropdown.Item>
 
                         </Dropdown.Menu>

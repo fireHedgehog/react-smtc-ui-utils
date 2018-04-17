@@ -69,7 +69,7 @@ export class StepDemo extends Component {
                             </Header>
 
                             <Message color={'teal'}>
-                                This table util is using Semantic-UI(URL is react.semantic-ui.com).
+                                This Step util is using Semantic-UI(react.semantic-ui.com).
                             </Message>
 
 

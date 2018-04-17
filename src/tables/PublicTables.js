@@ -7,33 +7,6 @@ import {isArrayEmpty, getRandomNumber, isStringEmpty} from "../static/ObjectsUti
 import _ from 'lodash';
 //import update from "immutability-helper";
 
-/*
-example for creating a table with just 2 columns:
-
- <PublicTables data={data} ----> need a data array[Json] for example[{user_id:1,user_name:rocky}]
-    showAllCheck={true}  ----> whether show check all button
-    checkedCallBackFunction={(val)=>console.log(val)}  ----> get checked item onChane call back
- >
-
-       <PublicTableHeaders
-            header={"Survey ID"} ----> the table header
-            accessor={"user_id"} ----> the accessor/key of the data
-            colAsCheckBox={true} // using accessor "sv_id" as a checked box
-       />
-
-       <PublicTableHeaders
-            header={"Actions"} ----> the table header
-            accessor={"user_id"} ----> the accessor/key of the data
-            columnFormat={(cellValue, rowObject) => this.addActionBtns(cellValue, rowObject)} ----> column data formatter
-            collapsing={true} ----> compact column or not
-            customizeText={(cellValue, rowObject) => this.customizeHeader(cellValue, rowObject)} ----> table header formatter
-            columnAlign={'center'} ---->  data context cell text align
-            textAlign={'center'}  ---->  table header  cell text align
-       />
-
- </PublicTables>
-
- */
 
 /**
  *
@@ -43,8 +16,6 @@ example for creating a table with just 2 columns:
  *  Universal table element
  *
  * @style:
- *  1.size : mini,tiny,small,medium,large,big,huge,massive
- *  2.selectable : default--false : can not be selected,vise versa
  *  3.unstackable: PropTypes.bool,
  *  4.celled: PropTypes.bool,
  *  5.basic: PropTypes.string,//very
@@ -71,40 +42,106 @@ example for creating a table with just 2 columns:
 export default class PublicTables extends React.Component {
 
     static propTypes = {
-        data: PropTypes.array.isRequired,
-        tableStyle: PropTypes.array,
-        showAllCheck: PropTypes.bool,
-        checkedCallBackFunction: PropTypes.func,
-        onRowSelectCallBack: PropTypes.func,
-        pagination: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(["primary", "secondary"])]),
-        pageSize: PropTypes.PropTypes.oneOf([10, 20, 50]),
-        selectable: PropTypes.bool,
-        color: PropTypes.string,
-        unstackable: PropTypes.bool,
-        celled: PropTypes.bool,
-        basic: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),//"very"
-        collapsing: PropTypes.bool,
-        compact: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),//"very"
-        definition: PropTypes.bool,
-        inverted: PropTypes.bool,
-        fixed: PropTypes.bool,
-        padded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-        singleLine: PropTypes.bool,
-        sortable: PropTypes.bool,
-        stackable: PropTypes.bool,
-        verticalAlign: PropTypes.oneOf(['bottom', 'middle', 'top'])
         /**
-         *
-
-         structured
-         {bool}
-         A table can be formatted to display complex structured data.
-
-         tableData
-         {custom}
-         Data to be passed to the renderBodyRow function.
-
+         * data format is JSON array
+         * [ {name:"Tom"},{age:16} ]
          */
+        data: PropTypes.array.isRequired,
+        /**
+         * first header cell shown as a select all check box
+         */
+        showAllCheck: PropTypes.bool,
+        /**
+         * pass the value of internal onCheckBoxChange
+         * <PublicTables data={dummy_data}  checkedCallBackFunction={(val) => console.log(val)}>
+         */
+        checkedCallBackFunction: PropTypes.func,
+        /**
+         * pass the selected row data
+         */
+        onRowSelectCallBack: PropTypes.func,
+        /**
+         * 2 different type of pagination bar
+         */
+        pagination: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(["primary", "secondary"])]),
+        /**
+         * currently only support hard-coded : 10 ,20 , 50
+         */
+        pageSize: PropTypes.PropTypes.oneOf([10, 20, 50]),
+        /**
+         * should combine with function onRowSelectCallBack
+         * <PublicTables selectable onRowSelectCallBack={(row)=>console.log(row)}>
+         */
+        selectable: PropTypes.bool,
+        /**
+         * semantic-ui builtin prop
+         * using Lodash sort method.
+         */
+        sortable: PropTypes.bool,
+        /**
+         * semantic-ui builtin prop
+         * red,orange,yellow,olive,green,teal,blue,violet,purple,pink,brown,grey,black
+         */
+        color: PropTypes.PropTypes.oneOf(["red", "orange", "yellow", "olive", "green", "teal",
+            "blue", "violet", "purple", "pink", "brown", "grey", "black"]),
+        /**
+         * semantic-ui builtin prop
+         * small,large
+         */
+        tableSize: PropTypes.PropTypes.oneOf(["small", "large"]),
+        /**
+         * semantic-ui builtin prop
+         */
+        unstackable: PropTypes.bool,
+        /**
+         * semantic-ui builtin prop
+         */
+        celled: PropTypes.bool,
+        /**
+         * semantic-ui builtin prop
+         */
+        basic: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),//"very"
+        /**
+         * semantic-ui builtin prop
+         */
+        collapsing: PropTypes.bool,
+        /**
+         * semantic-ui builtin prop
+         */
+        compact: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),//"very"
+        /**
+         * semantic-ui builtin prop
+         */
+        definition: PropTypes.bool,
+        /**
+         * semantic-ui builtin prop
+         */
+        inverted: PropTypes.bool,
+        /**
+         * semantic-ui builtin prop
+         */
+        fixed: PropTypes.bool,
+        /**
+         * semantic-ui builtin prop
+         */
+        padded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+        /**
+         * semantic-ui builtin prop
+         */
+        singleLine: PropTypes.bool,
+        /**
+         * semantic-ui builtin prop
+         */
+        stackable: PropTypes.bool,
+        /**
+         * semantic-ui builtin prop
+         */
+        verticalAlign: PropTypes.oneOf(['bottom', 'middle', 'top']),
+        /**
+         * not done yet
+         */
+        structured: PropTypes.bool,
+
     }
 
     constructor(props) {
@@ -112,7 +149,6 @@ export default class PublicTables extends React.Component {
         this.state = {
             data: props.data,
             sortedData: props.data,
-            tableStyle: isArrayEmpty(props.tableStyle) ? [] : props.tableStyle,
             showAllCheck: props.showAllCheck === undefined ? false : props.showAllCheck,
             pagination: props.pagination === undefined ? false : props.pagination,
             pageSize: (props.pageSize === undefined) || !([10, 20, 50].includes(props.pageSize)) ? 20 : props.pageSize,
@@ -339,7 +375,7 @@ export default class PublicTables extends React.Component {
             </Table.Row>
         );
 
-        if(![true,"primary","secondary"].includes(pagination) && footerMap.length > 0){
+        if (![true, "primary", "secondary"].includes(pagination) && footerMap.length > 0) {
             paginationFooter = (
                 <NoPaginationUserFooter colCount={colCount} footerMap={footerMap}/>
             );
@@ -394,7 +430,8 @@ export default class PublicTables extends React.Component {
             singleLine,
             sortable,
             stackable,
-            verticalAlign
+            verticalAlign,
+            tableSize
         } = this.props; // most common styles of semantic ui
 
         return (
@@ -415,6 +452,7 @@ export default class PublicTables extends React.Component {
                     sortable={sortable}
                     stackable={stackable}
                     verticalAlign={verticalAlign}
+                    size={tableSize}
                 >
                     <Table.Header>
                         <Table.Row>
@@ -647,4 +685,3 @@ class ColumnCheckBox extends React.Component {
         )
     }
 }
-

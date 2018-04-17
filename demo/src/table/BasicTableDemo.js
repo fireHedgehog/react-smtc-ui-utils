@@ -144,6 +144,7 @@ export class BasicTableDemo extends Component {
                     <Grid.Column width={'11'}>
 
                         <PublicTables
+                            tableSize={'small'}
                             data={json.mock_user}
                             showAllCheck={true}
                             checkedCallBackFunction={(checked) => this.onCheckBoxChange(checked)}

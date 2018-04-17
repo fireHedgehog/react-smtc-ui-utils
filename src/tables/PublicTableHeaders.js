@@ -4,17 +4,67 @@ import PropTypes from "prop-types";
 export default class PublicTableHeaders extends React.Component {
 
     static propTypes = {
+        /**
+         * the title and header of this column
+         */
         header: PropTypes.oneOfType([PropTypes.string, PropTypes.number,PropTypes.element]).isRequired,
+        /**
+         * the key of an JSON array,
+         */
         accessor: PropTypes.string.isRequired,
-        textAlign: PropTypes.string,
+        /**
+         * align style only works on "Table Header",
+         */
+        textAlign: PropTypes.PropTypes.oneOf(["left", "right", "center"]),
+        /**
+         * align style only works on "Table Body",
+         */
+        columnAlign: PropTypes.PropTypes.oneOf(["left", "right", "center"]),
+        /**
+         * semantic-ui builtin prop
+         * works on the column
+         */
         collapsing: PropTypes.bool,
+        /**
+         *  call back function pass cell data and row data
+         *  <PublicTableHeaders
+                    columnFormat={(cellValue, rowObject) => console.log(cellValue, rowObject)}
+            />
+         */
         columnFormat: PropTypes.func,
+        /**
+         *   unlike columnFormat,
+         *   only re-write the header text instead of all the column
+         *   will works on structured table for re-writing headers.
+         *   <PublicTableHeaders
+                 customizeText={(cellValue, rowObject) => console.log(cellValue, rowObject)}
+             />
+         */
         customizeText: PropTypes.func,
-        columnAlign: PropTypes.string,
+        /**
+         * set this column to hidden.
+         * For instance, this column need a specific filter function, but does not need to show.
+         */
         isHidden: PropTypes.bool,
+        /**
+         * pass a dynamic text in your state
+         * will always using String.include()
+         * customization filter function have not done yet
+         */
         filterContext: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        /**
+         * this column will be shown as check box instead of text ,
+         * and check box value will according to your accessor
+         */
         colAsCheckBox: PropTypes.bool,
-        checkBoxStyle: PropTypes.string,
+        /**
+         * using semantic check box types
+         * such as "slider", "radio", "toggle"
+         */
+        checkBoxStyle: PropTypes.PropTypes.oneOf(["slider", "radio", "toggle"]),
+        /**
+         * for structured table, not done yet
+         */
         rowSpan: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }
 
