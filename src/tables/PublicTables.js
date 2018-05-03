@@ -309,6 +309,13 @@ export default class PublicTables extends React.Component {
         }
     }
 
+    onCellSelected  (elm, value, column)  {
+        //console.log(elm.props.onCellSelectCallBack)
+        if (elm.props.onCellSelectCallBack) {
+            elm.props.onCellSelectCallBack(value, column)
+        }
+    }
+
     render() {
         const {
             sortedData,
@@ -530,12 +537,16 @@ export default class PublicTables extends React.Component {
                                         {   //second loop for rendering cells
                                             headerMap.map((elm, j) => {
 
+                                                const {
+                                                    checkBoxStyle,
+                                                    selectable,
+                                                } = elm.props
+
                                                 //get value by accessor
                                                 const accessor = elm.props.accessor === undefined ? '' : elm.props.accessor;
                                                 const columnAlign = elm.props.accessor === undefined ? '' : elm.props.columnAlign;
                                                 let value = column[accessor] === undefined ? '' : column[accessor];
                                                 const colAsCheckBox = elm.props.colAsCheckBox === undefined ? false : elm.props.colAsCheckBox;
-                                                const checkBoxStyle = elm.props.checkBoxStyle === undefined ? false : elm.props.checkBoxStyle;
 
                                                 // if formatter is not none, call this function
                                                 if (elm.props.columnFormat) {
@@ -543,12 +554,14 @@ export default class PublicTables extends React.Component {
                                                     value = elm.props.columnFormat(value, column);
                                                 }
 
+
                                                 //console.log(checkedIds)
 
                                                 // if this column is set to be a check box ,then return a check box
                                                 if (colAsCheckBox === true) {
                                                     return (
-                                                        <Table.Cell collapsing key={j} textAlign={columnAlign}>
+                                                        <Table.Cell collapsing key={j} textAlign={columnAlign}
+                                                                    selectable={false}>
                                                             <ColumnCheckBox id={value}
                                                                             checkBoxStyle={checkBoxStyle}
                                                                             checked={checkedIds.includes(value) ? true : false}
@@ -558,7 +571,13 @@ export default class PublicTables extends React.Component {
                                                     )
                                                 } else { // if it is not a check box column, return as a simple column
                                                     return (
-                                                        <Table.Cell key={j} textAlign={columnAlign}>{value}</Table.Cell>
+                                                        <Table.Cell key={j}
+                                                                    textAlign={columnAlign}
+                                                                    selectable={selectable}
+                                                                    onClick={() => this.onCellSelected(elm, value, column)}
+                                                        >
+                                                            {value}
+                                                        </Table.Cell>
                                                     );
                                                 }
 

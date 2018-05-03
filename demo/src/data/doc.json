@@ -350,6 +350,20 @@
           "required": false,
           "description": "for structured table, not done yet"
         },
+        "selectable": {
+          "type": {
+            "name": "bool"
+          },
+          "required": false,
+          "description": "Cell can be selected"
+        },
+        "onCellSelectCallBack": {
+          "type": {
+            "name": "func"
+          },
+          "required": false,
+          "description": "pass the cell and row data back eg:GonCellSelectCallBack={(cell,row)=>console.log(cell,row)}"
+        },
         "tableElementType": {
           "defaultValue": {
             "value": "\"PublicTableHeaders\"",

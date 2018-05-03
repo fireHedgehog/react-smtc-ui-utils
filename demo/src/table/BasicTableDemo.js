@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Button, Label, Icon, Input, Grid, Segment, Message, Header, Divider} from 'semantic-ui-react';
 import json from "json-loader!../data/MOCK_DATA.json";
 import {PublicTables, CustomizedFooter, PublicTableHeaders} from '../../../src'
-import renderLinks from "../../../src/static/CodeSource";
+import renderLinks from "../others/CodeSource";
 import Gist from 'react-gist';
 
 

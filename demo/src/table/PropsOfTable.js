@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import json from "json-loader!../data/doc.json";
 import {PublicTables, PublicTableHeaders} from '../../../src';
-import {Grid, Header, Divider} from "semantic-ui-react";
+import {Grid, Header} from "semantic-ui-react";
+import renderLinks from "../others/CodeSource";
 
 export default class PropsOfTable extends Component {
 
@@ -66,14 +67,24 @@ export default class PropsOfTable extends Component {
 
         return (
             <div style={{margin: "2%"}}>
-                <Divider/>
+
                 <Grid>
+
                     <Grid.Row>
                         <Grid.Column width={'1'}>
 
                         </Grid.Column>
                         <Grid.Column width={'10'}>
-                            <Header as={"h3"} content={"Props of PublicTableHeaders"}/>
+                            {renderLinks('demo/src/data/doc.json',"Documentation file:")}
+                        </Grid.Column>
+                    </Grid.Row>
+
+                    <Grid.Row>
+                        <Grid.Column width={'1'}>
+
+                        </Grid.Column>
+                        <Grid.Column width={'10'}>
+                            <Header as={"h3"} content={"Props of PublicTables"}/>
                         </Grid.Column>
                     </Grid.Row>
 
@@ -111,7 +122,7 @@ export default class PropsOfTable extends Component {
 
                         </Grid.Column>
                         <Grid.Column width={'10'}>
-                            <Header as={"h3"} content={"Props of PublicTables"}/>
+                            <Header as={"h3"} content={"Props of PublicTableHeaders "}/>
                         </Grid.Column>
                     </Grid.Row>
 

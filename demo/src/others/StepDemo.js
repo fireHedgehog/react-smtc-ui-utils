@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Input, Grid, Segment, Message, Header, Divider} from 'semantic-ui-react';
 import {PublicStep} from '../../../src'
-import renderLinks from "../../../src/static/CodeSource";
+import renderLinks from "./CodeSource";
 import Gist from 'react-gist';
 
 

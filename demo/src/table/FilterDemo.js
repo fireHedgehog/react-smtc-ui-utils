@@ -87,6 +87,8 @@ export default class FilterDemo extends Component {
                                     header={'Email'}
                                     accessor={'email'}
                                     filterContext={email}
+                                    selectable
+                                    onCellSelectCallBack={(cell,row)=>console.log(cell,row)}
                                 />
                                 <PublicTableHeaders
                                     header={'Gender'}

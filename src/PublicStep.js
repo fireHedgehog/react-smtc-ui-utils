@@ -16,7 +16,7 @@ export default class PublicStep extends Component {
         super(props);
         this.state = {
             stepOptions: props.stepOptions,
-            currentStep: props.currentStep === undefined ? 0 : parseInt(props.currentStep, 0),
+            currentStep: props.currentStep === undefined ? 0 : parseInt(props.currentStep, 10),
             stepSize: props.stepSize === undefined ? 'small' : props.stepSize,
         }
 
@@ -29,6 +29,11 @@ export default class PublicStep extends Component {
                 currentStep: props.currentStep,
             });
             this.triggerStepChanges(props.currentStep);
+        }
+        if (props.stepOptions !== this.props.stepOptions) {
+            this.setState({
+                stepOptions: props.stepOptions,
+            });
         }
     }
 

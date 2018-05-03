@@ -7,7 +7,7 @@ export default class PublicTableHeaders extends React.Component {
         /**
          * the title and header of this column
          */
-        header: PropTypes.oneOfType([PropTypes.string, PropTypes.number,PropTypes.element]).isRequired,
+        header: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.element]).isRequired,
         /**
          * the key of an JSON array,
          */
@@ -28,8 +28,8 @@ export default class PublicTableHeaders extends React.Component {
         /**
          *  call back function pass cell data and row data
          *  <PublicTableHeaders
-                    columnFormat={(cellValue, rowObject) => console.log(cellValue, rowObject)}
-            />
+         columnFormat={(cellValue, rowObject) => console.log(cellValue, rowObject)}
+         />
          */
         columnFormat: PropTypes.func,
         /**
@@ -37,8 +37,8 @@ export default class PublicTableHeaders extends React.Component {
          *   only re-write the header text instead of all the column
          *   will works on structured table for re-writing headers.
          *   <PublicTableHeaders
-                 customizeText={(cellValue, rowObject) => console.log(cellValue, rowObject)}
-             />
+         customizeText={(cellValue, rowObject) => console.log(cellValue, rowObject)}
+         />
          */
         customizeText: PropTypes.func,
         /**
@@ -66,6 +66,14 @@ export default class PublicTableHeaders extends React.Component {
          * for structured table, not done yet
          */
         rowSpan: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        /**
+         * semantic built in props
+         */
+        selectable: PropTypes.bool,
+        /**
+         * semantic built in props
+         */
+        onCellSelectCallBack: PropTypes.func,
     }
 
     static defaultProps = {
