@@ -105,6 +105,8 @@ export default class PublicTableHeaders extends React.Component {
             filterContext: props.filterContext === undefined ? "" : props.filterContext,
             colAsCheckBox: props.colAsCheckBox === undefined ? false : props.colAsCheckBox,
             checkBoxStyle: props.checkBoxStyle === undefined ? "slider" : props.checkBoxStyle,
+            selectable: props.selectable,
+            onCellSelectCallBack: props.onCellSelectCallBack,
         }
     }
 

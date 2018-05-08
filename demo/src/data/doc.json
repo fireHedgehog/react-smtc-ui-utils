@@ -787,6 +787,13 @@
           },
           "required": false,
           "description": "not done yet"
+        },
+        "defaultCheckedIds": {
+          "type": {
+            "name": "array"
+          },
+          "required": false,
+          "description": "if we need default checked,pass an checkedIds array--(accessor of checkbox column )"
         }
       }
     },

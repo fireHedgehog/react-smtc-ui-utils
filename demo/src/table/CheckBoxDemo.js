@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import {Segment, Grid, Header, Label, Icon, Divider} from 'semantic-ui-react'
+import {Segment, Grid, Header, Label, Icon, Divider, Button} from 'semantic-ui-react'
 import Highlight from 'react-highlight'
 import PropTypes from "prop-types";
-import {PublicTables, PublicTableHeaders} from '../../../src'
+import {PublicTables, PublicTableHeaders, CustomizedFooter} from '../../../src';
+import _ from "lodash";
 
 export default class CheckBoxDemo extends Component {
 
@@ -10,7 +11,9 @@ export default class CheckBoxDemo extends Component {
         tableData: PropTypes.array.isRequired,
     }
 
-    state = {}
+    state = {
+        defaultCheckedIds: []
+    }
 
     formatDepartment(cell, row) {
         return (
@@ -23,6 +26,8 @@ export default class CheckBoxDemo extends Component {
 
     render() {
         const {tableData} = this.props;
+
+        const {defaultCheckedIds} = this.state;
 
         return (
             <Grid stackable>
@@ -43,6 +48,7 @@ onCheckedChange(val) {
                                 {`
 <PublicTables data={dummy_data}
               showAllCheck={true}
+              defaultCheckedIds={an_random_array}
               checkedCallBackFunction={(val) => this.onCheckedChange(val)}>
         <PublicTableHeaders header={""}
                             accessor={"id"}
@@ -70,6 +76,7 @@ onCheckedChange(val) {
                             celled
                             compact
                             unstackable
+                            defaultCheckedIds={defaultCheckedIds}
                         >
                             <PublicTableHeaders
                                 header={""}
@@ -85,6 +92,14 @@ onCheckedChange(val) {
                                 accessor={'email'}
                             />
 
+                            <CustomizedFooter>
+                                <Button content={'Reset default checkBox array'}
+                                        onClick={() => this.setState(
+                                            {
+                                                defaultCheckedIds: [_.random(0,2), _.random(3,5)]
+                                            }
+                                        )}/>
+                            </CustomizedFooter>
                         </PublicTables>
 
                     </Grid.Column>

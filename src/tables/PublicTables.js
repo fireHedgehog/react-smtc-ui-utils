@@ -141,6 +141,10 @@ export default class PublicTables extends React.Component {
          * not done yet
          */
         structured: PropTypes.bool,
+        /**
+         * checkBox default values , should be an array
+         */
+        defaultCheckedIds: PropTypes.array,
 
     }
 
@@ -153,7 +157,7 @@ export default class PublicTables extends React.Component {
             pagination: props.pagination === undefined ? false : props.pagination,
             pageSize: (props.pageSize === undefined) || !([10, 20, 50].includes(props.pageSize)) ? 20 : props.pageSize,
             allChecked: false,
-            checkedIds: [],
+            checkedIds: props.defaultCheckedIds === undefined ? [] : props.defaultCheckedIds,
             currentPage: 1,
             column: null,
             direction: null,
@@ -179,6 +183,12 @@ export default class PublicTables extends React.Component {
                 data: newProps.data,
                 sortedData: newProps.data,
                 key: getRandomNumber(1000000),
+            });
+        }
+
+        if (newProps.defaultCheckedIds !== this.props.defaultCheckedIds) {
+            this.setState({
+                checkedIds:newProps.defaultCheckedIds,
             });
         }
     }

@@ -82,6 +82,7 @@ export default class FilterDemo extends Component {
                                 celled
                                 compact
                                 unstackable
+                                sortable
                             >
                                 <PublicTableHeaders
                                     header={'Email'}

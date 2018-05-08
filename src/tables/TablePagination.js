@@ -62,7 +62,7 @@ export default class TablePagination extends Component {
         } = this.state
 
         //console.log(activePage)
-
+        // Heads up! All items are powered by shorthands, if you want to hide one of them, just pass `null` as value
         return (
 
             <Pagination
@@ -72,7 +72,6 @@ export default class TablePagination extends Component {
                 onPageChange={this.handlePaginationChange}
                 size={displaySize}
                 totalPages={totalPages}
-                // Heads up! All items are powered by shorthands, if you want to hide one of them, just pass `null` as value
                 ellipsisItem={showEllipsis ? undefined : null}
                 firstItem={showFirstAndLastNav ? undefined : null}
                 lastItem={showFirstAndLastNav ? undefined : null}
