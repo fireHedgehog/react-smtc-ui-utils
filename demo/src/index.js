@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {render} from 'react-dom'
 import 'semantic-ui-css/semantic.min.css';
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Route,
 } from "react-router-dom";
 import MainMenu from "./menu/MainMenu";

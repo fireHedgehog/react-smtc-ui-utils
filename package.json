@@ -1,6 +1,6 @@
 {
   "name": "react-smtc-ui-utils",
-  "version": "1.0.9",
+  "version": "1.1.1",
   "description": "react-smtc-ui-utils React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -24,7 +24,7 @@
     "docgen-resolver": "react-docgen src --pretty --resolver findAllComponentDefinitions -o src/doc/doc.json"
   },
   "dependencies": {
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.10",
     "prop-types": "^15.6.1"
   },
   "peerDependencies": {
@@ -37,14 +37,14 @@
     "html-entities": "^1.2.1",
     "json-loader": "^0.5.7",
     "nwb": "0.21.x",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.4.0",
+    "react-docgen": "^2.20.1",
+    "react-dom": "^16.4.0",
     "react-gist": "^1.2.1",
     "react-highlight": "^0.12.0",
     "react-router-dom": "^4.2.2",
     "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.78.3",
-    "react-docgen": "^2.20.1"
+    "semantic-ui-react": "^0.78.3"
   },
   "author": "rockychen",
   "license": "MIT",

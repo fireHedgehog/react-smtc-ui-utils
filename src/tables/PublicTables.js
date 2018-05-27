@@ -188,9 +188,10 @@ export default class PublicTables extends React.Component {
 
         if (newProps.defaultCheckedIds !== this.props.defaultCheckedIds) {
             this.setState({
-                checkedIds:newProps.defaultCheckedIds,
+                checkedIds: newProps.defaultCheckedIds,
             });
         }
+
     }
 
 
@@ -247,7 +248,13 @@ export default class PublicTables extends React.Component {
      */
     TablePagination(ParamArr) {
         const {currentPage, pageSize} = this.state;
-        const returnArr = ParamArr.slice((currentPage - 1) * pageSize, (currentPage) * pageSize);
+        const totalPage = Math.ceil((ParamArr === undefined ? 1 : ParamArr.length) / pageSize)
+
+        //in case total page is less than current page
+        const currentByTotal = totalPage < currentPage ? 1 : currentPage
+
+        const returnArr = ParamArr.slice((currentByTotal - 1) * pageSize, (currentByTotal) * pageSize);
+
         return returnArr;
     }
 
@@ -319,7 +326,7 @@ export default class PublicTables extends React.Component {
         }
     }
 
-    onCellSelected  (elm, value, column)  {
+    onCellSelected(elm, value, column) {
         //console.log(elm.props.onCellSelectCallBack)
         if (elm.props.onCellSelectCallBack) {
             elm.props.onCellSelectCallBack(value, column)
