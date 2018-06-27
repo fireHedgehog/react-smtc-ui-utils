@@ -206,10 +206,10 @@ export default class PublicTables extends React.Component {
         try {
             dataSet = dataSet.filter(function (ele) {
                 //always using toSting() to simplify the compare
-                const origin = "string" === typeof ele[columnAccessor] ? ele[columnAccessor] : ele[columnAccessor].toString();
-                const filter = "string" === typeof filterContext ? filterContext : filterContext.toString();
+                const origin = _.lowerCase(_.toString(ele[columnAccessor]));  //"string" === typeof ele[columnAccessor] ? ele[columnAccessor] : ele[columnAccessor].toString();
+                const filter = _.lowerCase(_.toString(filterContext)); //"string" === typeof filterContext ? filterContext : filterContext.toString();
                 //console.log(origin,filter)
-                return origin.includes(filter);
+                return _.includes(origin, filter) //origin.includes(filter);
             });
 
         } catch (e) {
@@ -581,7 +581,7 @@ export default class PublicTables extends React.Component {
                                                                     selectable={false}>
                                                             <ColumnCheckBox id={value}
                                                                             checkBoxStyle={checkBoxStyle}
-                                                                            checked={checkedIds.includes(value) ? true : false}
+                                                                            checked={_.includes(checkedIds,value) ? true : false}
                                                                             getCallBackId={(val) => this.modifyCheckedArray(val)}
                                                             />
                                                         </Table.Cell>
