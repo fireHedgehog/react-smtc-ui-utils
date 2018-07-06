@@ -145,7 +145,16 @@ export default class PublicTables extends React.Component {
          * checkBox default values , should be an array
          */
         defaultCheckedIds: PropTypes.array,
-
+        /**
+         * set particular as green color to highlight
+         * param is the data of each row
+         *
+         * rowHighLightFunction(rowData){
+         *    return row.id === "some id"
+         * }
+         * return true, then set the row to green color
+         */
+        rowHighLightFunction:PropTypes.func,
     }
 
     constructor(props) {
@@ -186,6 +195,9 @@ export default class PublicTables extends React.Component {
             });
         }
 
+        /*
+         * reset checked ids
+         */
         if (newProps.defaultCheckedIds !== this.props.defaultCheckedIds) {
             this.setState({
                 checkedIds: newProps.defaultCheckedIds,
@@ -548,8 +560,16 @@ export default class PublicTables extends React.Component {
 
                                 const {checkedIds} = this.state;
 
+                                const {rowHighLightFunction} = this.props;
+
+                                let isHighLight = false;
+
+                                if (rowHighLightFunction) {
+                                    isHighLight = rowHighLightFunction(column);
+                                }
+
                                 return (
-                                    <Table.Row key={i} onClick={() => this.onRowSelectCallBack(column)}>
+                                    <Table.Row key={i} onClick={() => this.onRowSelectCallBack(column)} positive={isHighLight}>
 
                                         {   //second loop for rendering cells
                                             headerMap.map((elm, j) => {
@@ -581,7 +601,7 @@ export default class PublicTables extends React.Component {
                                                                     selectable={false}>
                                                             <ColumnCheckBox id={value}
                                                                             checkBoxStyle={checkBoxStyle}
-                                                                            checked={_.includes(checkedIds,value) ? true : false}
+                                                                            checked={_.includes(checkedIds, value) ? true : false}
                                                                             getCallBackId={(val) => this.modifyCheckedArray(val)}
                                                             />
                                                         </Table.Cell>

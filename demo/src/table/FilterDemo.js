@@ -10,17 +10,21 @@ export default class FilterDemo extends Component {
         tableData: PropTypes.array.isRequired,
     }
 
-    state = {email: "",gender:""}
+    state = {email: "", gender: ""}
 
-    handleChange = (e, {name, value}) =>{
+    handleChange = (e, {name, value}) => {
         //console.log(name, value)
         this.setState({[name]: value});
     }
 
 
+    setToGreen(row) {
+        return row["id"] === 4
+    }
+
     render() {
         const {tableData} = this.props;
-        const {email,gender} = this.state;
+        const {email, gender} = this.state;
 
         return (
             <Grid stackable>
@@ -46,7 +50,7 @@ export default class FilterDemo extends Component {
 
                     <Grid.Column width={1}>
                         <Header as={'h4'}
-                                content={'email :'} />
+                                content={'email :'}/>
                     </Grid.Column>
                     <Grid.Column width={3}>
                         <Input placeholder='email filter'
@@ -83,13 +87,14 @@ export default class FilterDemo extends Component {
                                 compact
                                 unstackable
                                 sortable
+                                rowHighLightFunction={(row) => this.setToGreen(row)}
                             >
                                 <PublicTableHeaders
                                     header={'Email'}
                                     accessor={'email'}
                                     filterContext={email}
                                     selectable
-                                    onCellSelectCallBack={(cell,row)=>console.log(cell,row)}
+                                    onCellSelectCallBack={(cell, row) => console.log(cell, row)}
                                 />
                                 <PublicTableHeaders
                                     header={'Gender'}

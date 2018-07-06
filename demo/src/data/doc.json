@@ -794,6 +794,13 @@
           },
           "required": false,
           "description": "if we need default checked,pass an checkedIds array--(accessor of checkbox column )"
+        },
+        "rowHighLightFunction": {
+          "type": {
+            "name": "function"
+          },
+          "required": false,
+          "description": "set particular as green color to highlight, call this function and return true, the row will be green  ---> e.g. rowHighLightFunction(rowData){ return rowData.id === some_id }"
         }
       }
     },
