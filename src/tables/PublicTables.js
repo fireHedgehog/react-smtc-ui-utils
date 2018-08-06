@@ -154,7 +154,21 @@ export default class PublicTables extends React.Component {
          * }
          * return true, then set the row to green color
          */
-        rowHighLightFunction:PropTypes.func,
+        rowHighLightFunction: PropTypes.func,
+        /**
+         * this will disable pagination,
+         * so we can use our database pagination
+         * to saving time
+         */
+        fakePagination: PropTypes.bool,
+        /**
+         * pagination call back function
+         */
+        onPageChangeCallBack: PropTypes.func,
+        /**
+         * fake pagination need a data sum count
+         */
+        fakeDataSum: PropTypes.number,
     }
 
     constructor(props) {
@@ -170,6 +184,8 @@ export default class PublicTables extends React.Component {
             currentPage: 1,
             column: null,
             direction: null,
+            key: getRandomNumber(1000000000),
+            bodyKey: getRandomNumber(1000000000),
         };
     }
 
@@ -183,24 +199,36 @@ export default class PublicTables extends React.Component {
 
     componentWillReceiveProps(newProps) {
 
+        const {data, defaultCheckedIds, fakePagination} = newProps;
+
         /*
          *  for performance reason. avoid useless re-render
          *  re-render entire component when pass new data
          */
-        if (newProps.data !== this.state.data) {
+        if (data !== this.state.data) {
             this.setState({
-                data: newProps.data,
-                sortedData: newProps.data,
-                key: getRandomNumber(1000000),
+                data: data,
+                sortedData: data,
             });
+
+            if (fakePagination) { // if is fake Pagination, means need to refresh the body of table
+                this.setState({
+                    bodyKey: getRandomNumber(1000000000),
+                });
+            } else {
+                this.setState({ // otherwise need to refresh everything
+                    key: getRandomNumber(1000000000),
+                });
+            }
+
         }
 
         /*
          * reset checked ids
          */
-        if (newProps.defaultCheckedIds !== this.props.defaultCheckedIds) {
+        if (defaultCheckedIds !== this.props.defaultCheckedIds) {
             this.setState({
-                checkedIds: newProps.defaultCheckedIds,
+                checkedIds: defaultCheckedIds,
             });
         }
 
@@ -211,25 +239,6 @@ export default class PublicTables extends React.Component {
          console.log(nextProps === this.props)
          return true;
      }*/
-
-    //filter the column by given params
-    filterDataByFilterContext = (columnAccessor, filterContext, dataSet) => {
-        //TODO : using lodash improve it
-        try {
-            dataSet = dataSet.filter(function (ele) {
-                //always using toSting() to simplify the compare
-                const origin = _.lowerCase(_.toString(ele[columnAccessor]));  //"string" === typeof ele[columnAccessor] ? ele[columnAccessor] : ele[columnAccessor].toString();
-                const filter = _.lowerCase(_.toString(filterContext)); //"string" === typeof filterContext ? filterContext : filterContext.toString();
-                //console.log(origin,filter)
-                return _.includes(origin, filter) //origin.includes(filter);
-            });
-
-        } catch (e) {
-            // if filter has some exceptions, just do nothing
-        }
-
-        return dataSet;
-    }
 
     //modify the checked list
     modifyCheckedArray(id) {
@@ -265,9 +274,7 @@ export default class PublicTables extends React.Component {
         //in case total page is less than current page
         const currentByTotal = totalPage < currentPage ? 1 : currentPage
 
-        const returnArr = ParamArr.slice((currentByTotal - 1) * pageSize, (currentByTotal) * pageSize);
-
-        return returnArr;
+        return ParamArr.slice((currentByTotal - 1) * pageSize, (currentByTotal) * pageSize);
     }
 
 
@@ -277,6 +284,10 @@ export default class PublicTables extends React.Component {
         this.setState({
             currentPage: data
         });
+
+        if (this.props.onPageChangeCallBack) {
+            this.props.onPageChangeCallBack(data)
+        }
     };
 
     /* check all button click
@@ -355,8 +366,8 @@ export default class PublicTables extends React.Component {
             pagination,
             currentPage,
             direction,
+            bodyKey,
         } = this.state;
-
 
         let colCount = 0; // calculate the total columns
         const headerMap = [];//headerMap, check props
@@ -385,7 +396,7 @@ export default class PublicTables extends React.Component {
                 //filter dataSet by accessor and filterContext
                 if (filterContext !== undefined && filterContext !== null && filterContext !== '') {
                     //console.log(filterContext)
-                    dataSet = this.filterDataByFilterContext(accessor, filterContext, dataSet)
+                    dataSet = filterDataByFilterContext(accessor, filterContext, dataSet)
                 }
 
                 //only push not hidden element
@@ -417,39 +428,62 @@ export default class PublicTables extends React.Component {
             );
         }
 
-        //if need pagination or pagination type is primary,
-        //add new footer include pagination menu and calculate data set
-        if (pagination === true || pagination === "primary") {
-            paginationFooter = (
+        const {fakePagination, fakeDataSum} = this.props;
 
-                <PaginationFooter
-                    colCount={colCount}
-                    dataCount={dataSet.length}
-                    pageSize={pageSize}
-                    currentPage={currentPage}
-                    handlePageClick={(val) => this.handlePageClick(val)}
-                    onPageSizeChange={(val) => this.handlePageSizeChange(val)}
-                    footerMap={footerMap}
-                />
+        if (fakePagination) { // fake pagination don't need to manipulate data inside of this table utils
+            //if need pagination or pagination type is primary,
+            //add new footer include pagination menu and calculate data set
+            if (pagination === true) {
+                paginationFooter = (
 
-            );
+                    <PaginationFooterSecondary
+                        colCount={colCount}
+                        dataCount={fakeDataSum}
+                        pageSize={pageSize}
+                        currentPage={currentPage}
+                        handlePageClick={(val) => this.handlePageClick(val)}
+                        footerMap={footerMap}
+                    />
 
-            //dataSet pagination, based on current page
-            dataSet = this.TablePagination(dataSet)
+                );
+                // dataSet = this.TablePagination(dataSet)
+            }
+        } else {
+            //if need pagination or pagination type is primary,
+            //add new footer include pagination menu and calculate data set
+            if (pagination === true || pagination === "primary") {
+                paginationFooter = (
 
-        } else if (pagination === "secondary") {
-            paginationFooter = (
-                <PaginationFooterSecondary
-                    colCount={colCount}
-                    dataCount={dataSet.length}
-                    pageSize={pageSize}
-                    currentPage={currentPage}
-                    handlePageClick={(val) => this.handlePageClick(val)}
-                    footerMap={footerMap}
-                />
-            )
-            dataSet = this.TablePagination(dataSet)
+                    <PaginationFooter
+                        colCount={colCount}
+                        dataCount={dataSet.length}
+                        pageSize={pageSize}
+                        currentPage={currentPage}
+                        handlePageClick={(val) => this.handlePageClick(val)}
+                        onPageSizeChange={(val) => this.handlePageSizeChange(val)}
+                        footerMap={footerMap}
+                    />
+
+                );
+
+                //dataSet pagination, based on current page
+                dataSet = this.TablePagination(dataSet)
+
+            } else if (pagination === "secondary") {
+                paginationFooter = (
+                    <PaginationFooterSecondary
+                        colCount={colCount}
+                        dataCount={dataSet.length}
+                        pageSize={pageSize}
+                        currentPage={currentPage}
+                        handlePageClick={(val) => this.handlePageClick(val)}
+                        footerMap={footerMap}
+                    />
+                )
+                dataSet = this.TablePagination(dataSet)
+            }
         }
+
 
         const {
             selectable,
@@ -551,7 +585,7 @@ export default class PublicTables extends React.Component {
                         </Table.Row>
                     </Table.Header>
 
-                    <Table.Body>
+                    <Table.Body key={bodyKey}>
 
 
                         {   //first loop for rendering rows
@@ -569,7 +603,8 @@ export default class PublicTables extends React.Component {
                                 }
 
                                 return (
-                                    <Table.Row key={i} onClick={() => this.onRowSelectCallBack(column)} positive={isHighLight}>
+                                    <Table.Row key={i} onClick={() => this.onRowSelectCallBack(column)}
+                                               positive={isHighLight}>
 
                                         {   //second loop for rendering cells
                                             headerMap.map((elm, j) => {
@@ -740,4 +775,17 @@ class ColumnCheckBox extends React.Component {
             />
         )
     }
+}
+
+
+//filter the column by given params
+function filterDataByFilterContext(columnAccessor, filterContext, dataSet) {
+
+    return _.filter(dataSet, function (ele) {
+        //always using toSting() to simplify the compare
+        const origin = _.lowerCase(_.toString(ele[columnAccessor]));  //"string" === typeof ele[columnAccessor] ? ele[columnAccessor] : ele[columnAccessor].toString();
+        const filter = _.lowerCase(_.toString(filterContext)); //"string" === typeof filterContext ? filterContext : filterContext.toString();
+        //console.log(origin,filter)
+        return _.includes(origin, filter) //origin.includes(filter);
+    });
 }

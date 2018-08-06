@@ -801,6 +801,27 @@
           },
           "required": false,
           "description": "set particular as green color to highlight, call this function and return true, the row will be green  ---> e.g. rowHighLightFunction(rowData){ return rowData.id === some_id }"
+        },
+        "fakePagination": {
+          "type": {
+            "name": "boolean"
+          },
+          "required": false,
+          "description": "Sometimes, we need to disable front-end pagination, and paginate it in back-end."
+        },
+        "onPageChangeCallBack": {
+          "type": {
+            "name": "boolean"
+          },
+          "required": false,
+          "description": "combine with fakePagination, use this call back value to set your database query"
+        },
+        "fakeDataSum": {
+          "type": {
+            "name": "number"
+          },
+          "required": false,
+          "description": "combine with fakePagination, use this set your total sum"
         }
       }
     },
