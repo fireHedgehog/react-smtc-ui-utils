@@ -52,6 +52,11 @@ export default class CustomizedFooterDemo extends Component {
                                 celled
                                 compact
                                 unstackable
+                                pageSize={10}
+                                fakeDataSum={10}
+                                fakePagination
+                                onPageChangeCallBack={(a)=>console.log(a)}
+                                pagination
                             >
                                 <PublicTableHeaders
                                     header={'Email'}

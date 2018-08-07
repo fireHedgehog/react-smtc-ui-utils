@@ -44,22 +44,13 @@ export default class TablePagination extends Component {
         this.props.getActivePages(activePage);
     }
 
-    componentWillReceiveProps(props){
-        this.setState(
-            {totalPages: props.totalPages}
-        );
-    }
-
     render() {
         const {
             activePage,
-            boundaryRange,
-            showEllipsis,
-            showFirstAndLastNav,
-            showPreviousAndNextNav,
-            totalPages,
             displaySize,
-        } = this.state
+        } = this.state;
+
+        const {totalPages,boundaryRange,showEllipsis,showFirstAndLastNav,showPreviousAndNextNav} = this.props;
 
         //console.log(activePage)
         // Heads up! All items are powered by shorthands, if you want to hide one of them, just pass `null` as value
@@ -72,11 +63,11 @@ export default class TablePagination extends Component {
                 onPageChange={this.handlePaginationChange}
                 size={displaySize}
                 totalPages={totalPages}
-                ellipsisItem={showEllipsis ? undefined : null}
-                firstItem={showFirstAndLastNav ? undefined : null}
-                lastItem={showFirstAndLastNav ? undefined : null}
-                prevItem={showPreviousAndNextNav ? undefined : null}
-                nextItem={showPreviousAndNextNav ? undefined : null}
+                ellipsisItem={showEllipsis}
+                firstItem={showFirstAndLastNav}
+                lastItem={showFirstAndLastNav}
+                prevItem={showPreviousAndNextNav}
+                nextItem={showPreviousAndNextNav}
             />
         )
     }

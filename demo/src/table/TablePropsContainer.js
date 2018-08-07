@@ -59,7 +59,7 @@ export class TablePropsContainer extends Component {
                 <Divider/>
                 <Grid.Row>
                     <Grid.Column>
-                        <CustomizedFooterDemo tableData={json.mock_user_5}/>
+                        <CustomizedFooterDemo tableData={json.mock_user_21}/>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
