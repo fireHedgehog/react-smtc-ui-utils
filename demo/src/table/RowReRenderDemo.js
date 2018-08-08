@@ -24,9 +24,12 @@ export default class RowReRenderDemo extends Component {
 
         if (index === 3 && reRender) {
             return (
-                <Table.Cell key={index} colSpan={2}>
-                    <h2 style={{color: "red"}}>Has been re-rendered!</h2>
-                </Table.Cell>
+                <Table.Row key={index}>
+                    <Table.Cell colSpan={2}>
+                        <h2 style={{color: "red"}}>Has been re-rendered!</h2>
+                    </Table.Cell>
+                </Table.Row>
+
             );
         }
     }
@@ -51,10 +54,14 @@ rowRender(row, index) {
       //we can use dynamic flag in ether 'this.state' or a flag in the row,
       //like you have a dynamic action button, when click, we use foreach to change the table data
       if (index === 3) {
+      // should wrap our new row, inside of <Table.Row/> of semantic for the flexibility.
+      // perhaps sometimes we need colSpan={3}, sometimes we need  <Table.Cell>something</Table.Cell> without colSpan
             return (
-                <Table.Cell key={index} colSpan={2}>
-                    <h2 style={{color: "red"}}>Has been re-rendered!</h2>
-                </Table.Cell>
+                 <Table.Row key={index}>
+                    <Table.Cell colSpan={2}>
+                        <h2 style={{color: "red"}}>Has been re-rendered!</h2>
+                    </Table.Cell>
+                 </Table.Row>
                 );
         }
 }
@@ -68,9 +75,6 @@ rowRender(row, index) {
 >
         <PublicTableHeaders header={'Email'} accessor={'email'}/>
         <PublicTableHeaders header={'Gender'} accessor={'gender'}/>
-        <CustomizedFooter>
-             <Button content={'re-render the 3rd row'} onClick={() => this.onReRenderClick()}/>
-        </CustomizedFooter>
 <PublicTables/>
 <!--This example is also using Semantic-UI original Props such as celled,collapsing,compact and unstackable -->
 `}

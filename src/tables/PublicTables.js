@@ -621,12 +621,7 @@ export default class PublicTables extends React.Component {
                                     newRow = rowRenderCallback(column,i);
 
                                     if (!isStringEmpty(newRow)) {
-                                        return (
-                                            <Table.Row key={i} onClick={() => this.onRowSelectCallBack(column)}
-                                                       positive={isHighLight}>
-                                                {newRow}
-                                            </Table.Row>
-                                        );
+                                        return newRow
                                     }
                                 }
 
