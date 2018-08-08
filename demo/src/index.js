@@ -15,6 +15,7 @@ import {HomePage} from "./others/HomePage";
 import {MainTitle} from "./menu/MainTitle";
 import "highlight.js/styles/idea.css";
 import PropsOfTable from "./table/PropsOfTable";
+import {TableResponsiveContainer} from "./table/TableResponsiveContainer";
 
 class Index extends Component {
 
@@ -34,6 +35,7 @@ class Index extends Component {
                         <Route path={`/react-smtc-ui-utils/table`} component={BasicTableDemo}/>
                         <Route path={`/react-smtc-ui-utils/Props`} component={PropsOfTable}/>
                         <Route path={`/react-smtc-ui-utils/tableProps`} component={TablePropsContainer}/>
+                        <Route path={`/react-smtc-ui-utils/responsive`} component={TableResponsiveContainer}/>
                         <Route path={`/react-smtc-ui-utils/others`} component={StepDemo}/>
                     </Container>
 

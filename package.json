@@ -1,6 +1,6 @@
 {
   "name": "react-smtc-ui-utils",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "react-smtc-ui-utils React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -44,7 +44,7 @@
     "react-resize-detector": "^3.1.1",
     "react-router-dom": "^4.3.1",
     "semantic-ui-css": "^2.3.3",
-    "semantic-ui-react": "^0.78.3"
+    "semantic-ui-react": "^0.82.1"
   },
   "author": "rockychen",
   "license": "MIT",

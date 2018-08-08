@@ -14,7 +14,7 @@ export class MainTitle extends Component {
                     <Header.Content>
                         Semantic ui utils
                         <Header.Subheader>
-                            Just a demo for personal interests and learning.
+                            Wrap some reusable components of react-semantic-ui for my mini projects.
                         </Header.Subheader>
                     </Header.Content>
                 </Header>

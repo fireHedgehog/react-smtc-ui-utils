@@ -6,6 +6,7 @@ import {NoPaginationUserFooter} from "./PublicTableFooters";
 import {getRandomNumber, isStringEmpty} from "../static/ObjectsUtils";
 import _ from 'lodash';
 import ReactResizeDetector from 'react-resize-detector';
+import DefaultResponsiveTableBody from "./DefaultResponsiveTableBody";
 
 //import update from "immutability-helper";
 
@@ -175,6 +176,8 @@ export default class PublicTables extends React.Component {
          * sometimes, we have to re-render the row
          */
         rowRenderCallback: PropTypes.func,
+
+        defaultResponsiveParam: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     }
 
     constructor(props) {
@@ -215,8 +218,7 @@ export default class PublicTables extends React.Component {
 
     componentWillReceiveProps(newProps) {
 
-        const {data, defaultCheckedIds, fakePagination} = newProps;
-
+        const {data, defaultCheckedIds, fakePagination, defaultResponsiveParam} = newProps;
         /*
          *  for performance reason. avoid useless re-render
          *  re-render entire component when pass new data
@@ -247,6 +249,8 @@ export default class PublicTables extends React.Component {
                 checkedIds: defaultCheckedIds,
             });
         }
+
+
 
     }
 
@@ -383,6 +387,7 @@ export default class PublicTables extends React.Component {
             currentPage,
             direction,
             bodyKey,
+            tableWidth
         } = this.state;
 
         let colCount = 0; // calculate the total columns
@@ -397,18 +402,15 @@ export default class PublicTables extends React.Component {
             // type should be PublicTableHeaders tableHeader, if cannot read element type , read default props
             let tableElementType = column.props.tableElementType;
             if (column.type.name === "PublicTableHeaders" || tableElementType === "PublicTableHeaders") {
-                //console.log(i,"textAlign:",column.props.textAlign);
-                const filterContext = column.props.filterContext === undefined ? "" : column.props.filterContext;
-                const accessor = column.props.accessor === undefined ? "" : column.props.accessor;
 
                 /*
-                * TODO: customization filter function using loadash  needed:
-                * give a dataSet as arg[], give a dataSet Back, that means can write
-                * customized filters such as :
-                * 1 using 'greater than' or 'less than',
-                * 2 filterText === colVal || something || something
-                */
-
+                 * TODO: customization filter function using loadash  needed:
+                 * give a dataSet as arg[], give a dataSet Back, that means can write
+                 * customized filters such as :
+                 * 1 using 'greater than' or 'less than',
+                 * 2 filterText === colVal || something || something
+                 */
+                const {accessor, filterContext, isHidden} = column.props;
                 //filter dataSet by accessor and filterContext
                 if (filterContext !== undefined && filterContext !== null && filterContext !== '') {
                     //console.log(filterContext)
@@ -416,12 +418,11 @@ export default class PublicTables extends React.Component {
                 }
 
                 //only push not hidden element
-                if (column.props.isHidden !== true) {
+                if (isHidden !== true) {
                     headerMap.push(column) // push unhidden columns in array for looping
                     colCount += 1; //calculate total unhidden columns
                 }
             }
-
             // type should be CustomizedFooter , if cannot read element type , read default props
             if (column.type.name === "CustomizedFooter" || tableElementType === "CustomizedFooter") {
                 React.Children.forEach(column.props.children, (foot, i) => {
@@ -430,12 +431,12 @@ export default class PublicTables extends React.Component {
 
             }
 
-        })
+        });
+
         //console.log(headerMap, footerMap);
         // pagination footer if is false don't show it
         let paginationFooter = (
-            <Table.Row>
-            </Table.Row>
+            <Table.Row/>
         );
 
         if (![true, "primary", "secondary"].includes(pagination) && footerMap.length > 0) {
@@ -548,18 +549,15 @@ export default class PublicTables extends React.Component {
 
                             {
                                 headerMap.map((column, i) => {
-                                    //console.log(column.props.textAlign)
-                                    const collapsing = column.props.collapsing === undefined ? false : column.props.collapsing;
+
+                                    const {accessor, colAsCheckBox, textAlign, collapsing, customizeText} = column.props;
                                     let header = column.props.header === undefined ? 'undefined' : column.props.header;
-                                    const textAlign = isStringEmpty(column.props.textAlign) ? 'center' : column.props.textAlign;
-                                    const colAsCheckBox = column.props.colAsCheckBox === undefined ? false : column.props.colAsCheckBox;
-                                    const accessor = column.props.accessor === undefined ? false : column.props.accessor;
                                     //TODO: structured table :  const rowSpan = column.props.rowSpan;
 
                                     // if customizeText is not none, call this function
-                                    if (column.props.customizeText) {
+                                    if (customizeText) {
                                         //call back function send header value and row object
-                                        header = column.props.customizeText(header, column);
+                                        header = customizeText(header, column);
                                     }
 
                                     /*
@@ -567,7 +565,6 @@ export default class PublicTables extends React.Component {
                                        return the header as a checked all
                                     */
                                     if (showAllCheck === true && colAsCheckBox === true) {
-
 
                                         return (
                                             <Table.HeaderCell collapsing key={i}>
@@ -605,14 +602,13 @@ export default class PublicTables extends React.Component {
 
                     <Table.Body key={bodyKey}>
 
-
                         {   //first loop for rendering rows
                             dataSet.map((column, i) => {
                                 //console.log(i, column)
 
                                 const {checkedIds} = this.state;
 
-                                const {rowHighLightFunction, rowRenderCallback} = this.props;
+                                const {rowHighLightFunction, rowRenderCallback, defaultResponsiveParam} = this.props;
 
                                 let isHighLight = false;
 
@@ -622,8 +618,36 @@ export default class PublicTables extends React.Component {
                                     isHighLight = rowHighLightFunction(column);
                                 }
 
+                                /*
+                                 * if we set a default responsive param
+                                 *
+                                 * return a <Item/> instead of table
+                                 */
+                                if (!_.isEmpty(defaultResponsiveParam)) {
 
-                                /**
+                                    const {
+                                        widthThreshold
+                                    } = defaultResponsiveParam;
+
+                                    const minimumWidth = isStringEmpty(widthThreshold) ? 480 : _.parseInt(widthThreshold, 10);
+
+                                    // if the size less than equals the threshold
+                                    if (tableWidth <= minimumWidth) {
+                                        return (
+                                            <Table.Row key={i}>
+                                                <Table.Cell colSpan={colCount}>
+                                                    <DefaultResponsiveTableBody
+                                                        {...this.props}
+                                                        headerMap={headerMap}
+                                                        dataSet={column}
+                                                    />
+                                                </Table.Cell>
+                                            </Table.Row>
+                                        )
+                                    }
+                                }
+
+                                /*
                                  * the call back is the whole row.
                                  *
                                  * if have not return anything, when do not re-render this
@@ -649,18 +673,19 @@ export default class PublicTables extends React.Component {
                                                 const {
                                                     checkBoxStyle,
                                                     selectable,
-                                                } = elm.props
+                                                    accessor,
+                                                    columnAlign,
+                                                    colAsCheckBox,
+                                                    columnFormat,
+                                                } = elm.props;
 
                                                 //get value by accessor
-                                                const accessor = elm.props.accessor === undefined ? '' : elm.props.accessor;
-                                                const columnAlign = elm.props.accessor === undefined ? '' : elm.props.columnAlign;
                                                 let value = column[accessor] === undefined ? '' : column[accessor];
-                                                const colAsCheckBox = elm.props.colAsCheckBox === undefined ? false : elm.props.colAsCheckBox;
 
                                                 // if formatter is not none, call this function
-                                                if (elm.props.columnFormat) {
+                                                if (columnFormat) {
                                                     //call back function send cell value and row object
-                                                    value = elm.props.columnFormat(value, column);
+                                                    value = columnFormat(value, column);
                                                 }
 
 
@@ -673,7 +698,7 @@ export default class PublicTables extends React.Component {
                                                                     selectable={false}>
                                                             <ColumnCheckBox id={value}
                                                                             checkBoxStyle={checkBoxStyle}
-                                                                            checked={_.includes(checkedIds, value) ? true : false}
+                                                                            checked={_.includes(checkedIds, value)}
                                                                             getCallBackId={(val) => this.modifyCheckedArray(val)}
                                                             />
                                                         </Table.Cell>

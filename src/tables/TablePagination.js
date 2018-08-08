@@ -53,7 +53,6 @@ export default class TablePagination extends Component {
         const {totalPages,boundaryRange,showEllipsis,showFirstAndLastNav,showPreviousAndNextNav} = this.props;
 
         //console.log(activePage)
-        // Heads up! All items are powered by shorthands, if you want to hide one of them, just pass `null` as value
         return (
 
             <Pagination
