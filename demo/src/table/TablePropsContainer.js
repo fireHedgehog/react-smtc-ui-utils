@@ -6,6 +6,7 @@ import FilterDemo from "./FilterDemo";
 import CustomCellDemo from "./CustomCellDemo";
 import CheckBoxDemo from "./CheckBoxDemo";
 import CustomizedFooterDemo from "./CustomizedFooterDemo";
+import RowReRenderDemo from "./RowReRenderDemo";
 
 export class TablePropsContainer extends Component {
 
@@ -59,7 +60,12 @@ export class TablePropsContainer extends Component {
                 <Divider/>
                 <Grid.Row>
                     <Grid.Column>
-                        <CustomizedFooterDemo tableData={json.mock_user_21}/>
+                        <CustomizedFooterDemo tableData={json.mock_user_5}/>
+                    </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                    <Grid.Column>
+                        <RowReRenderDemo tableData={json.mock_user_5}/>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

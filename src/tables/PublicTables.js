@@ -169,6 +169,10 @@ export default class PublicTables extends React.Component {
          * fake pagination need a data sum count
          */
         fakeDataSum: PropTypes.number,
+        /**
+         * sometimes, we have to re-render the row
+         */
+        rowRenderCallback: PropTypes.func,
     }
 
     constructor(props) {
@@ -594,12 +598,36 @@ export default class PublicTables extends React.Component {
 
                                 const {checkedIds} = this.state;
 
-                                const {rowHighLightFunction} = this.props;
+                                const {rowHighLightFunction, rowRenderCallback} = this.props;
 
                                 let isHighLight = false;
 
+                                let newRow = "";
+
                                 if (rowHighLightFunction) {
                                     isHighLight = rowHighLightFunction(column);
+                                }
+
+
+                                /**
+                                 * the call back is the whole row.
+                                 *
+                                 * if have not return anything, when do not re-render this
+                                 *
+                                 * if have something, we re-render
+                                 *
+                                 */
+                                if (rowRenderCallback) {
+                                    newRow = rowRenderCallback(column,i);
+
+                                    if (!isStringEmpty(newRow)) {
+                                        return (
+                                            <Table.Row key={i} onClick={() => this.onRowSelectCallBack(column)}
+                                                       positive={isHighLight}>
+                                                {newRow}
+                                            </Table.Row>
+                                        );
+                                    }
                                 }
 
                                 return (
