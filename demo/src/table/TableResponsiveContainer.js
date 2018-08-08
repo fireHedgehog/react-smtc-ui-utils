@@ -3,6 +3,7 @@ import {Grid, Message, Menu, Segment} from 'semantic-ui-react';
 import {json} from "./BasicTableDemo";
 import DefaultResponsiveDemo from "./DefaultResponsiveDemo";
 import SimpleResponsiveDemo from "./SimpleResponsiveDemo";
+import FormatResponsiveDemo from "./FormatResponsiveDemo";
 
 export class TableResponsiveContainer extends Component {
 
@@ -23,6 +24,10 @@ export class TableResponsiveContainer extends Component {
             example = (
                 <DefaultResponsiveDemo tableData={json.mock_user_img}/>
             );
+        } else if (activeItem === "Format column example") {
+            example =(
+                <FormatResponsiveDemo tableData={json.mock_user_img}/>
+            )
         }
 
         return (
@@ -49,6 +54,11 @@ export class TableResponsiveContainer extends Component {
                             <Menu.Item
                                 name='Simple example'
                                 active={activeItem === 'Simple example'}
+                                onClick={this.handleItemClick}
+                            />
+                            <Menu.Item
+                                name='Format column example'
+                                active={activeItem === 'Format column example'}
                                 onClick={this.handleItemClick}
                             />
                             <Menu.Item

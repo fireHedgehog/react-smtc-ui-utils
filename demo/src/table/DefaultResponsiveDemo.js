@@ -17,7 +17,7 @@ export default class DefaultResponsiveDemo extends Component {
             param: {
                 widthThreshold: 0,
 
-                //unstackable:true, // default is false
+                unstackable:true, // default is false
 
                 image: { // if has this param, will display a img.
                     accessor: "user_img_base64",// the assessor of the img, either a Base64 or a URL
@@ -70,6 +70,20 @@ export default class DefaultResponsiveDemo extends Component {
         });
     }
 
+    setResponsive() {
+        const {param} = this.state;
+        const size = _.parseInt(param.widthThreshold);
+
+        if (size <= 10) {
+            param.widthThreshold = 10000;
+        } else {
+            param.widthThreshold = 0;
+        }
+        this.setState({
+            param: param
+        });
+    }
+
     onFirstNameFormat(value, row) {
         return (
             <Label>
@@ -105,6 +119,9 @@ export default class DefaultResponsiveDemo extends Component {
  */
 const defaultParam = {
     widthThreshold : '480px', //set a minimum width(default-480px) of the table(not screen size)
+
+    unstackable:true, // default is false, we can set <Item/> to unstackable
+
     image: { // if has this param, will display a img.
         accessor: "user_img_2",// the assessor of the img, either a Base64 or a URL
         size: "tiny",// default is tiny
@@ -148,7 +165,7 @@ onFirstNameFormat(value, row) {
                 {row.first_name + " " + row.last_name}
             </Label>
         )
-    }
+}
 `}
                         </Highlight>
                             <Divider/>
@@ -156,7 +173,14 @@ onFirstNameFormat(value, row) {
                                 {`<PublicTables
      data={dummy_data}
      defaultResponsiveParam={defaultParam}
+     showAllCheck
 >
+        <PublicTableHeaders
+                header={""}
+                accessor={"id"}
+                collapsing
+                colAsCheckBox
+        />
         <PublicTableHeaders header={'Email'} accessor={'email'}/>
         <PublicTableHeaders header={'Gender'} accessor={'gender'}/>
         <PublicTableHeaders
@@ -188,6 +212,12 @@ celled,collapsing,compact and unstackable -->
                                    value={param.widthThreshold}
                                    onChange={this.handleThresholdChange}
                             />
+                            <Button
+                                style={{marginTop:"20px"}}
+                                onClick={() => this.setResponsive()}
+                                content={"Set responsive threshold"}
+                                color={"blue"}
+                            />
                         </Segment>
                     </Grid.Column>
 
@@ -200,9 +230,17 @@ celled,collapsing,compact and unstackable -->
                             unstackable
                             sortable
                             pageSize={10}
+                            showAllCheck
                             pagination={'secondary'}
                             defaultResponsiveParam={param}
                         >
+                            <PublicTableHeaders
+                                header={""}
+                                accessor={"id"}
+                                collapsing={true}
+                                textAlign={'left'}
+                                colAsCheckBox={true}
+                            />
                             <PublicTableHeaders
                                 header={'Email'}
                                 accessor={'email'}

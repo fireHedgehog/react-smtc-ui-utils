@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from "prop-types";
 import {Item} from "semantic-ui-react";
 import {isStringEmpty} from "../static/ObjectsUtils";
+import _ from "lodash";
+import {ColumnCheckBox} from "./PublicTables";
 
 export default class DefaultResponsiveTableBody extends React.Component {
 
@@ -17,26 +19,53 @@ export default class DefaultResponsiveTableBody extends React.Component {
         this.state = {};
     }
 
+    modifyCheckedArray(val){
+        const {modifyCheckedArray} = this.props;
+        if(modifyCheckedArray){
+            modifyCheckedArray(val);
+        }
+    }
 
     render() {
         const {} = this.state;
 
-        const {defaultResponsiveParam, headerMap, dataSet, hiddenHeaderMap} = this.props;
+        const {defaultResponsiveParam, headerMap, dataSet, hiddenHeaderMap,checkedIds} = this.props;
 
         const {
             image,
             header,
             meta,
             description,
-            extra
+            extra,
+            unstackable,
         } = defaultResponsiveParam;
+
+        const checkBox = findCheckBox(headerMap, hiddenHeaderMap);
+
+        let checkBoxDiv = (<div/>);
+
+        if (!_.isEmpty(checkBox)) {
+            const {checkBoxStyle, accessor} = checkBox;
+
+            const value = dataSet[accessor] === undefined ? '' : dataSet[accessor];
+
+            checkBoxDiv = (
+                <ColumnCheckBox id={value}
+                                checkBoxStyle={checkBoxStyle}
+                                checked={_.includes(checkedIds, value)}
+                                getCallBackId={(val) => this.modifyCheckedArray(val)}
+                />
+            );
+        }
 
 
         return (
-            <Item.Group divided>
+            <Item.Group divided unstackable={unstackable}>
                 <Item>
+
                     {renderImage(headerMap, dataSet, image, this.props, hiddenHeaderMap)}
                     <Item.Content>
+                        {checkBoxDiv}
                         {renderHeader(headerMap, dataSet, header, this.props, hiddenHeaderMap)}
                         {renderMeta(headerMap, dataSet, meta, this.props, hiddenHeaderMap)}
                         {renderDescription(headerMap, dataSet, description, this.props, hiddenHeaderMap)}
@@ -74,9 +103,14 @@ function renderHeader(headerMap, dataSet, header, parentProps, hiddenHeaderMap) 
         return null;
     }
 
-    const {accessor, prefix, suffix} = header;
+    const {accessor, prefix, suffix, enableColFormat} = header;
 
-    const content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix, hiddenHeaderMap);
+    let content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix);
+
+    if (enableColFormat) {
+        content = colFormatter(headerMap, hiddenHeaderMap, accessor, content, dataSet);
+    }
+
 
     return (
         <Item.Header
@@ -90,9 +124,14 @@ function renderMeta(headerMap, dataSet, meta, parentProps, hiddenHeaderMap) {
     if (isStringEmpty(meta) || _.isEmpty(meta)) {
         return null;
     }
-    const {accessor, prefix, suffix} = meta;
+    const {accessor, prefix, suffix, enableColFormat} = meta;
 
-    const content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix, hiddenHeaderMap);
+    let content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix);
+
+    if (enableColFormat) {
+        content = colFormatter(headerMap, hiddenHeaderMap, accessor, content, dataSet);
+    }
+
 
     return (
         <Item.Meta
@@ -108,7 +147,7 @@ function renderDescription(headerMap, dataSet, description, parentProps, hiddenH
     }
     const {accessor, prefix, suffix, enableColFormat} = description;
 
-    let content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix, hiddenHeaderMap);
+    let content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix);
 
     if (enableColFormat) {
         content = colFormatter(headerMap, hiddenHeaderMap, accessor, content, dataSet);
@@ -127,9 +166,14 @@ function renderExtra(headerMap, dataSet, extra, parentProps, hiddenHeaderMap) {
         return null;
     }
 
-    const {accessor, prefix, suffix} = extra;
+    const {accessor, prefix, suffix, enableColFormat} = extra;
 
-    const content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix,hiddenHeaderMap);
+    let content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix);
+
+    if (enableColFormat) {
+        content = colFormatter(headerMap, hiddenHeaderMap, accessor, content, dataSet);
+    }
+
 
     return (
         <Item.Extra
@@ -139,7 +183,7 @@ function renderExtra(headerMap, dataSet, extra, parentProps, hiddenHeaderMap) {
 }
 
 
-function generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix, hiddenHeaderMap) {
+function generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix) {
     let content = isStringEmpty(dataSet[accessor]) ? "" : dataSet[accessor];
 
     if (!isStringEmpty(prefix)) {
@@ -176,5 +220,28 @@ function colFormatter(headerMap, hiddenHeaderMap, responsiveAccessor, content, d
     }
 
     return "";
+
+}
+
+function findCheckBox(headerMap, hiddenHeaderMap) {
+
+    let checkBox = _.findLast(headerMap, function (element) {
+        const {colAsCheckBox} = element.props;
+        return colAsCheckBox === true;
+    });
+
+    if (_.isEmpty(checkBox)) {
+        checkBox = _.findLast(hiddenHeaderMap, function (element) {
+            const {colAsCheckBox} = element.props;
+            return colAsCheckBox === true;
+        });
+    }
+
+    if (!_.isEmpty(checkBox)) {
+
+        return checkBox.props;
+    }
+
+    return null;
 
 }

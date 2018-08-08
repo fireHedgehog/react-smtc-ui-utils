@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
-import {Segment, Grid, Header, Button, Divider, Message, Input} from 'semantic-ui-react'
+import {Segment, Grid, Header, Button, Divider, Message, Input, Label, Icon} from 'semantic-ui-react'
 import Highlight from 'react-highlight'
 import PropTypes from "prop-types";
 import {PublicTables, PublicTableHeaders} from '../../../src'
 
-export default class SimpleResponsiveDemo extends Component {
+export default class FormatResponsiveDemo extends Component {
 
     static propTypes = {
         tableData: PropTypes.array.isRequired,
@@ -22,10 +22,17 @@ export default class SimpleResponsiveDemo extends Component {
                     //prefix: "", // we can set prefix
                     //suffix: "",// we can set suffix
                 },
-                meta: { // if has this param, will display a img.
-                    accessor: "gender",// the assessor of the img, either a Base64 or a URL
-                    prefix: "|", // we can set prefix
-                    suffix: "|",// we can set suffix
+                description: { // if has this param, will display a img.
+                    accessor: "first_name_format",// the assessor of the img, either a Base64 or a URL
+                    //prefix: "*", // we can set prefix
+                    //suffix: "*",// we can set suffix
+
+                    /*
+                     * similar to in <PublicTableHeaders columnFormat={()=>this.someRenderFunction()}/>
+                     * this example re-render a hidden column, with a certain format function
+                     * enable format function will disable all the prefix and suffix.
+                     */
+                    enableColFormat : true
                 },
             }
         }
@@ -55,6 +62,15 @@ export default class SimpleResponsiveDemo extends Component {
         });
     }
 
+    onFirstNameFormat(value, row) {
+        return (
+            <Label>
+                <Icon name={'user'}/>
+                {row.first_name + " " + row.last_name}
+            </Label>
+        )
+    }
+
     render() {
         const {tableData, param, email} = this.state;
 
@@ -62,7 +78,7 @@ export default class SimpleResponsiveDemo extends Component {
             <Grid stackable>
                 <Grid.Row>
                     <Grid.Column>
-                        <Header as={'h2'} color={'brown'} content={"A simple example of ' defaultResponsiveParam ' : "}
+                        <Header as={'h2'} color={'brown'} content={"Param: enableColFormat : "}
                                 subheader={"set a default responsive layout by simple param"}/>
                         <Segment compact><Highlight languages={['javascript', 'html', 'typescript']}>
                             {`
@@ -73,10 +89,30 @@ const defaultParam = {
         //prefix: "", // we can set prefix
         //suffix: "",// we can set suffix
     },
-    meta: { // semantic-ui default <Item.Meta>
-         accessor: "gender",// the assessor of the img, either a Base64 or a URL
-         prefix: "|", // we can set prefix
-         suffix: "|",// we can set suffix
+    description: { // semantic-ui default <Item.Description>
+         accessor: "email",// the assessor of the img, either a Base64 or a URL
+         //prefix: "", // we can set prefix
+         //suffix: "",// we can set suffix
+        /*
+         * similar to <PublicTableHeaders columnFormat={()=>this.someRenderFunction()}/>
+         * this example re-render a hidden column, with a certain format function
+         * enable format function will disable all the prefix and suffix.
+         */
+         enableColFormat : true
+    }
+
+    /*
+     * column format function. can be a hidden column,
+     * even work when accessor does not exist. the value is undefined but row is there
+     * matching accessor of <PublicTableHeaders/> and accessor of responsive param to render
+     */
+    onFirstNameFormat(value, row) {
+        return (
+            <Label>
+                <Icon name={'user'}/>
+                {row.first_name + " " + row.last_name}
+            </Label>
+        )
     }
 }
 `}
@@ -88,7 +124,12 @@ const defaultParam = {
      defaultResponsiveParam={defaultParam}
 >
         <PublicTableHeaders header={'Email'} accessor={'email'}/>
-        <PublicTableHeaders header={'Gender'} accessor={'gender'}/>
+        <PublicTableHeaders
+                header={'Name'}
+                accessor={'first_name_format'}
+                columnFormat={(value,row) => this.onFirstNameFormat(value,row)}
+                isHidden
+        />
 <PublicTables/>
 <!--This example is also using Semantic-UI original
  Props such as celled,collapsing,compact and unstackable -->
@@ -119,19 +160,6 @@ const defaultParam = {
                                 content={"Set responsive threshold"}
                                 color={"blue"}
                             />
-                            <Divider/>
-                            <Header as={'h5'}>
-                                filter:
-                            </Header>
-                            <Message color={'green'}>
-                                Responsive mode, filter, sortable, pagination all work fine
-                            </Message>
-                            <Input placeholder='email'
-                                   fluid
-                                   name='email'
-                                   value={email}
-                                   onChange={this.handleChange}
-                            />
                         </Segment>
                     </Grid.Column>
 
@@ -153,8 +181,10 @@ const defaultParam = {
                                 filterContext={email}
                             />
                             <PublicTableHeaders
-                                header={'Gender'}
-                                accessor={'gender'}
+                                header={'Name'}
+                                accessor={'first_name_format'}
+                                columnFormat={(value,row) => this.onFirstNameFormat(value,row)}
+                                isHidden
                             />
 
                         </PublicTables>

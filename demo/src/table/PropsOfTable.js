@@ -992,6 +992,13 @@ export const docJson = {
                     },
                     "required": false,
                     "description": "sometimes, we need to re-render the row,rowRenderCallback={(row, index) => this.rowRender(row, index)}"
+                },
+                "defaultResponsiveParam": {
+                    "type": {
+                        "name": "object"
+                    },
+                    "required": false,
+                    "description": "we can set responsive param to re-render the table body"
                 }
             }
         },

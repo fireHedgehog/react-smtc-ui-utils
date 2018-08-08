@@ -176,7 +176,9 @@ export default class PublicTables extends React.Component {
          * sometimes, we have to re-render the row
          */
         rowRenderCallback: PropTypes.func,
-
+        /**
+         * we can set responsive param to re-render the table body
+         */
         defaultResponsiveParam: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     }
 
@@ -249,7 +251,6 @@ export default class PublicTables extends React.Component {
                 checkedIds: defaultCheckedIds,
             });
         }
-
 
 
     }
@@ -392,7 +393,7 @@ export default class PublicTables extends React.Component {
 
         let colCount = 0; // calculate the total columns
         const headerMap = [];//headerMap, check props
-        const hiddenHeaderMap =[];
+        const hiddenHeaderMap = [];
         const footerMap = [];
 
         let dataSet = Object.assign([], sortedData);//always assign to a new Array to avoid pointer issue.
@@ -422,7 +423,7 @@ export default class PublicTables extends React.Component {
                 if (isHidden !== true) {
                     headerMap.push(column); // push unhidden columns in array for looping
                     colCount += 1; //calculate total unhidden columns
-                }else {
+                } else {
                     hiddenHeaderMap.push(column);
                 }
             }
@@ -644,6 +645,8 @@ export default class PublicTables extends React.Component {
                                                         headerMap={headerMap}
                                                         dataSet={column}
                                                         hiddenHeaderMap={hiddenHeaderMap}
+                                                        checkedIds={checkedIds}
+                                                        modifyCheckedArray={(val) => this.modifyCheckedArray(val)}
                                                     />
                                                 </Table.Cell>
                                             </Table.Row>
@@ -769,7 +772,7 @@ export class PublicTableFooter extends React.Component {
 }
 
 
-class ColumnCheckBox extends React.Component {
+export class ColumnCheckBox extends React.Component {
 
     static propTypes = {
         id: PropTypes.any,
@@ -826,7 +829,9 @@ class ColumnCheckBox extends React.Component {
                     isToggle = true;
                     break;
                 default:
-                    isSlider = true;
+                    isSlider = false;
+                    isRadio = false;
+                    isToggle = false;
                     break;
             }
         }
