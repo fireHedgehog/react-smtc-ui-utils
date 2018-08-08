@@ -31,22 +31,15 @@ export default class SimpleResponsiveDemo extends Component {
         }
     }
 
-    setResponsive() {
-        const {param} = this.state;
-        const size = _.parseInt(param.widthThreshold);
+    handleChange = (e, {name, value}) => this.setState({[name]: value});
 
-        if (size <= 10) {
-            param.widthThreshold = 10000;
-        } else {
-            param.widthThreshold = 0;
-        }
+    handleThresholdChange = (e, {name, value}) =>{
+        const {param} = this.state;
+        param.widthThreshold = value;
         this.setState({
             param: param
         });
     }
-
-    handleChange = (e, {name, value}) => this.setState({[name]: value});
-
 
     render() {
         const {tableData, param, email} = this.state;
@@ -97,16 +90,20 @@ const defaultParam = {
 
                     <Grid.Column width={6}>
                         <Segment>
-                            <Button
-                                onClick={() => this.setResponsive()}
-                                content={"Set responsive"}
-                                color={"blue"}
+                            <Message color={'blue'}>
+                                Set responsive widthThreshold to certain pixel.
+                            </Message>
+                            <Input placeholder='threshold '
+                                   fluid
+                                   name='threshold'
+                                   value={param.widthThreshold}
+                                   onChange={this.handleThresholdChange}
                             />
                             <Divider/>
                             <Header as={'h5'}>
                                 filter:
                             </Header>
-                            <Message color={'blue'}>
+                            <Message color={'green'}>
                                 Responsive mode, filter, sortable, pagination all work fine
                             </Message>
                             <Input placeholder='email'

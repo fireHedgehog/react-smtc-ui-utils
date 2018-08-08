@@ -392,6 +392,7 @@ export default class PublicTables extends React.Component {
 
         let colCount = 0; // calculate the total columns
         const headerMap = [];//headerMap, check props
+        const hiddenHeaderMap =[];
         const footerMap = [];
 
         let dataSet = Object.assign([], sortedData);//always assign to a new Array to avoid pointer issue.
@@ -419,14 +420,16 @@ export default class PublicTables extends React.Component {
 
                 //only push not hidden element
                 if (isHidden !== true) {
-                    headerMap.push(column) // push unhidden columns in array for looping
+                    headerMap.push(column); // push unhidden columns in array for looping
                     colCount += 1; //calculate total unhidden columns
+                }else {
+                    hiddenHeaderMap.push(column);
                 }
             }
             // type should be CustomizedFooter , if cannot read element type , read default props
             if (column.type.name === "CustomizedFooter" || tableElementType === "CustomizedFooter") {
                 React.Children.forEach(column.props.children, (foot, i) => {
-                    footerMap.push(foot)
+                    footerMap.push(foot);
                 });
 
             }
@@ -640,6 +643,7 @@ export default class PublicTables extends React.Component {
                                                         {...this.props}
                                                         headerMap={headerMap}
                                                         dataSet={column}
+                                                        hiddenHeaderMap={hiddenHeaderMap}
                                                     />
                                                 </Table.Cell>
                                             </Table.Row>

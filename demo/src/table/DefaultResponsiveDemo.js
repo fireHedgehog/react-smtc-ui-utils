@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Segment, Grid, Header, Button, Divider, Message, Input} from 'semantic-ui-react'
+import {Segment, Grid, Header, Button, Divider, Message, Input, Label, Icon} from 'semantic-ui-react'
 import Highlight from 'react-highlight'
 import PropTypes from "prop-types";
 import {PublicTables, PublicTableHeaders} from '../../../src'
@@ -17,8 +17,10 @@ export default class DefaultResponsiveDemo extends Component {
             param: {
                 widthThreshold: 0,
 
+                //unstackable:true, // default is false
+
                 image: { // if has this param, will display a img.
-                    accessor: "user_img_2",// the assessor of the img, either a Base64 or a URL
+                    accessor: "user_img_base64",// the assessor of the img, either a Base64 or a URL
                     size: "tiny",// default is tiny
                 },
 
@@ -26,42 +28,55 @@ export default class DefaultResponsiveDemo extends Component {
                     accessor: "email",// the assessor of the img, either a Base64 or a URL
                     //prefix: "", // we can set prefix
                     //suffix: "",// we can set suffix
+                    //enableColFormat : true // similar to in <PublicTableHeaders columnFormat={()=>this.someRenderFunction()}/>
                 },
 
                 meta: { // if has this param, will display a img.
                     accessor: "ip_address",// the assessor of the img, either a Base64 or a URL
                     prefix: "IP :",// we can set prefix (it will be: "IP :" + " " + row["ip_address"])
                     //suffix: "",// we can set suffix
+                    //enableColFormat : true // similar to in <PublicTableHeaders columnFormat={()=>this.someRenderFunction()}/>
                 },
 
                 description: { // if has this param, will display a img.
-                    accessor: "first_name",// the assessor of the img, either a Base64 or a URL
-                    //prefix: "", // we can set prefix
-                    //suffix: "",// we can set suffix
+                    accessor: "first_name_format",// the assessor of the img, either a Base64 or a URL
+                    //prefix: "*", // we can set prefix
+                    //suffix: "*",// we can set suffix
+
+                    /*
+                     * similar to in <PublicTableHeaders columnFormat={()=>this.someRenderFunction()}/>
+                     * this example re-render a hidden column, with a certain format function
+                     * enable format function will disable all the prefix and suffix.
+                     */
+                    enableColFormat : true
                 },
 
                 extra: { // if has this param, will display a img.
                     accessor: "gender",// the assessor of the img, either a Base64 or a URL
                     prefix: "|",// we can set prefix (it will be: "|" + " " + row["ip_address"])
                     suffix: "|",// we can set suffix (it will be:  row["ip_address"]+ " " + "|")
+                    enableColFormat : true // similar to in <PublicTableHeaders columnFormat={()=>this.someRenderFunction()}/>
                 }
 
             }
         }
     }
 
-    setResponsive() {
+    handleThresholdChange = (e, {name, value}) => {
         const {param} = this.state;
-        const size = _.parseInt(param.widthThreshold);
-
-        if (size <= 10) {
-            param.widthThreshold = 10000;
-        } else {
-            param.widthThreshold = 0;
-        }
+        param.widthThreshold = value;
         this.setState({
             param: param
         });
+    }
+
+    onFirstNameFormat(value, row) {
+        return (
+            <Label>
+                <Icon name={'user'}/>
+                {row.first_name + " " + row.last_name}
+            </Label>
+        )
     }
 
     render() {
@@ -88,7 +103,6 @@ export default class DefaultResponsiveDemo extends Component {
  *          "user_img_2":"data:image/png;base64,(a_base_64_string)"
  *      }
  */
-
 const defaultParam = {
     widthThreshold : '480px', //set a minimum width(default-480px) of the table(not screen size)
     image: { // if has this param, will display a img.
@@ -109,6 +123,12 @@ const defaultParam = {
          accessor: "email",// the assessor of the img, either a Base64 or a URL
          //prefix: "", // we can set prefix
          //suffix: "",// we can set suffix
+        /*
+         * similar to <PublicTableHeaders columnFormat={()=>this.someRenderFunction()}/>
+         * this example re-render a hidden column, with a certain format function
+         * enable format function will disable all the prefix and suffix.
+         */
+         enableColFormat : true
     },
     extra: { // semantic-ui default <Item.Extra>
          accessor: "gender",// the assessor of the img, either a Base64 or a URL
@@ -116,6 +136,19 @@ const defaultParam = {
          suffix: "|",// we can set suffix (it will be:  row["ip_address"] + "|")
     }
 }
+/*
+ * column format function. can be a hidden column,
+ * even work when accessor does not exist. the value is undefined but row is there
+ * matching accessor of <PublicTableHeaders/> and accessor of responsive param to render
+ */
+onFirstNameFormat(value, row) {
+        return (
+            <Label>
+                <Icon name={'user'}/>
+                {row.first_name + " " + row.last_name}
+            </Label>
+        )
+    }
 `}
                         </Highlight>
                             <Divider/>
@@ -126,6 +159,12 @@ const defaultParam = {
 >
         <PublicTableHeaders header={'Email'} accessor={'email'}/>
         <PublicTableHeaders header={'Gender'} accessor={'gender'}/>
+        <PublicTableHeaders
+                header={'Name'}
+                accessor={'first_name_format'}
+                columnFormat={(value,row) => this.onFirstNameFormat(value,row)}
+                isHidden
+        />
 <PublicTables/>
 <!--This example is also using Semantic-UI original Props such as
 celled,collapsing,compact and unstackable -->
@@ -138,19 +177,21 @@ celled,collapsing,compact and unstackable -->
 
                 <Grid.Row>
 
-                    <Grid.Column width={8}>
-                        <Button
-                            onClick={() => this.setResponsive()}
-                            content={"Set responsive"}
-                            color={"blue"}
-                        />
+                    <Grid.Column width={6}>
+                        <Segment>
+                            <Message color={'blue'}>
+                                Set responsive widthThreshold to certain pixel.
+                            </Message>
+                            <Input placeholder='threshold '
+                                   fluid
+                                   name='threshold'
+                                   value={param.widthThreshold}
+                                   onChange={this.handleThresholdChange}
+                            />
+                        </Segment>
                     </Grid.Column>
 
-                </Grid.Row>
-
-                <Grid.Row>
-
-                    <Grid.Column width={8}>
+                    <Grid.Column width={10}>
 
                         <PublicTables
                             data={tableData}
@@ -169,6 +210,12 @@ celled,collapsing,compact and unstackable -->
                             <PublicTableHeaders
                                 header={'Gender'}
                                 accessor={'gender'}
+                            />
+                            <PublicTableHeaders
+                                header={'Name'}
+                                accessor={'first_name_format'}
+                                columnFormat={(value,row) => this.onFirstNameFormat(value,row)}
+                                isHidden
                             />
 
                         </PublicTables>

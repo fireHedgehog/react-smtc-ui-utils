@@ -9,6 +9,7 @@ export default class DefaultResponsiveTableBody extends React.Component {
         defaultResponsiveParam: PropTypes.object,
         headerMap: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
         dataSet: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+        hiddenHeaderMap: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     }
 
     constructor(props) {
@@ -20,7 +21,7 @@ export default class DefaultResponsiveTableBody extends React.Component {
     render() {
         const {} = this.state;
 
-        const {defaultResponsiveParam, headerMap, dataSet} = this.props;
+        const {defaultResponsiveParam, headerMap, dataSet, hiddenHeaderMap} = this.props;
 
         const {
             image,
@@ -34,12 +35,12 @@ export default class DefaultResponsiveTableBody extends React.Component {
         return (
             <Item.Group divided>
                 <Item>
-                    {renderImage(headerMap, dataSet, image, this.props)}
+                    {renderImage(headerMap, dataSet, image, this.props, hiddenHeaderMap)}
                     <Item.Content>
-                        {renderHeader(headerMap, dataSet, header, this.props)}
-                        {renderMeta(headerMap, dataSet, meta, this.props)}
-                        {renderDescription(headerMap, dataSet, description, this.props)}
-                        {renderExtra(headerMap, dataSet, extra, this.props)}
+                        {renderHeader(headerMap, dataSet, header, this.props, hiddenHeaderMap)}
+                        {renderMeta(headerMap, dataSet, meta, this.props, hiddenHeaderMap)}
+                        {renderDescription(headerMap, dataSet, description, this.props, hiddenHeaderMap)}
+                        {renderExtra(headerMap, dataSet, extra, this.props, hiddenHeaderMap)}
 
                     </Item.Content>
                 </Item>
@@ -49,7 +50,7 @@ export default class DefaultResponsiveTableBody extends React.Component {
     }
 }
 
-function renderImage(headerMap, dataSet, image, parentProps) {
+function renderImage(headerMap, dataSet, image, parentProps, hiddenHeaderMap) {
 
     if (isStringEmpty(image) || _.isEmpty(image)) {
         return null;
@@ -67,7 +68,7 @@ function renderImage(headerMap, dataSet, image, parentProps) {
     );
 }
 
-function renderHeader(headerMap, dataSet, header, parentProps) {
+function renderHeader(headerMap, dataSet, header, parentProps, hiddenHeaderMap) {
 
     if (isStringEmpty(header) || _.isEmpty(header)) {
         return null;
@@ -75,7 +76,7 @@ function renderHeader(headerMap, dataSet, header, parentProps) {
 
     const {accessor, prefix, suffix} = header;
 
-    const content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix);
+    const content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix, hiddenHeaderMap);
 
     return (
         <Item.Header
@@ -84,14 +85,14 @@ function renderHeader(headerMap, dataSet, header, parentProps) {
     );
 }
 
-function renderMeta(headerMap, dataSet, meta, parentProps) {
+function renderMeta(headerMap, dataSet, meta, parentProps, hiddenHeaderMap) {
 
     if (isStringEmpty(meta) || _.isEmpty(meta)) {
         return null;
     }
     const {accessor, prefix, suffix} = meta;
 
-    const content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix);
+    const content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix, hiddenHeaderMap);
 
     return (
         <Item.Meta
@@ -100,14 +101,19 @@ function renderMeta(headerMap, dataSet, meta, parentProps) {
     );
 }
 
-function renderDescription(headerMap, dataSet, description, parentProps) {
+function renderDescription(headerMap, dataSet, description, parentProps, hiddenHeaderMap) {
 
     if (isStringEmpty(description) || _.isEmpty(description)) {
         return null;
     }
-    const {accessor, prefix, suffix} = description;
+    const {accessor, prefix, suffix, enableColFormat} = description;
 
-    const content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix);
+    let content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix, hiddenHeaderMap);
+
+    if (enableColFormat) {
+        content = colFormatter(headerMap, hiddenHeaderMap, accessor, content, dataSet);
+    }
+
     return (
         <Item.Description
             content={content}
@@ -115,7 +121,7 @@ function renderDescription(headerMap, dataSet, description, parentProps) {
     )
 }
 
-function renderExtra(headerMap, dataSet, extra, parentProps) {
+function renderExtra(headerMap, dataSet, extra, parentProps, hiddenHeaderMap) {
 
     if (isStringEmpty(extra) || _.isEmpty(extra)) {
         return null;
@@ -123,7 +129,7 @@ function renderExtra(headerMap, dataSet, extra, parentProps) {
 
     const {accessor, prefix, suffix} = extra;
 
-    const content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix);
+    const content = generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix,hiddenHeaderMap);
 
     return (
         <Item.Extra
@@ -133,8 +139,8 @@ function renderExtra(headerMap, dataSet, extra, parentProps) {
 }
 
 
-function generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix) {
-    let content = dataSet[accessor];
+function generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix, hiddenHeaderMap) {
+    let content = isStringEmpty(dataSet[accessor]) ? "" : dataSet[accessor];
 
     if (!isStringEmpty(prefix)) {
         content = prefix + content;
@@ -145,4 +151,30 @@ function generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix) {
     }
 
     return content;
+}
+
+function colFormatter(headerMap, hiddenHeaderMap, responsiveAccessor, content, dataSet) {
+
+    let colFormat = _.findLast(headerMap, function (element) {
+        const {accessor} = element.props;
+        return accessor === responsiveAccessor;
+    });
+
+    if (_.isEmpty(colFormat)) {
+        colFormat = _.findLast(hiddenHeaderMap, function (element) {
+            const {accessor} = element.props;
+            return accessor === responsiveAccessor;
+        });
+    }
+
+    if (!_.isEmpty(colFormat)) {
+        const {columnFormat} = colFormat.props;
+
+        if (columnFormat) {
+            return columnFormat(content, dataSet);
+        }
+    }
+
+    return "";
+
 }
