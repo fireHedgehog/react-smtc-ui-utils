@@ -3,7 +3,7 @@ import {Table, Checkbox} from 'semantic-ui-react'
 import PropTypes from "prop-types";
 import {PaginationFooter, PaginationFooterSecondary} from "./PublicTableFooters";
 import {NoPaginationUserFooter} from "./PublicTableFooters";
-import { getRandomNumber, isStringEmpty} from "../static/ObjectsUtils";
+import {getRandomNumber, isStringEmpty} from "../static/ObjectsUtils";
 import _ from 'lodash';
 import ReactResizeDetector from 'react-resize-detector';
 
@@ -192,7 +192,17 @@ export default class PublicTables extends React.Component {
             direction: null,
             key: getRandomNumber(1000000000),
             bodyKey: getRandomNumber(1000000000),
+            tableWidth: -1,
+            tableHeight: -1,
         };
+    }
+
+    onResize = (width, height) => {
+
+        this.setState({
+            tableWidth: width,
+            tableHeight: height,
+        });
     }
 
     handlePageSizeChange = (value) => {
@@ -512,6 +522,8 @@ export default class PublicTables extends React.Component {
 
         return (
             <div key={key}>
+                <ReactResizeDetector handleWidth handleHeight onResize={this.onResize}/>
+
                 <Table
                     celled={celled}
                     unstackable={unstackable}
@@ -620,7 +632,7 @@ export default class PublicTables extends React.Component {
                                  *
                                  */
                                 if (rowRenderCallback) {
-                                    newRow = rowRenderCallback(column,i);
+                                    newRow = rowRenderCallback(column, i);
 
                                     if (!isStringEmpty(newRow)) {
                                         return newRow
