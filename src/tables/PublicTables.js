@@ -3,8 +3,10 @@ import {Table, Checkbox} from 'semantic-ui-react'
 import PropTypes from "prop-types";
 import {PaginationFooter, PaginationFooterSecondary} from "./PublicTableFooters";
 import {NoPaginationUserFooter} from "./PublicTableFooters";
-import {isArrayEmpty, getRandomNumber, isStringEmpty} from "../static/ObjectsUtils";
+import { getRandomNumber, isStringEmpty} from "../static/ObjectsUtils";
 import _ from 'lodash';
+import ReactResizeDetector from 'react-resize-detector';
+
 //import update from "immutability-helper";
 
 

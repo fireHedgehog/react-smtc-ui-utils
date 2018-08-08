@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import {Grid, Message, Divider} from 'semantic-ui-react';
-import json from "json-loader!../data/MOCK_DATA.json";
+import {json} from "./BasicTableDemo";
 import PaginationDemo from "./PaginationDemo";
 import FilterDemo from "./FilterDemo";
 import CustomCellDemo from "./CustomCellDemo";
 import CheckBoxDemo from "./CheckBoxDemo";
 import CustomizedFooterDemo from "./CustomizedFooterDemo";
 import RowReRenderDemo from "./RowReRenderDemo";
+//import json from "json-loader!../data/MOCK_DATA.json";
 
 export class TablePropsContainer extends Component {
 

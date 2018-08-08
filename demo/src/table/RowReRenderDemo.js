@@ -22,7 +22,7 @@ export default class RowReRenderDemo extends Component {
     rowRender(row, index) {
         const {reRender} = this.state;
 
-        if (index === 3 && reRender) {
+        if (index === 2 && reRender) {
             return (
                 <Table.Row key={index}>
                     <Table.Cell colSpan={2}>
@@ -53,7 +53,7 @@ export default class RowReRenderDemo extends Component {
 rowRender(row, index) {
       //we can use dynamic flag in ether 'this.state' or a flag in the row,
       //like you have a dynamic action button, when click, we use foreach to change the table data
-      if (index === 3) {
+      if (index === 2) {
       // should wrap our new row, inside of <Table.Row/> of semantic for the flexibility.
       // perhaps sometimes we need colSpan={3}, sometimes we need  <Table.Cell>something</Table.Cell> without colSpan
             return (
@@ -93,6 +93,7 @@ rowRender(row, index) {
                             celled
                             compact
                             unstackable
+                            sortable
                             rowRenderCallback={(row, index) => this.rowRender(row, index)}
                         >
                             <PublicTableHeaders
