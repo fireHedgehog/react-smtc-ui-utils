@@ -55,7 +55,7 @@ export default class DefaultResponsiveDemo extends Component {
                     accessor: "gender",// the assessor of the img, either a Base64 or a URL
                     prefix: "|",// we can set prefix (it will be: "|" + " " + row["ip_address"])
                     suffix: "|",// we can set suffix (it will be:  row["ip_address"]+ " " + "|")
-                    enableColFormat : true // similar to in <PublicTableHeaders columnFormat={()=>this.someRenderFunction()}/>
+                    //enableColFormat : true // similar to in <PublicTableHeaders columnFormat={()=>this.someRenderFunction()}/>
                 }
 
             }

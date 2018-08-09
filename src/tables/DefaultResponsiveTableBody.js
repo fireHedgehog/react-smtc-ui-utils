@@ -184,6 +184,7 @@ function renderExtra(headerMap, dataSet, extra, parentProps, hiddenHeaderMap) {
 
 
 function generateDataByPreAndSuffix(dataSet, accessor, prefix, suffix) {
+    //console.log(dataSet[accessor])
     let content = isStringEmpty(dataSet[accessor]) ? "" : dataSet[accessor];
 
     if (!isStringEmpty(prefix)) {
