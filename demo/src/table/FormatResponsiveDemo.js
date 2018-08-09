@@ -100,8 +100,9 @@ const defaultParam = {
          */
          enableColFormat : true
     }
+}
 
-    /*
+    /*-----------------------------------------------------------------------------------------
      * column format function. can be a hidden column,
      * even work when accessor does not exist. the value is undefined but row is there
      * matching accessor of <PublicTableHeaders/> and accessor of responsive param to render
@@ -114,7 +115,6 @@ const defaultParam = {
             </Label>
         )
     }
-}
 `}
                         </Highlight>
                             <Divider/>
