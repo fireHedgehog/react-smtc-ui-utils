@@ -123,6 +123,7 @@ export default class PublicTables extends React.Component {
         /**
          * semantic-ui builtin prop
          */
+        attached:PropTypes.PropTypes.oneOf(["top", "bottom"]),
         fixed: PropTypes.bool,
         /**
          * semantic-ui builtin prop
@@ -522,226 +523,236 @@ export default class PublicTables extends React.Component {
             sortable,
             stackable,
             verticalAlign,
-            tableSize
+            tableSize,
+            attached,
         } = this.props; // most common styles of semantic ui
 
         return (
-            <div key={key}>
-                <ReactResizeDetector handleWidth handleHeight onResize={this.onResize}/>
+            <Table
+                key={key}
+                celled={celled}
+                attached={attached}
+                unstackable={unstackable}
+                selectable={selectable}
+                color={color}
+                basic={basic}
+                collapsing={collapsing}
+                compact={compact}
+                definition={definition}
+                inverted={inverted}
+                fixed={fixed}
+                padded={padded}
+                singleLine={singleLine}
+                sortable={sortable}
+                stackable={stackable}
+                verticalAlign={verticalAlign}
+                size={tableSize}
+            >
+                <Table.Header>
+                    <Table.Row>
 
-                <Table
-                    celled={celled}
-                    unstackable={unstackable}
-                    selectable={selectable}
-                    color={color}
-                    basic={basic}
-                    collapsing={collapsing}
-                    compact={compact}
-                    definition={definition}
-                    inverted={inverted}
-                    fixed={fixed}
-                    padded={padded}
-                    singleLine={singleLine}
-                    sortable={sortable}
-                    stackable={stackable}
-                    verticalAlign={verticalAlign}
-                    size={tableSize}
-                >
-                    <Table.Header>
-                        <Table.Row>
+                        {
+                            headerMap.map((column, i) => {
 
+                                const {accessor, colAsCheckBox, textAlign, collapsing, customizeText} = column.props;
+                                let header = column.props.header === undefined ? 'undefined' : column.props.header;
+                                //TODO: structured table :  const rowSpan = column.props.rowSpan;
 
-                            {
-                                headerMap.map((column, i) => {
-
-                                    const {accessor, colAsCheckBox, textAlign, collapsing, customizeText} = column.props;
-                                    let header = column.props.header === undefined ? 'undefined' : column.props.header;
-                                    //TODO: structured table :  const rowSpan = column.props.rowSpan;
-
-                                    // if customizeText is not none, call this function
-                                    if (customizeText) {
-                                        //call back function send header value and row object
-                                        header = customizeText(header, column);
-                                    }
-
-                                    /*
-                                       if and only if this column is shown as a check box and header shown as check all
-                                       return the header as a checked all
-                                    */
-                                    if (showAllCheck === true && colAsCheckBox === true) {
-
-                                        return (
-                                            <Table.HeaderCell collapsing key={i}>
-                                                <Checkbox
-                                                    onChange={() => this.toggleCheckAll(accessor, dataSet)}
-                                                    checked={allChecked}
-                                                />
-                                            </Table.HeaderCell>
-                                        )
-                                    } else {
-
-                                        //if this column can be sorted
-
-                                        return (
-
-                                            <Table.HeaderCell
-                                                key={i}
-                                                collapsing={collapsing}
-                                                textAlign={textAlign}
-                                                sorted={column === accessor ? direction : null}
-                                                onClick={this.handleSort(accessor, sortable)}
-                                            >
-                                                {header}
-                                            </Table.HeaderCell>
-
-                                        );
-                                    }
-
-
-                                })
-                            }
-
-                        </Table.Row>
-                    </Table.Header>
-
-                    <Table.Body key={bodyKey}>
-
-                        {   //first loop for rendering rows
-                            dataSet.map((column, i) => {
-                                //console.log(i, column)
-
-                                const {checkedIds} = this.state;
-
-                                const {rowHighLightFunction, rowRenderCallback, defaultResponsiveParam} = this.props;
-
-                                let isHighLight = false;
-
-                                let newRow = "";
-
-                                if (rowHighLightFunction) {
-                                    isHighLight = rowHighLightFunction(column);
+                                // if customizeText is not none, call this function
+                                if (customizeText) {
+                                    //call back function send header value and row object
+                                    header = customizeText(header, column);
                                 }
 
                                 /*
-                                 * if we set a default responsive param
-                                 *
-                                 * return a <Item/> instead of table
-                                 */
-                                if (!_.isEmpty(defaultResponsiveParam)) {
+                                   if and only if this column is shown as a check box and header shown as check all
+                                   return the header as a checked all
+                                */
+                                if (showAllCheck === true && colAsCheckBox === true) {
 
-                                    const {
-                                        widthThreshold
-                                    } = defaultResponsiveParam;
+                                    return (
+                                        <Table.HeaderCell collapsing key={i}>
+                                            <Checkbox
+                                                onChange={() => this.toggleCheckAll(accessor, dataSet)}
+                                                checked={allChecked}
+                                            />
+                                            <ReactResizeDetector
+                                                handleWidth
+                                                handleHeight
+                                                onResize={this.onResize}
+                                            />
+                                        </Table.HeaderCell>
+                                    )
+                                } else {
 
-                                    const minimumWidth = isStringEmpty(widthThreshold) ? 480 : _.parseInt(widthThreshold, 10);
+                                    //if this column can be sorted
 
-                                    // if the size less than equals the threshold
-                                    if (tableWidth <= minimumWidth) {
-                                        return (
-                                            <Table.Row key={i}>
-                                                <Table.Cell colSpan={colCount}>
-                                                    <DefaultResponsiveTableBody
-                                                        {...this.props}
-                                                        headerMap={headerMap}
-                                                        dataSet={column}
-                                                        hiddenHeaderMap={hiddenHeaderMap}
-                                                        checkedIds={checkedIds}
-                                                        modifyCheckedArray={(val) => this.modifyCheckedArray(val)}
+                                    return (
+
+                                        <Table.HeaderCell
+                                            key={i}
+                                            collapsing={collapsing}
+                                            textAlign={textAlign}
+                                            sorted={column === accessor ? direction : null}
+                                            onClick={this.handleSort(accessor, sortable)}
+                                        >
+                                            {
+                                                !showAllCheck && i === 0 ? (
+                                                    <ReactResizeDetector
+                                                        handleWidth
+                                                        handleHeight
+                                                        onResize={this.onResize}
                                                     />
-                                                </Table.Cell>
-                                            </Table.Row>
-                                        )
-                                    }
+                                                ) : null
+                                            }
+                                            {header}
+                                        </Table.HeaderCell>
+
+                                    );
                                 }
 
-                                /*
-                                 * the call back is the whole row.
-                                 *
-                                 * if have not return anything, when do not re-render this
-                                 *
-                                 * if have something, we re-render
-                                 *
-                                 */
-                                if (rowRenderCallback) {
-                                    newRow = rowRenderCallback(column, i);
 
-                                    if (!isStringEmpty(newRow)) {
-                                        return newRow
-                                    }
-                                }
-
-                                return (
-                                    <Table.Row key={i} onClick={() => this.onRowSelectCallBack(column)}
-                                               positive={isHighLight}>
-
-                                        {   //second loop for rendering cells
-                                            headerMap.map((elm, j) => {
-
-                                                const {
-                                                    checkBoxStyle,
-                                                    selectable,
-                                                    accessor,
-                                                    columnAlign,
-                                                    colAsCheckBox,
-                                                    columnFormat,
-                                                } = elm.props;
-
-                                                //get value by accessor
-                                                let value = column[accessor] === undefined ? '' : column[accessor];
-
-                                                // if formatter is not none, call this function
-                                                if (columnFormat) {
-                                                    //call back function send cell value and row object
-                                                    value = columnFormat(value, column);
-                                                }
-
-
-                                                //console.log(checkedIds)
-
-                                                // if this column is set to be a check box ,then return a check box
-                                                if (colAsCheckBox === true) {
-                                                    return (
-                                                        <Table.Cell collapsing key={j} textAlign={columnAlign}
-                                                                    selectable={false}>
-                                                            <ColumnCheckBox id={value}
-                                                                            checkBoxStyle={checkBoxStyle}
-                                                                            checked={_.includes(checkedIds, value)}
-                                                                            getCallBackId={(val) => this.modifyCheckedArray(val)}
-                                                            />
-                                                        </Table.Cell>
-                                                    )
-                                                } else { // if it is not a check box column, return as a simple column
-                                                    return (
-                                                        <Table.Cell key={j}
-                                                                    textAlign={columnAlign}
-                                                                    selectable={selectable}
-                                                                    onClick={() => this.onCellSelected(elm, value, column)}
-                                                        >
-                                                            {value}
-                                                        </Table.Cell>
-                                                    );
-                                                }
-
-                                            })
-                                        }
-
-                                    </Table.Row>
-
-                                );
                             })
                         }
 
-                    </Table.Body>
+                    </Table.Row>
+                </Table.Header>
+
+                <Table.Body key={bodyKey}>
+
+                    {   //first loop for rendering rows
+                        dataSet.map((column, i) => {
+                            //console.log(i, column)
+
+                            const {checkedIds} = this.state;
+
+                            const {rowHighLightFunction, rowRenderCallback, defaultResponsiveParam} = this.props;
+
+                            let isHighLight = false;
+
+                            let newRow = "";
+
+                            if (rowHighLightFunction) {
+                                isHighLight = rowHighLightFunction(column);
+                            }
+
+                            /*
+                             * if we set a default responsive param
+                             *
+                             * return a <Item/> instead of table
+                             */
+                            if (!_.isEmpty(defaultResponsiveParam)) {
+
+                                const {
+                                    widthThreshold
+                                } = defaultResponsiveParam;
+
+                                const minimumWidth = isStringEmpty(widthThreshold) ? 480 : _.parseInt(widthThreshold, 10);
+
+                                // if the size less than equals the threshold
+                                if (tableWidth <= minimumWidth) {
+                                    return (
+                                        <Table.Row key={i}>
+                                            <Table.Cell colSpan={colCount}>
+                                                <DefaultResponsiveTableBody
+                                                    {...this.props}
+                                                    headerMap={headerMap}
+                                                    dataSet={column}
+                                                    hiddenHeaderMap={hiddenHeaderMap}
+                                                    checkedIds={checkedIds}
+                                                    modifyCheckedArray={(val) => this.modifyCheckedArray(val)}
+                                                />
+                                            </Table.Cell>
+                                        </Table.Row>
+                                    )
+                                }
+                            }
+
+                            /*
+                             * the call back is the whole row.
+                             *
+                             * if have not return anything, when do not re-render this
+                             *
+                             * if have something, we re-render
+                             *
+                             */
+                            if (rowRenderCallback) {
+                                newRow = rowRenderCallback(column, i);
+
+                                if (!isStringEmpty(newRow)) {
+                                    return newRow
+                                }
+                            }
+
+                            return (
+                                <Table.Row key={i} onClick={() => this.onRowSelectCallBack(column)}
+                                           positive={isHighLight}>
+
+                                    {   //second loop for rendering cells
+                                        headerMap.map((elm, j) => {
+
+                                            const {
+                                                checkBoxStyle,
+                                                selectable,
+                                                accessor,
+                                                columnAlign,
+                                                colAsCheckBox,
+                                                columnFormat,
+                                            } = elm.props;
+
+                                            //get value by accessor
+                                            let value = column[accessor] === undefined ? '' : column[accessor];
+
+                                            // if formatter is not none, call this function
+                                            if (columnFormat) {
+                                                //call back function send cell value and row object
+                                                value = columnFormat(value, column);
+                                            }
 
 
-                    <Table.Footer>
-                        {paginationFooter}
-                    </Table.Footer>
+                                            //console.log(checkedIds)
 
-                </Table>
+                                            // if this column is set to be a check box ,then return a check box
+                                            if (colAsCheckBox === true) {
+                                                return (
+                                                    <Table.Cell collapsing key={j} textAlign={columnAlign}
+                                                                selectable={false}>
+                                                        <ColumnCheckBox id={value}
+                                                                        checkBoxStyle={checkBoxStyle}
+                                                                        checked={_.includes(checkedIds, value)}
+                                                                        getCallBackId={(val) => this.modifyCheckedArray(val)}
+                                                        />
+                                                    </Table.Cell>
+                                                )
+                                            } else { // if it is not a check box column, return as a simple column
+                                                return (
+                                                    <Table.Cell key={j}
+                                                                textAlign={columnAlign}
+                                                                selectable={selectable}
+                                                                onClick={() => this.onCellSelected(elm, value, column)}
+                                                    >
+                                                        {value}
+                                                    </Table.Cell>
+                                                );
+                                            }
 
-            </div>
+                                        })
+                                    }
 
+                                </Table.Row>
+
+                            );
+                        })
+                    }
+
+                </Table.Body>
+
+
+                <Table.Footer>
+                    {paginationFooter}
+                </Table.Footer>
+
+            </Table>
         )
     }
 }

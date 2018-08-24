@@ -223,7 +223,9 @@ celled,collapsing,compact and unstackable -->
 
                     <Grid.Column width={10}>
 
+
                         <PublicTables
+                            attached={"bottom"}
                             data={tableData}
                             celled
                             compact
