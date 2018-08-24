@@ -123,7 +123,7 @@ export default class PublicTables extends React.Component {
         /**
          * semantic-ui builtin prop
          */
-        attached:PropTypes.PropTypes.oneOf(["top", "bottom"]),
+        attached: PropTypes.PropTypes.oneOf(["top", "bottom"]),
         fixed: PropTypes.bool,
         /**
          * semantic-ui builtin prop
@@ -525,6 +525,7 @@ export default class PublicTables extends React.Component {
             verticalAlign,
             tableSize,
             attached,
+            style,
         } = this.props; // most common styles of semantic ui
 
         return (
@@ -547,6 +548,7 @@ export default class PublicTables extends React.Component {
                 stackable={stackable}
                 verticalAlign={verticalAlign}
                 size={tableSize}
+                style={style}
             >
                 <Table.Header>
                     <Table.Row>
@@ -576,11 +578,6 @@ export default class PublicTables extends React.Component {
                                                 onChange={() => this.toggleCheckAll(accessor, dataSet)}
                                                 checked={allChecked}
                                             />
-                                            <ReactResizeDetector
-                                                handleWidth
-                                                handleHeight
-                                                onResize={this.onResize}
-                                            />
                                         </Table.HeaderCell>
                                     )
                                 } else {
@@ -596,15 +593,6 @@ export default class PublicTables extends React.Component {
                                             sorted={column === accessor ? direction : null}
                                             onClick={this.handleSort(accessor, sortable)}
                                         >
-                                            {
-                                                !showAllCheck && i === 0 ? (
-                                                    <ReactResizeDetector
-                                                        handleWidth
-                                                        handleHeight
-                                                        onResize={this.onResize}
-                                                    />
-                                                ) : null
-                                            }
                                             {header}
                                         </Table.HeaderCell>
 
@@ -750,6 +738,17 @@ export default class PublicTables extends React.Component {
 
                 <Table.Footer>
                     {paginationFooter}
+                </Table.Footer>
+                <Table.Footer>
+                    <Table.Row>
+                        <Table.Cell colSpan={colCount}>
+                            <ReactResizeDetector
+                                handleWidth
+                                handleHeight
+                                onResize={this.onResize}
+                            />
+                        </Table.Cell>
+                    </Table.Row>
                 </Table.Footer>
 
             </Table>
