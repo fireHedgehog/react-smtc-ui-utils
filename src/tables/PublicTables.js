@@ -526,6 +526,7 @@ export default class PublicTables extends React.Component {
             tableSize,
             attached,
             style,
+            columns
         } = this.props; // most common styles of semantic ui
 
         return (
@@ -549,6 +550,7 @@ export default class PublicTables extends React.Component {
                 verticalAlign={verticalAlign}
                 size={tableSize}
                 style={style}
+                columns={columns}
             >
                 <Table.Header>
                     <Table.Row>
