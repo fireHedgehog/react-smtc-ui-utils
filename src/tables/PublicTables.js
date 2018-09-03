@@ -455,9 +455,8 @@ export default class PublicTables extends React.Component {
         if (fakePagination) { // fake pagination don't need to manipulate data inside of this table utils
             //if need pagination or pagination type is primary,
             //add new footer include pagination menu and calculate data set
-            if (pagination === true) {
+            if (pagination === true || pagination === "primary" || pagination === "secondary") {
                 paginationFooter = (
-
                     <PaginationFooterSecondary
                         colCount={colCount}
                         dataCount={fakeDataSum}
@@ -466,16 +465,15 @@ export default class PublicTables extends React.Component {
                         handlePageClick={(val) => this.handlePageClick(val)}
                         footerMap={footerMap}
                     />
-
                 );
                 // dataSet = this.TablePagination(dataSet)
             }
+
         } else {
             //if need pagination or pagination type is primary,
             //add new footer include pagination menu and calculate data set
             if (pagination === true || pagination === "primary") {
                 paginationFooter = (
-
                     <PaginationFooter
                         colCount={colCount}
                         dataCount={dataSet.length}
@@ -485,9 +483,7 @@ export default class PublicTables extends React.Component {
                         onPageSizeChange={(val) => this.handlePageSizeChange(val)}
                         footerMap={footerMap}
                     />
-
                 );
-
                 //dataSet pagination, based on current page
                 dataSet = this.TablePagination(dataSet)
 
