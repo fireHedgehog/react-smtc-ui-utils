@@ -181,6 +181,10 @@ export default class PublicTables extends React.Component {
          * we can set responsive param to re-render the table body
          */
         defaultResponsiveParam: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+        /**
+         * we can add props of pagination bar
+         */
+        paginationProps:PropTypes.object,
     }
 
     constructor(props) {
@@ -392,6 +396,7 @@ export default class PublicTables extends React.Component {
             tableWidth
         } = this.state;
 
+
         let colCount = 0; // calculate the total columns
         const headerMap = [];//headerMap, check props
         const hiddenHeaderMap = [];
@@ -438,6 +443,8 @@ export default class PublicTables extends React.Component {
 
         });
 
+        const {paginationProps} = this.props;
+
         //console.log(headerMap, footerMap);
         // pagination footer if is false don't show it
         let paginationFooter = (
@@ -464,6 +471,7 @@ export default class PublicTables extends React.Component {
                         currentPage={currentPage}
                         handlePageClick={(val) => this.handlePageClick(val)}
                         footerMap={footerMap}
+                        paginationProps={paginationProps}
                     />
                 );
                 // dataSet = this.TablePagination(dataSet)
@@ -482,6 +490,7 @@ export default class PublicTables extends React.Component {
                         handlePageClick={(val) => this.handlePageClick(val)}
                         onPageSizeChange={(val) => this.handlePageSizeChange(val)}
                         footerMap={footerMap}
+                        paginationProps={paginationProps}
                     />
                 );
                 //dataSet pagination, based on current page
@@ -496,6 +505,7 @@ export default class PublicTables extends React.Component {
                         currentPage={currentPage}
                         handlePageClick={(val) => this.handlePageClick(val)}
                         footerMap={footerMap}
+                        paginationProps={paginationProps}
                     />
                 )
                 dataSet = this.TablePagination(dataSet)

@@ -999,7 +999,15 @@ export const docJson = {
                     },
                     "required": false,
                     "description": "we can set responsive param to re-render the table body"
+                },
+                "paginationProps": {
+                    "type": {
+                        "name": "object"
+                    },
+                    "required": false,
+                    "description": "we can set pagination props to set the pagination bar (according to semantic-ui official website)."
                 }
+
             }
         },
         {

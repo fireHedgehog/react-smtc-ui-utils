@@ -29,6 +29,7 @@ export class PaginationFooter extends Component {
         currentPage: PropTypes.number.isRequired,
         onPageSizeChange: PropTypes.func.isRequired,
         footerMap: PropTypes.array,
+        paginationProps:PropTypes.object,
     }
 
     constructor(props) {
@@ -58,7 +59,7 @@ export class PaginationFooter extends Component {
     render() {
 
         //currently only show the first Item of "footerMap" by default
-        const {colCount, pageSize, dataCount, currentPage, footerMap} = this.props;
+        const {colCount, pageSize, dataCount, currentPage, footerMap,paginationProps} = this.props;
 
         const {footerKey} = this.state;
 
@@ -89,6 +90,7 @@ export class PaginationFooter extends Component {
                         currentPage={currentPage}
                         totalPages={Math.ceil((dataCount === undefined ? 1 : dataCount) / pageSize)}
                         getActivePages={(val) => this.handlePageClick(val)}
+                        paginationProps={paginationProps}
                     />
                 </Table.HeaderCell>
             </Table.Row>
@@ -110,6 +112,7 @@ export class PaginationFooterSecondary extends Component {
         dataCount: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,
         footerMap: PropTypes.array,
+        paginationProps:PropTypes.object,
     }
 
     state = {
@@ -123,7 +126,7 @@ export class PaginationFooterSecondary extends Component {
     render() {
 
         //currently only show the first Item of "footerMap" by default
-        const {colCount, pageSize, dataCount, currentPage, footerMap} = this.props;
+        const {colCount, pageSize, dataCount, currentPage, footerMap,paginationProps} = this.props;
 
         const {footerKey} = this.state;
 
@@ -142,6 +145,7 @@ export class PaginationFooterSecondary extends Component {
                         currentPage={currentPage}
                         totalPages={Math.ceil((dataCount === undefined ? 1 : dataCount) / pageSize)}
                         getActivePages={(val) => this.handlePageClick(val)}
+                        paginationProps={paginationProps}
                     />
 
                 </Table.HeaderCell>

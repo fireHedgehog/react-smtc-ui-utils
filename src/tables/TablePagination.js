@@ -13,12 +13,8 @@ export default class TablePagination extends Component {
     static propTypes = {
         totalPages: PropTypes.number.isRequired,
         getActivePages: PropTypes.func.isRequired,
-        boundaryRange: PropTypes.number,
-        showEllipsis: PropTypes.bool,
-        showFirstAndLastNav: PropTypes.bool,
-        showPreviousAndNextNav: PropTypes.bool,
-        displaySize: PropTypes.string,//mini,tiny,small,medium,large,big,huge,massive
-        currentPage:PropTypes.number,
+        currentPage: PropTypes.number,
+        paginationProps: PropTypes.object,
     }
 
     constructor(props) {
@@ -27,12 +23,13 @@ export default class TablePagination extends Component {
         this.state = {
             totalPages: props.totalPages,
             activePage: props.currentPage, // always show page one by default
-            boundaryRange: props.boundaryRange === undefined ? 1 : props.boundaryRange,
-            showEllipsis: props.showEllipsis === undefined ? true : props.showEllipsis,
-            showFirstAndLastNav: props.showFirstAndLastNav === undefined ? true : props.showFirstAndLastNav,
-            showPreviousAndNextNav: props.showPreviousAndNextNav === undefined ? true : props.showPreviousAndNextNav,
-            displaySize: isStringEmpty(props.displaySize) ? "small" : props.displaySize,
         }
+    }
+
+    static defaultProps = {
+        paginationProps: {
+            size: 'small',//mini,tiny,small,medium,large,big,huge,massive
+        },
     }
 
 
@@ -47,10 +44,11 @@ export default class TablePagination extends Component {
     render() {
         const {
             activePage,
-            displaySize,
         } = this.state;
 
-        const {totalPages,boundaryRange,showEllipsis,showFirstAndLastNav,showPreviousAndNextNav} = this.props;
+        const {paginationProps, totalPages} = this.props;
+
+        const {boundaryRange, ellipsisItem, size, firstItem, lastItem, nextItem, pageItem, prevItem, siblingRange} = paginationProps;
 
         //console.log(activePage)
         return (
@@ -58,15 +56,17 @@ export default class TablePagination extends Component {
             <Pagination
                 className={"right floated"}
                 activePage={activePage}
-                boundaryRange={boundaryRange}
                 onPageChange={this.handlePaginationChange}
-                size={displaySize}
                 totalPages={totalPages}
-                ellipsisItem={showEllipsis}
-                firstItem={showFirstAndLastNav}
-                lastItem={showFirstAndLastNav}
-                prevItem={showPreviousAndNextNav}
-                nextItem={showPreviousAndNextNav}
+                boundaryRange={boundaryRange}
+                size={size}
+                ellipsisItem={ellipsisItem}
+                firstItem={firstItem}
+                lastItem={lastItem}
+                nextItem={nextItem}
+                pageItem={pageItem}
+                prevItem={prevItem}
+                siblingRange={siblingRange}
             />
         )
     }

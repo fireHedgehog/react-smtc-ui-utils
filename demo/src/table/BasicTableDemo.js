@@ -151,6 +151,9 @@ export class BasicTableDemo extends Component {
                             celled
                             unstackable
                             sortable={true}
+                            paginationProps={{
+                                size:"tiny"
+                            }}
                         >
 
                             <PublicTableHeaders
