@@ -87,3 +87,5 @@ yarn-error.log*
 /es
 /lib
 /umd
+
+.lock

@@ -1,8 +1,7 @@
 import React from 'react'
-import {Table, Checkbox} from 'semantic-ui-react'
+import {Checkbox, Table} from 'semantic-ui-react'
 import PropTypes from "prop-types";
-import {PaginationFooter, PaginationFooterSecondary} from "./PublicTableFooters";
-import {NoPaginationUserFooter} from "./PublicTableFooters";
+import {NoPaginationUserFooter, PaginationFooter, PaginationFooterSecondary} from "./PublicTableFooters";
 import {getRandomNumber, isStringEmpty} from "../static/ObjectsUtils";
 import _ from 'lodash';
 import ReactResizeDetector from 'react-resize-detector';
@@ -184,7 +183,7 @@ export default class PublicTables extends React.Component {
         /**
          * we can add props of pagination bar
          */
-        paginationProps:PropTypes.object,
+        paginationProps: PropTypes.object,
     }
 
     constructor(props) {
@@ -451,7 +450,8 @@ export default class PublicTables extends React.Component {
             <Table.Row/>
         );
 
-        if (![true, "primary", "secondary"].includes(pagination) && footerMap.length > 0) {
+
+        if (!_.includes([true, "primary", "secondary"], pagination) && footerMap.length > 0) {
             paginationFooter = (
                 <NoPaginationUserFooter colCount={colCount} footerMap={footerMap}/>
             );
