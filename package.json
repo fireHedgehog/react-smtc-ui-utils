@@ -1,6 +1,6 @@
 {
   "name": "react-smtc-ui-utils",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "react-smtc-ui-utils React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -25,7 +25,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.11",
-    "prop-types": "^15.6.2"
+    "prop-types": "^15.6.2",
+    "react-resize-detector": "^3.2.0"
   },
   "peerDependencies": {
     "react": "16.x"
