@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import {Button, Label, Icon, Input, Grid, Segment, Message, Header, Divider} from 'semantic-ui-react';
-import {PublicTables, CustomizedFooter, PublicTableHeaders} from '../../../src'
+import {Button, Divider, Grid, Header, Icon, Input, Label, Message, Popup, Segment,Table} from 'semantic-ui-react';
+import {CustomizedFooter, PublicTableHeaders, PublicTables} from '../../../src'
 import renderLinks from "../others/CodeSource";
 import Gist from 'react-gist';
-
+import _ from "lodash";
 
 export class BasicTableDemo extends Component {
 
@@ -11,19 +11,9 @@ export class BasicTableDemo extends Component {
         bundleName: '',
         checked: [],
         btnName: 'black',
+        openIds: [],
     }
 
-    formatNameAndTitle(cellValue, rowObject) {
-        //console.log(rowObject)
-        return (
-            <div style={{minWidth: '200px'}}>
-                <Label>
-                    <Icon name={'user'}></Icon>
-                    {rowObject.first_name + " " + rowObject.last_name}
-                </Label>
-            </div>
-        );
-    }
 
     handleChange = (e, {name, value}) => this.setState({[name]: value});
 
@@ -152,7 +142,7 @@ export class BasicTableDemo extends Component {
                             unstackable
                             sortable={true}
                             paginationProps={{
-                                size:"tiny"
+                                size: "tiny"
                             }}
                         >
 
@@ -169,7 +159,7 @@ export class BasicTableDemo extends Component {
                                 collapsing
                                 header={"Full Name"}
                                 accessor={"first_name"}
-                                columnFormat={(cellValue, rowObject) => this.formatNameAndTitle(cellValue, rowObject)}
+                                columnFormat={formatNameAndTitle}
                             />
 
                             <PublicTableHeaders
@@ -218,6 +208,17 @@ export class BasicTableDemo extends Component {
     }
 }
 
+export function formatNameAndTitle(cellValue, rowObject) {
+    //console.log(rowObject)
+    return (
+        <div style={{minWidth: '200px'}}>
+            <Label>
+                <Icon name={'user'}/>
+                {rowObject.first_name + " " + rowObject.last_name}
+            </Label>
+        </div>
+    );
+}
 
 export const json = {
     "mock_user": [

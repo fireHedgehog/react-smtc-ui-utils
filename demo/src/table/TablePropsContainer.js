@@ -7,6 +7,7 @@ import CustomCellDemo from "./CustomCellDemo";
 import CheckBoxDemo from "./CheckBoxDemo";
 import CustomizedFooterDemo from "./CustomizedFooterDemo";
 import RowReRenderDemo from "./RowReRenderDemo";
+import ExpandableDemo from "./ExpandableDemo";
 //import json from "json-loader!../data/MOCK_DATA.json";
 
 export class TablePropsContainer extends Component {
@@ -69,6 +70,12 @@ export class TablePropsContainer extends Component {
                         <RowReRenderDemo tableData={json.mock_user_5}/>
                     </Grid.Column>
                 </Grid.Row>
+                <Grid.Row>
+                    <Grid.Column>
+                        <ExpandableDemo tableData={json.mock_user_5}/>
+                    </Grid.Column>
+                </Grid.Row>
+
             </Grid>
         )
     }
