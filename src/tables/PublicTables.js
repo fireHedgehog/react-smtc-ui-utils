@@ -184,6 +184,7 @@ export default class PublicTables extends React.Component {
          * we can add props of pagination bar
          */
         paginationProps: PropTypes.object,
+        striped : PropTypes.any
     }
 
     constructor(props) {
@@ -532,7 +533,8 @@ export default class PublicTables extends React.Component {
             tableSize,
             attached,
             style,
-            columns
+            columns,
+            striped,
         } = this.props; // most common styles of semantic ui
 
         return (
@@ -557,6 +559,7 @@ export default class PublicTables extends React.Component {
                 size={tableSize}
                 style={style}
                 columns={columns}
+                striped={striped}
             >
                 <Table.Header>
                     <Table.Row>
