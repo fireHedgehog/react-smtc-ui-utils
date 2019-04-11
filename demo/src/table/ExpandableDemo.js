@@ -128,22 +128,25 @@ rowRender(row, index) {
 }
 // Using cell format function to create a clickable cell
 formatExpandable(){
-    const {openIds} = this.state;
-    const {id} = row;
-
-    const exist = _.find(openIds, function (element) {
-        return element === id;
-    });
     return (
-         <Header content={(
-                    <div>
-                        <Icon name={exist ? "minus" : "plus"}
-                              color={exist ? "orange" : "blue"}/>
-                              {cell}
-                    </div>
-                 )}
+         <Header content={cell}
+                 onClick={()=>this.onHeaderClick(row)}
          />
     );
+}
+// onclick function only manipulate the array of selected/unselected rows.
+onHeaderClick(){
+        const {openIds} = this.state;
+        const {id} = row;
+        const exist = _.find(openIds, function (element) {
+            return element === id;
+        });
+        if (exist) {
+            _.pull(openIds, id);
+        } else {
+            openIds.push(id);
+        }
+        this.setState({openIds});
 }
 `}
                         </Highlight>
