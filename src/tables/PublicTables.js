@@ -69,7 +69,7 @@ export default class PublicTables extends React.Component {
         /**
          * currently only support hard-coded : 10 ,20 , 50
          */
-        pageSize: PropTypes.PropTypes.oneOf([10, 20, 50]),
+        pageSize: PropTypes.PropTypes.number,
         /**
          * should combine with function onRowSelectCallBack
          * <PublicTables selectable onRowSelectCallBack={(row)=>console.log(row)}>
@@ -184,17 +184,18 @@ export default class PublicTables extends React.Component {
          * we can add props of pagination bar
          */
         paginationProps: PropTypes.object,
-        striped : PropTypes.any
+        striped: PropTypes.any
     }
 
     constructor(props) {
         super(props);
+        const pageSize = getPageDefaultSize(props);
         this.state = {
             data: props.data,
             sortedData: props.data,
             showAllCheck: props.showAllCheck === undefined ? false : props.showAllCheck,
             pagination: props.pagination === undefined ? false : props.pagination,
-            pageSize: (props.pageSize === undefined) || !([10, 20, 50].includes(props.pageSize)) ? 20 : props.pageSize,
+            pageSize: pageSize,
             allChecked: false,
             checkedIds: props.defaultCheckedIds === undefined ? [] : props.defaultCheckedIds,
             currentPage: 1,
@@ -880,4 +881,14 @@ function filterDataByFilterContext(columnAccessor, filterContext, dataSet) {
         //console.log(origin,filter)
         return _.includes(origin, filter) //origin.includes(filter);
     });
+}
+
+function getPageDefaultSize(props) {
+    const {pagination, pageSize} = props;
+
+    if (pagination === "secondary") {
+        return isStringEmpty(pageSize) ? 20 : pageSize;
+    } else {
+        return (isStringEmpty(pageSize)) || !([10, 20, 50].includes(props.pageSize)) ? 20 : props.pageSize
+    }
 }
