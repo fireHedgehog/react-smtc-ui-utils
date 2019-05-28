@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {Segment, Grid, Header, Label, Icon, Divider} from 'semantic-ui-react'
+import {Divider, Grid, Header, Icon, Label, Segment} from 'semantic-ui-react'
 import Highlight from 'react-highlight'
 import PropTypes from "prop-types";
-import {PublicTables, PublicTableHeaders} from '../../../src'
+import {PublicTableHeaders, PublicTables} from '../../../src'
 
 export default class CustomCellDemo extends Component {
 
@@ -68,11 +68,13 @@ formatDepartment(cell, row) {
                             data={tableData}
                             celled
                             compact
+                            //sortable
                             unstackable
                         >
                             <PublicTableHeaders
                                 header={'Email'}
                                 accessor={'email'}
+                                //onHeaderClickCallBack={(clicked) => console.log(clicked)}
                             />
                             <PublicTableHeaders
                                 header={'Gender'}
@@ -81,6 +83,7 @@ formatDepartment(cell, row) {
                             <PublicTableHeaders
                                 header={'Department'}
                                 accessor={'dept'}
+                                //onHeaderClickCallBack={(clicked) => console.log(clicked)}
                                 columnFormat={(cell, row) => this.formatDepartment(cell, row)}
                             />
                         </PublicTables>

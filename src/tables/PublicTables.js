@@ -184,7 +184,7 @@ export default class PublicTables extends React.Component {
          * we can add props of pagination bar
          */
         paginationProps: PropTypes.object,
-        striped: PropTypes.any
+        striped: PropTypes.any,
     }
 
     constructor(props) {
@@ -354,7 +354,18 @@ export default class PublicTables extends React.Component {
         }
     }
 
-    handleSort = (clickedColumn, sortable) => () => {
+    onHeaderClickCallBack(clickedColumn, sortable, onHeaderClickCallBack) {
+
+        if (sortable) { // sort it anyway
+            this.handleSort(clickedColumn, sortable);
+        }
+
+        if (onHeaderClickCallBack) { // then we decide whether we have to use this callback
+            onHeaderClickCallBack(clickedColumn);
+        }
+    }
+
+    handleSort(clickedColumn, sortable) {
 
         if (sortable) {
             const {column, sortedData, direction} = this.state
@@ -394,7 +405,7 @@ export default class PublicTables extends React.Component {
             currentPage,
             direction,
             bodyKey,
-            tableWidth
+            tableWidth,
         } = this.state;
 
 
@@ -554,7 +565,7 @@ export default class PublicTables extends React.Component {
                 fixed={fixed}
                 padded={padded}
                 singleLine={singleLine}
-                sortable={sortable}
+                sortable
                 stackable={stackable}
                 verticalAlign={verticalAlign}
                 size={tableSize}
@@ -568,7 +579,7 @@ export default class PublicTables extends React.Component {
                         {
                             headerMap.map((column, i) => {
 
-                                const {accessor, colAsCheckBox, textAlign, collapsing, customizeText} = column.props;
+                                const {accessor, colAsCheckBox, textAlign, collapsing, customizeText, onHeaderClickCallBack} = column.props;
                                 let header = column.props.header === undefined ? 'undefined' : column.props.header;
                                 //TODO: structured table :  const rowSpan = column.props.rowSpan;
 
@@ -603,7 +614,7 @@ export default class PublicTables extends React.Component {
                                             collapsing={collapsing}
                                             textAlign={textAlign}
                                             sorted={column === accessor ? direction : null}
-                                            onClick={this.handleSort(accessor, sortable)}
+                                            onClick={() => this.onHeaderClickCallBack(accessor, sortable, onHeaderClickCallBack)}
                                         >
                                             {header}
                                         </Table.HeaderCell>

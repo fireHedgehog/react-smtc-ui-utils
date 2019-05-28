@@ -74,6 +74,7 @@ export default class PublicTableHeaders extends React.Component {
          * semantic built in props
          */
         onCellSelectCallBack: PropTypes.func,
+        onHeaderClickCallBack: PropTypes.func,
     }
 
     static defaultProps = {
