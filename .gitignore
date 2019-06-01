@@ -89,3 +89,4 @@ yarn-error.log*
 /umd
 
 .lock
+package-lock.json
