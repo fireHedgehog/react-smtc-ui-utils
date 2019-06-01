@@ -79,6 +79,7 @@ formatDepartment(cell, row) {
                             <PublicTableHeaders
                                 header={'Gender'}
                                 accessor={'gender'}
+                                notSortable
                             />
                             <PublicTableHeaders
                                 header={'Department'}

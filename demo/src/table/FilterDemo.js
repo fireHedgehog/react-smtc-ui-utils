@@ -19,7 +19,7 @@ export default class FilterDemo extends Component {
 
 
     setToGreen(row) {
-        return row["id"] === 4
+        //return row["id"] === 4
     }
 
     render() {
@@ -64,12 +64,15 @@ export default class FilterDemo extends Component {
                     </Grid.Column>
                     <Grid.Column width={3}>
                         <Dropdown options={[
-                            {key: "Male", text: "Male", value: "Male"},
-                            {key: "Female", text: "Female", value: "Female"}
+                            {key: "Engineering", text: "Engineering", value: "Engineering"},
+                            {key: "Legal", text: "Legal", value: "Legal"},
+                            {key: "Human Resources", text: "Human Resources", value: "Human Resources"},
+                            {key: "Accounting", text: "Legal", value: "Accounting"},
                         ]}
                                   selection
                                   value={gender}
                                   name='gender'
+                                  clearable
                                   onChange={this.handleChange}
                                   content={'email :'}/>
 
@@ -97,8 +100,8 @@ export default class FilterDemo extends Component {
                                     onCellSelectCallBack={(cell, row) => console.log(cell, row)}
                                 />
                                 <PublicTableHeaders
-                                    header={'Gender'}
-                                    accessor={'gender'}
+                                    header={'Department'}
+                                    accessor={'dept'}
                                     filterContext={gender}
                                 />
                             </PublicTables>

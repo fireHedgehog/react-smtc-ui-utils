@@ -1,5 +1,5 @@
 import React from 'react'
-import {Checkbox, Table} from 'semantic-ui-react'
+import {Checkbox, Icon, Table} from 'semantic-ui-react'
 import PropTypes from "prop-types";
 import {NoPaginationUserFooter, PaginationFooter, PaginationFooterSecondary} from "./PublicTableFooters";
 import {getRandomNumber, isStringEmpty} from "../static/ObjectsUtils";
@@ -354,9 +354,9 @@ export default class PublicTables extends React.Component {
         }
     }
 
-    onHeaderClickCallBack(clickedColumn, sortable, onHeaderClickCallBack) {
+    onHeaderClickCallBack(clickedColumn, sortable, onHeaderClickCallBack, notSortableColumn) {
 
-        if (sortable) { // sort it anyway
+        if (sortable && !notSortableColumn) { // sort it anyway
             this.handleSort(clickedColumn, sortable);
         }
 
@@ -579,7 +579,7 @@ export default class PublicTables extends React.Component {
                         {
                             headerMap.map((column, i) => {
 
-                                const {accessor, colAsCheckBox, textAlign, collapsing, customizeText, onHeaderClickCallBack} = column.props;
+                                const {accessor, colAsCheckBox, textAlign, collapsing, customizeText, onHeaderClickCallBack, notSortable} = column.props;
                                 let header = column.props.header === undefined ? 'undefined' : column.props.header;
                                 //TODO: structured table :  const rowSpan = column.props.rowSpan;
 
@@ -614,9 +614,9 @@ export default class PublicTables extends React.Component {
                                             collapsing={collapsing}
                                             textAlign={textAlign}
                                             sorted={column === accessor ? direction : null}
-                                            onClick={() => this.onHeaderClickCallBack(accessor, sortable, onHeaderClickCallBack)}
+                                            onClick={() => this.onHeaderClickCallBack(accessor, sortable, onHeaderClickCallBack, notSortable)}
                                         >
-                                            {header}
+                                            {header} {notSortable || !sortable ? null : <Icon name='sort'/>}
                                         </Table.HeaderCell>
 
                                     );
