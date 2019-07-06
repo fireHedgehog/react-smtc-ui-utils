@@ -60,7 +60,7 @@ export default class FilterDemo extends Component {
                     </Grid.Column>
 
                     <Grid.Column width={1}>
-                        <Header as={'h4'} content={'gender:'}/>
+                        <Header as={'h4'} content={'Dept:'}/>
                     </Grid.Column>
                     <Grid.Column width={3}>
                         <Dropdown options={[

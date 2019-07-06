@@ -434,7 +434,14 @@ export default class PublicTables extends React.Component {
                 //filter dataSet by accessor and filterContext
                 if (filterContext !== undefined && filterContext !== null && filterContext !== '') {
                     //console.log(filterContext)
-                    dataSet = filterDataByFilterContext(accessor, filterContext, dataSet)
+                    if (_.isFunction(filterContext)) {
+                        const returnArr = filterContext(dataSet);
+                        if (_.isArray(returnArr)) {
+                            dataSet = returnArr;
+                        }
+                    } else {
+                        dataSet = filterDataByFilterContext(accessor, filterContext, dataSet);
+                    }
                 }
 
                 //only push not hidden element
