@@ -49,9 +49,8 @@ export default class PublicTableHeaders extends React.Component {
         /**
          * pass a dynamic text in your state
          * will always using String.include()
-         * customization filter function have not done yet
          */
-        filterContext: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        filterContext: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.func]),
         /**
          * this column will be shown as check box instead of text ,
          * and check box value will according to your accessor
