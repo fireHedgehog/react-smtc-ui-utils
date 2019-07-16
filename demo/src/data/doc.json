@@ -301,11 +301,14 @@
               },
               {
                 "name": "number"
+              },
+              {
+                "name": "function"
               }
             ]
           },
           "required": false,
-          "description": "pass a dynamic text in your state\nwill always using String.include()\ncustomization filter function have not done yet"
+          "description": "pass a dynamic text in your state\nwill always using String.include()\n. Can also pass a function(data) and return a new data set"
         },
         "colAsCheckBox": {
           "type": {
