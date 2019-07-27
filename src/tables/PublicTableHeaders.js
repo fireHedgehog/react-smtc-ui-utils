@@ -75,6 +75,10 @@ export default class PublicTableHeaders extends React.Component {
         onCellSelectCallBack: PropTypes.func,
         onHeaderClickCallBack: PropTypes.func,
         notSortable: PropTypes.bool,
+        /**
+         * highlight search text
+         */
+        highLightFilterText: PropTypes.bool,
     }
 
     static defaultProps = {

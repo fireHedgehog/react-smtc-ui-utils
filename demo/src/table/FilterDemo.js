@@ -35,8 +35,8 @@ export default class FilterDemo extends Component {
                         <Segment compact>
                             <Highlight languages={['javascript', 'html']}>
                                 {`<PublicTables data={dummy_data}>
-        <PublicTableHeaders header={'Email'} accessor={'email'} filterContext={this.state.someText}/>
-        <PublicTableHeaders header={'Gender'} accessor={'gender'} filterContext={this.state.someText}/>
+        <PublicTableHeaders header={'Email'} accessor={'email'} filterContext={this.state.someText} highLightFilterText/>
+        <PublicTableHeaders header={'Gender'} accessor={'gender'} filterContext={this.state.someText} highLightFilterText/>
 <PublicTables/>
 <!--This example is also using Semantic-UI original Props such as celled,collapsing,compact and unstackable -->
 `}
@@ -97,12 +97,14 @@ export default class FilterDemo extends Component {
                                     accessor={'email'}
                                     filterContext={email}
                                     selectable
+                                    highLightFilterText
                                     onCellSelectCallBack={(cell, row) => console.log(cell, row)}
                                 />
                                 <PublicTableHeaders
                                     header={'Department'}
                                     accessor={'dept'}
                                     filterContext={gender}
+                                    highLightFilterText
                                 />
                             </PublicTables>
                         </div>

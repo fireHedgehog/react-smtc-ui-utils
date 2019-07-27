@@ -367,6 +367,13 @@
           "required": false,
           "description": "pass the cell and row data back eg:GonCellSelectCallBack={(cell,row)=>console.log(cell,row)}"
         },
+        "highLightFilterText": {
+          "type": {
+            "name": "bool"
+          },
+          "required": false,
+          "description": "Highlight search text when filtering by props.filterContext"
+        },
         "tableElementType": {
           "defaultValue": {
             "value": "\"PublicTableHeaders\"",

@@ -716,6 +716,8 @@ export default class PublicTables extends React.Component {
                                                 columnAlign,
                                                 colAsCheckBox,
                                                 columnFormat,
+                                                filterContext,
+                                                highLightFilterText,
                                             } = elm.props;
 
                                             //get value by accessor
@@ -725,10 +727,11 @@ export default class PublicTables extends React.Component {
                                             if (columnFormat) {
                                                 //call back function send cell value and row object
                                                 value = columnFormat(value, column);
+                                            } else {
+                                                if(highLightFilterText){
+                                                    value = getHighlightedText(value, filterContext);
+                                                }
                                             }
-
-
-                                            //console.log(checkedIds)
 
                                             // if this column is set to be a check box ,then return a check box
                                             if (colAsCheckBox === true) {
@@ -909,4 +912,34 @@ function getPageDefaultSize(props) {
     } else {
         return (isStringEmpty(pageSize)) || !([10, 20, 50].includes(props.pageSize)) ? 20 : props.pageSize
     }
+}
+
+/**
+ * highlight search text
+ *
+ * @param text
+ * @param highlight
+ * @returns {*}
+ */
+function getHighlightedText(text, highlight) {
+
+    const parts = _.split(text, new RegExp(`(${highlight})`, 'gi'));
+
+    return (
+        <span>
+            {
+                parts.map((part, i) => {
+                    return (
+                        <span key={i}
+                              style={_.toLower(part) === _.toLower(highlight) ? {
+                                  fontWeight: 'bold',
+                                  backgroundColor: "yellow"
+                              } : {}}>
+                         {part}
+                    </span>
+                    )
+                })
+            }
+        </span>
+    );
 }
