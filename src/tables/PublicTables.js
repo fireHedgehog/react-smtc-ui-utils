@@ -223,15 +223,11 @@ export default class PublicTables extends React.Component {
         );
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {data, defaultCheckedIds, fakePagination} = this.props;
 
-    UNSAFE_componentWillReceiveProps(newProps) {
+        if (data !== prevProps.data) {
 
-        const {data, defaultCheckedIds, fakePagination} = newProps;
-        /*
-         *  for performance reason. avoid useless re-render
-         *  re-render entire component when pass new data
-         */
-        if (data !== this.state.data) {
             this.setState({
                 data: data,
                 sortedData: data,
@@ -246,26 +242,15 @@ export default class PublicTables extends React.Component {
                     key: getRandomNumber(1000000000),
                 });
             }
-
         }
 
-        /*
-         * reset checked ids
-         */
-        if (defaultCheckedIds !== this.props.defaultCheckedIds) {
+        if (defaultCheckedIds !== prevProps.defaultCheckedIds) {
             this.setState({
                 checkedIds: defaultCheckedIds,
             });
         }
-
-
     }
 
-
-    /* shouldComponentUpdate(nextProps, nextState){
-         console.log(nextProps === this.props)
-         return true;
-     }*/
 
     //modify the checked list
     modifyCheckedArray(id) {
@@ -728,7 +713,7 @@ export default class PublicTables extends React.Component {
                                                 //call back function send cell value and row object
                                                 value = columnFormat(value, column);
                                             } else {
-                                                if(highLightFilterText){
+                                                if (highLightFilterText) {
                                                     value = getHighlightedText(value, filterContext);
                                                 }
                                             }
@@ -835,20 +820,29 @@ export class ColumnCheckBox extends React.Component {
 
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         //console.log(nextProps)
-        this.setState({
-            id: nextProps.id,
-            checked: nextProps.checked,
-        });
+        const {id, checked} = this.props;
 
+        if (id !== prevProps.id) {
+            this.setState({
+                id: id,
+            });
+        }
+
+        if (checked !== prevProps.checked) {
+            this.setState({
+                checked: checked,
+            });
+        }
     }
+
 
     toggle = () => {
         const {checked, id} = this.state;
         this.setState({checked: !checked});
         this.props.getCallBackId(id);
-    }
+    };
 
     render() {
 

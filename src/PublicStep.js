@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from "prop-types";
 import {Step} from 'semantic-ui-react'
+import {getRandomNumber} from "./static/ObjectsUtils";
 
 
 export default class PublicStep extends Component {
@@ -18,21 +19,26 @@ export default class PublicStep extends Component {
             stepOptions: props.stepOptions,
             currentStep: props.currentStep === undefined ? 0 : parseInt(props.currentStep, 10),
             stepSize: props.stepSize === undefined ? 'small' : props.stepSize,
+            divKey: getRandomNumber(),
         }
 
     }
 
-    UNSAFE_componentWillReceiveProps(props) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {currentStep, stepOptions} = this.props;
 
-        if (props.currentStep !== undefined) {
+        if (currentStep !== prevProps.currentStep) {
             this.setState({
-                currentStep: props.currentStep,
+                currentStep: currentStep,
+                divKey: getRandomNumber(),
             });
-            this.triggerStepChanges(props.currentStep);
+            this.triggerStepChanges(currentStep);
         }
-        if (props.stepOptions !== this.props.stepOptions) {
+
+        if (stepOptions !== prevProps.stepOptions) {
             this.setState({
-                stepOptions: props.stepOptions,
+                stepOptions: stepOptions,
+                divKey: getRandomNumber(),
             });
         }
     }
@@ -74,11 +80,13 @@ export default class PublicStep extends Component {
 
         const {
             stepSize,
-            stepOptions
+            stepOptions,
+            divKey,
         } = this.state;
 
         return (
             <Step.Group
+                key={divKey}
                 size={stepSize}
                 items={stepOptions}
             />
