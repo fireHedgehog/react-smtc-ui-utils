@@ -4,7 +4,7 @@
   "description": "react-smtc-ui-utils React component",
   "main": "lib/index.js",
   "module": "es/index.js",
-  "homepage": "",
+  "homepage": "https://firehedgehog.github.io/react-smtc-ui-utils/#/",
   "files": [
     "css",
     "es",
