@@ -22,7 +22,7 @@ export default class PublicStep extends Component {
 
     }
 
-    componentWillReceiveProps(props) {
+    UNSAFE_componentWillReceiveProps(props) {
 
         if (props.currentStep !== undefined) {
             this.setState({

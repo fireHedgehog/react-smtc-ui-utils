@@ -224,9 +224,9 @@ export default class PublicTables extends React.Component {
     }
 
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
 
-        const {data, defaultCheckedIds, fakePagination, defaultResponsiveParam} = newProps;
+        const {data, defaultCheckedIds, fakePagination} = newProps;
         /*
          *  for performance reason. avoid useless re-render
          *  re-render entire component when pass new data
@@ -835,7 +835,7 @@ export class ColumnCheckBox extends React.Component {
 
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         //console.log(nextProps)
         this.setState({
             id: nextProps.id,
