@@ -79,11 +79,12 @@ export default class PublicTableHeaders extends React.Component {
          * highlight search text
          */
         highLightFilterText: PropTypes.bool,
-    }
+        notCheckableCondition : PropTypes.func,
+    };
 
     static defaultProps = {
         tableElementType: "PublicTableHeaders",
-    }
+    };
 
     constructor(props) {
         super(props);

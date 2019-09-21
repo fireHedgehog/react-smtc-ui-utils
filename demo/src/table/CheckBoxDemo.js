@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {Segment, Grid, Header, Label, Icon, Divider, Button} from 'semantic-ui-react'
+import {Button, Divider, Grid, Header, Icon, Label, Segment} from 'semantic-ui-react'
 import Highlight from 'react-highlight'
 import PropTypes from "prop-types";
-import {PublicTables, PublicTableHeaders, CustomizedFooter} from '../../../src';
+import {CustomizedFooter, PublicTableHeaders, PublicTables} from '../../../src';
 import _ from "lodash";
 
 export default class CheckBoxDemo extends Component {
@@ -13,7 +13,7 @@ export default class CheckBoxDemo extends Component {
 
     state = {
         defaultCheckedIds: []
-    }
+    };
 
     formatDepartment(cell, row) {
         return (
@@ -22,6 +22,11 @@ export default class CheckBoxDemo extends Component {
                 {row.dept}
             </Label>
         );
+    }
+
+    notCheckable(cell, row) {
+        //console.log(cell, row);
+        return cell === 3;
     }
 
     render() {
@@ -41,6 +46,11 @@ export default class CheckBoxDemo extends Component {
 onCheckedChange(val) {
      console.log(val);
 }
+
+//return a Boolean value, if true, then not display the checkbox
+notCheckable=(cell,row)=>{
+     return cell === 3;
+}
 `}
                             </Highlight>
                             <Divider/>
@@ -53,7 +63,9 @@ onCheckedChange(val) {
         <PublicTableHeaders header={""}
                             accessor={"id"}
                             colAsCheckBox={true}
-                            checkBoxStyle={'toggle'} />
+                            checkBoxStyle={'toggle'}
+                            notCheckableCondition={this.notCheckable}
+        />
         <PublicTableHeaders header={'Email'} accessor={'email'}/>
 <PublicTables/>
 <!--This example is also using Semantic-UI original Props such as celled,collapsing,compact and unstackable -->
@@ -72,7 +84,7 @@ onCheckedChange(val) {
                         <PublicTables
                             data={tableData}
                             showAllCheck={true}
-                            checkedCallBackFunction={(val) => void(0)}
+                            checkedCallBackFunction={(val) => void (0)}
                             celled
                             compact
                             unstackable
@@ -85,6 +97,7 @@ onCheckedChange(val) {
                                 textAlign={'left'}
                                 colAsCheckBox={true}
                                 checkBoxStyle={'toggle'}
+                                notCheckableCondition={(cell, row) => this.notCheckable(cell, row)}
                             />
 
                             <PublicTableHeaders
@@ -96,7 +109,7 @@ onCheckedChange(val) {
                                 <Button content={'Reset default checkBox array'}
                                         onClick={() => this.setState(
                                             {
-                                                defaultCheckedIds: [_.random(0,2), _.random(3,5)]
+                                                defaultCheckedIds: [_.random(0, 2), _.random(3, 5)]
                                             }
                                         )}/>
                             </CustomizedFooter>

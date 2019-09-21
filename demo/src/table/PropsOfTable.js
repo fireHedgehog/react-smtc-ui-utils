@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {PublicTables, PublicTableHeaders} from '../../../src';
+import {PublicTableHeaders, PublicTables} from '../../../src';
 import {Grid, Header} from "semantic-ui-react";
 import renderLinks from "../others/CodeSource";
 //import json from "json-loader!../data/doc.json";
@@ -63,7 +63,7 @@ export default class PropsOfTable extends Component {
 
     render() {
 
-        const {tableDoc,headerDoc} = this.state;
+        const {tableDoc, headerDoc} = this.state;
 
         return (
             <div style={{margin: "2%"}}>
@@ -75,7 +75,7 @@ export default class PropsOfTable extends Component {
 
                         </Grid.Column>
                         <Grid.Column width={'10'}>
-                            {renderLinks('demo/src/data/doc.json',"Documentation file:")}
+                            {renderLinks('demo/src/data/doc.json', "Documentation file:")}
                         </Grid.Column>
                     </Grid.Row>
 
@@ -1072,6 +1072,13 @@ export const docJson = {
                     },
                     "required": false,
                     "description": ""
+                },
+                "notCheckableCondition": {
+                    "type": {
+                        "name": "function"
+                    },
+                    "required": false,
+                    "description": " notCheckableCondition(cell,row) return a boolean to define whether display checkbox or not"
                 }
             }
         }

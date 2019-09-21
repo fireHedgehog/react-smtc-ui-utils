@@ -703,6 +703,7 @@ export default class PublicTables extends React.Component {
                                                 columnFormat,
                                                 filterContext,
                                                 highLightFilterText,
+                                                notCheckableCondition
                                             } = elm.props;
 
                                             //get value by accessor
@@ -718,10 +719,24 @@ export default class PublicTables extends React.Component {
                                                 }
                                             }
 
+                                            //if not check-able should display nothing
+                                            if (notCheckableCondition && colAsCheckBox) {
+                                                const notCheck = notCheckableCondition(value, column);
+                                                if (notCheck === true) {
+                                                    return (<Table.Cell collapsing
+                                                                        key={j}
+                                                                        textAlign={columnAlign}
+                                                                        selectable={false}/>
+                                                    );
+                                                }
+                                            }
+
                                             // if this column is set to be a check box ,then return a check box
                                             if (colAsCheckBox === true) {
                                                 return (
-                                                    <Table.Cell collapsing key={j} textAlign={columnAlign}
+                                                    <Table.Cell collapsing
+                                                                key={j}
+                                                                textAlign={columnAlign}
                                                                 selectable={false}>
                                                         <ColumnCheckBox id={value}
                                                                         checkBoxStyle={checkBoxStyle}
