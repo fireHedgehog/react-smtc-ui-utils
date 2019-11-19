@@ -1006,8 +1006,14 @@ export const docJson = {
                     },
                     "required": false,
                     "description": "we can set pagination props to set the pagination bar (according to semantic-ui official website)."
-                }
-
+                },
+                "showPaginationAtTopAndBottom": {
+                    "type": {
+                        "name": "boolean"
+                    },
+                    "required": false,
+                    "description": "Display the pagination at both side"
+                },
             }
         },
         {

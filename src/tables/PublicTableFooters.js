@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Table, Label, Dropdown} from 'semantic-ui-react'
+import {Dropdown, Label, Table} from 'semantic-ui-react'
 import PropTypes from "prop-types";
 import TablePagination from "./TablePagination";
 import {getRandomNumber} from "../static/ObjectsUtils";
@@ -29,8 +29,8 @@ export class PaginationFooter extends Component {
         currentPage: PropTypes.number.isRequired,
         onPageSizeChange: PropTypes.func.isRequired,
         footerMap: PropTypes.array,
-        paginationProps:PropTypes.object,
-    }
+        paginationProps: PropTypes.object,
+    };
 
     constructor(props) {
         super(props);
@@ -41,6 +41,14 @@ export class PaginationFooter extends Component {
 
     handlePageClick(val) {
         this.props.handlePageClick(val);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.currentPage !== prevProps.currentPage) {
+            this.setState({
+                footerKey: getRandomNumber(),
+            });
+        }
     }
 
     handlePageSizeChange = (e, {value}) => {
@@ -54,12 +62,12 @@ export class PaginationFooter extends Component {
         });
 
         this.props.onPageSizeChange(value);
-    }
+    };
 
     render() {
 
         //currently only show the first Item of "footerMap" by default
-        const {colCount, pageSize, dataCount, currentPage, footerMap,paginationProps} = this.props;
+        const {colCount, pageSize, dataCount, currentPage, footerMap, paginationProps} = this.props;
 
         const {footerKey} = this.state;
 
@@ -112,11 +120,19 @@ export class PaginationFooterSecondary extends Component {
         dataCount: PropTypes.number.isRequired,
         currentPage: PropTypes.number.isRequired,
         footerMap: PropTypes.array,
-        paginationProps:PropTypes.object,
-    }
+        paginationProps: PropTypes.object,
+    };
 
     state = {
         footerKey: getRandomNumber(),
+    };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.currentPage !== prevProps.currentPage) {
+            this.setState({
+                footerKey: getRandomNumber(),
+            });
+        }
     }
 
     handlePageClick(val) {
@@ -126,7 +142,7 @@ export class PaginationFooterSecondary extends Component {
     render() {
 
         //currently only show the first Item of "footerMap" by default
-        const {colCount, pageSize, dataCount, currentPage, footerMap,paginationProps} = this.props;
+        const {colCount, pageSize, dataCount, currentPage, footerMap, paginationProps} = this.props;
 
         const {footerKey} = this.state;
 

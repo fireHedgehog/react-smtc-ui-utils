@@ -15,7 +15,7 @@ export default class TablePagination extends Component {
         getActivePages: PropTypes.func.isRequired,
         currentPage: PropTypes.number,
         paginationProps: PropTypes.object,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -30,7 +30,7 @@ export default class TablePagination extends Component {
         paginationProps: {
             size: 'small',//mini,tiny,small,medium,large,big,huge,massive
         },
-    }
+    };
 
 
     handlePaginationChange = (e, {activePage}) => {
@@ -39,7 +39,7 @@ export default class TablePagination extends Component {
             {activePage: activePage}
         );
         this.props.getActivePages(activePage);
-    }
+    };
 
     render() {
         const {

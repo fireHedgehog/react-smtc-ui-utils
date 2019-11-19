@@ -65,7 +65,7 @@ export default class PublicTables extends React.Component {
         /**
          * 2 different type of pagination bar
          */
-        pagination: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(["primary", "secondary"])]),
+        pagination: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(["primary", "secondary", "tertiary"])]),
         /**
          * currently only support hard-coded : 10 ,20 , 50
          */
@@ -185,7 +185,8 @@ export default class PublicTables extends React.Component {
          */
         paginationProps: PropTypes.object,
         striped: PropTypes.any,
-    }
+        showPaginationAtTopAndBottom: PropTypes.bool,
+    };
 
     constructor(props) {
         super(props);
@@ -512,7 +513,7 @@ export default class PublicTables extends React.Component {
                         footerMap={footerMap}
                         paginationProps={paginationProps}
                     />
-                )
+                );
                 dataSet = this.TablePagination(dataSet)
             }
         }
@@ -539,6 +540,7 @@ export default class PublicTables extends React.Component {
             style,
             columns,
             striped,
+            showPaginationAtTopAndBottom,
         } = this.props; // most common styles of semantic ui
 
         return (
@@ -566,6 +568,16 @@ export default class PublicTables extends React.Component {
                 striped={striped}
             >
                 <Table.Header>
+                    {
+                        showPaginationAtTopAndBottom ? (
+                            <Table.Row>
+                                <Table.HeaderCell colSpan={colCount}>
+                                    {paginationFooter}
+                                </Table.HeaderCell>
+                            </Table.Row>
+                        ) : null
+                    }
+
                     <Table.Row>
 
                         {
