@@ -260,7 +260,7 @@ export default class PublicTables extends React.Component {
         }
 
         // if sort data changed, and need the call back
-        if (this.state.sortedData !== prevProps.sortedData) {
+        if (this.state.sortedData !== prevState.sortedData) {
             if (this.props.onPageClickGetDataCallBack) {
                 this.props.onPageClickGetDataCallBack(this.TablePagination(this.state.sortedData))
             }
