@@ -186,6 +186,9 @@ export default class PublicTables extends React.Component {
         paginationProps: PropTypes.object,
         striped: PropTypes.any,
         showPaginationAtTopAndBottom: PropTypes.bool,
+
+        // return the data of current page, when clicking the page button
+        onPageClickGetDataCallBack: PropTypes.func,
     };
 
     constructor(props) {
@@ -215,20 +218,25 @@ export default class PublicTables extends React.Component {
             tableWidth: width,
             tableHeight: height,
         });
-    }
+    };
 
     handlePageSizeChange = (value) => {
         this.setState({
                 pageSize: parseInt(value, 10),
             }
         );
+    };
+
+    componentDidMount() {
+        if (this.props.onPageClickGetDataCallBack) {
+            this.props.onPageClickGetDataCallBack(this.TablePagination(this.state.sortedData))
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {data, defaultCheckedIds, fakePagination} = this.props;
 
         if (data !== prevProps.data) {
-
             this.setState({
                 data: data,
                 sortedData: data,
@@ -250,6 +258,14 @@ export default class PublicTables extends React.Component {
                 checkedIds: defaultCheckedIds,
             });
         }
+
+        // if sort data changed, and need the call back
+        if (this.state.sortedData !== prevProps.sortedData) {
+            if (this.props.onPageClickGetDataCallBack) {
+                this.props.onPageClickGetDataCallBack(this.TablePagination(this.state.sortedData))
+            }
+        }
+
     }
 
 
@@ -282,10 +298,10 @@ export default class PublicTables extends React.Component {
      */
     TablePagination(ParamArr) {
         const {currentPage, pageSize} = this.state;
-        const totalPage = Math.ceil((ParamArr === undefined ? 1 : ParamArr.length) / pageSize)
+        const totalPage = Math.ceil((ParamArr === undefined ? 1 : ParamArr.length) / pageSize);
 
         //in case total page is less than current page
-        const currentByTotal = totalPage < currentPage ? 1 : currentPage
+        const currentByTotal = totalPage < currentPage ? 1 : currentPage;
 
         return ParamArr.slice((currentByTotal - 1) * pageSize, (currentByTotal) * pageSize);
     }
@@ -296,11 +312,17 @@ export default class PublicTables extends React.Component {
         //console.log(data);
         this.setState({
             currentPage: data
+        }, () => {
+            if (this.props.onPageClickGetDataCallBack) {
+                this.props.onPageClickGetDataCallBack(this.TablePagination(this.state.sortedData))
+            }
         });
 
         if (this.props.onPageChangeCallBack) {
             this.props.onPageChangeCallBack(data)
         }
+
+
     };
 
     /* check all button click
@@ -331,7 +353,7 @@ export default class PublicTables extends React.Component {
 
         }
 
-    }
+    };
 
     //onRowSelectAndClick
     onRowSelectCallBack(column) {
@@ -354,14 +376,14 @@ export default class PublicTables extends React.Component {
     handleSort(clickedColumn, sortable) {
 
         if (sortable) {
-            const {column, sortedData, direction} = this.state
+            const {column, sortedData, direction} = this.state;
 
             if (column !== clickedColumn) {
                 this.setState({
                     column: clickedColumn,
                     sortedData: _.sortBy(sortedData, [clickedColumn]),
                     direction: 'ascending',
-                })
+                });
 
                 return
             }

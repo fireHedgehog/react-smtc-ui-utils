@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
-import {Button, Divider, Grid, Header, Icon, Input, Label, Message, Popup, Segment,Table} from 'semantic-ui-react';
+import {Button, Divider, Grid, Header, Icon, Input, Label, Message, Segment} from 'semantic-ui-react';
 import {CustomizedFooter, PublicTableHeaders, PublicTables} from '../../../src'
 import renderLinks from "../others/CodeSource";
 import Gist from 'react-gist';
-import _ from "lodash";
 
 export class BasicTableDemo extends Component {
 
@@ -144,6 +143,7 @@ export class BasicTableDemo extends Component {
                             paginationProps={{
                                 size: "tiny"
                             }}
+                            //onPageClickGetDataCallBack={(d) => console.log(d)}
                         >
 
                             <PublicTableHeaders
