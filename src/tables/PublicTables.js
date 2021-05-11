@@ -330,13 +330,17 @@ export default class PublicTables extends React.Component {
     */
     toggleCheckAll = (accessor, dataSet) => {
         const {allChecked, checkedIds} = this.state;
+        const {notCheckableCondition} = this.props;
         //console.log(accessor)
         this.setState({allChecked: !allChecked});
 
         //let currentPageList = dataSet;
-
+        //notCheckableCondition
         if (!allChecked === true) {
             for (let i = 0; i < dataSet.length; i++) {
+                const notCheck = notCheckableCondition(dataSet[i][accessor], dataSet[i]);
+                if(notCheck) continue;
+
                 checkedIds.push(dataSet[i][accessor]);
             }
             this.setState({checkedIds: checkedIds});
@@ -563,6 +567,7 @@ export default class PublicTables extends React.Component {
             columns,
             striped,
             showPaginationAtTopAndBottom,
+            notCheckableCondition,
         } = this.props; // most common styles of semantic ui
 
         return (
@@ -605,7 +610,15 @@ export default class PublicTables extends React.Component {
                         {
                             headerMap.map((column, i) => {
 
-                                const {accessor, colAsCheckBox, textAlign, collapsing, customizeText, onHeaderClickCallBack, notSortable} = column.props;
+                                const {
+                                    accessor,
+                                    colAsCheckBox,
+                                    textAlign,
+                                    collapsing,
+                                    customizeText,
+                                    onHeaderClickCallBack,
+                                    notSortable
+                                } = column.props;
                                 let header = column.props.header === undefined ? 'undefined' : column.props.header;
                                 //TODO: structured table :  const rowSpan = column.props.rowSpan;
 
@@ -737,7 +750,7 @@ export default class PublicTables extends React.Component {
                                                 columnFormat,
                                                 filterContext,
                                                 highLightFilterText,
-                                                notCheckableCondition
+                                                //notCheckableCondition
                                             } = elm.props;
 
                                             //get value by accessor
