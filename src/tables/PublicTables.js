@@ -338,9 +338,10 @@ export default class PublicTables extends React.Component {
         //notCheckableCondition
         if (!allChecked === true) {
             for (let i = 0; i < dataSet.length; i++) {
-                const notCheck = notCheckableCondition(dataSet[i][accessor], dataSet[i]);
-                if(notCheck) continue;
-
+                if(notCheckableCondition){
+                    const notCheck = notCheckableCondition(dataSet[i][accessor], dataSet[i]);
+                    if(notCheck) continue;
+                }
                 checkedIds.push(dataSet[i][accessor]);
             }
             this.setState({checkedIds: checkedIds});
