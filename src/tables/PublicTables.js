@@ -234,7 +234,7 @@ export default class PublicTables extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {data, defaultCheckedIds, fakePagination} = this.props;
+        const {data, defaultCheckedIds, fakePagination, currentPage} = this.props;
 
         if (data !== prevProps.data) {
             this.setState({
@@ -259,12 +259,20 @@ export default class PublicTables extends React.Component {
             });
         }
 
+        if (currentPage !== prevProps.currentPage) {
+            this.setState({
+                currentPage: currentPage,
+            });
+        }
+
+
         // if sort data changed, and need the call back
         if (this.state.sortedData !== prevState.sortedData) {
             if (this.props.onPageClickGetDataCallBack) {
                 this.props.onPageClickGetDataCallBack(this.TablePagination(this.state.sortedData))
             }
         }
+
 
     }
 
@@ -338,9 +346,9 @@ export default class PublicTables extends React.Component {
         //notCheckableCondition
         if (!allChecked === true) {
             for (let i = 0; i < dataSet.length; i++) {
-                if(notCheckableCondition){
+                if (notCheckableCondition) {
                     const notCheck = notCheckableCondition(dataSet[i][accessor], dataSet[i]);
-                    if(notCheck) continue;
+                    if (notCheck) continue;
                 }
                 checkedIds.push(dataSet[i][accessor]);
             }
