@@ -189,6 +189,7 @@ export default class PublicTables extends React.Component {
 
         // return the data of current page, when clicking the page button
         onPageClickGetDataCallBack: PropTypes.func,
+        notCheckableCondition: PropTypes.func,
     };
 
     constructor(props) {
