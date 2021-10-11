@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Input, Grid, Segment, Message, Header, Divider} from 'semantic-ui-react';
 import {PublicStep} from '../../../src'
 import renderLinks from "./CodeSource";
-import Gist from 'react-gist';
+//import ReactEmbedGist from 'react-embed-gist';
 
 
 export class StepDemo extends Component {
@@ -110,7 +110,7 @@ export class StepDemo extends Component {
                     <Grid.Column width={'16'}>
                         <Divider/>
                         {renderLinks('demo/src/others/StepDemo.js')}
-                        <Gist id='a01d4230f7331dff3b377df09889b792'/>
+                        {/*<ReactEmbedGist gist='a01d4230f7331dff3b377df09889b792'/>*/}
                     </Grid.Column>
                 </Grid.Row>
 

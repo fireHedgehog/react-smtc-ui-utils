@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Button, Divider, Grid, Header, Icon, Input, Label, Message, Segment} from 'semantic-ui-react';
 import {CustomizedFooter, PublicTableHeaders, PublicTables} from '../../../src'
 import renderLinks from "../others/CodeSource";
-import Gist from 'react-gist';
+//import ReactEmbedGist from 'react-embed-gist';
 
 export class BasicTableDemo extends Component {
 
@@ -199,7 +199,7 @@ export class BasicTableDemo extends Component {
                     <Grid.Column width={'16'}>
                         <Divider/>
                         {renderLinks('demo/src/table/BasicTableDemo.js')}
-                        <Gist id='b66a45c2e7f0a734597b63891f7a25db'/>
+                        {/*<ReactEmbedGist gist='b66a45c2e7f0a734597b63891f7a25db'/>*/}
                     </Grid.Column>
                 </Grid.Row>
 

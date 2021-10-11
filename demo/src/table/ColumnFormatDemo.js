@@ -3,7 +3,7 @@ import {Button, Label, Icon,Input} from 'semantic-ui-react';
 import json from "json-loader!../data/MOCK_DATA.json";
 import { PublicTables, CustomizedFooter, PublicTableHeaders} from '../../../src'
 import renderLinks from "../others/CodeSource";
-import Gist from 'react-gist';
+//import ReactEmbedGist from 'react-embed-gist';
 
 export class ColumnFormatDemo extends Component {
 
@@ -32,7 +32,7 @@ export class ColumnFormatDemo extends Component {
 
         return (
             <div>
-                <Gist id='b66a45c2e7f0a734597b63891f7a25db'/>
+                {/*<ReactEmbedGist gist='b66a45c2e7f0a734597b63891f7a25db'/>*/}
                 {renderLinks('demo/src/table/ColumnFormatDemo.js')}
 
                 <Input placeholder='bundle filter' name='bundleName' value={bundleName} onChange={this.handleChange} />
