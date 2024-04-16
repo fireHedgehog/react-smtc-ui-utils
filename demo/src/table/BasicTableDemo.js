@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {Button, Divider, Grid, Header, Icon, Input, Label, Message, Segment} from 'semantic-ui-react';
 import {CustomizedFooter, PublicTableHeaders, PublicTables} from '../../../src'
 import renderLinks from "../others/CodeSource";
-//import ReactEmbedGist from 'react-embed-gist';
 
 export class BasicTableDemo extends Component {
 
@@ -34,24 +33,22 @@ export class BasicTableDemo extends Component {
 
     render() {
 
-        const {bundleName, checked, btnName} = this.state;
+        const {bundleName, checked, btnName, tableWidth} = this.state;
 
         return (
             <Grid>
-                <Grid.Row>
-
-                </Grid.Row>
                 <Grid.Row>
                     <Grid.Column width={'5'}>
 
                         <Segment>
 
                             <Header as={'h5'}>
-                                Original Library
+                                Semantic UI Integration
                             </Header>
 
                             <Message color={'teal'}>
-                                This table util is using Semantic-UI(URL is react.semantic-ui.com).
+                                Our data table utility leverages Semantic UI React for styling and components. Find more
+                                about Semantic UI React at react.semantic-ui.com.
                             </Message>
 
 
@@ -60,13 +57,13 @@ export class BasicTableDemo extends Component {
                         <Segment>
 
                             <Header as={'h5'}>
-                                Column filter:
+                                Column Filtering :
                             </Header>
 
                             <Message color={'blue'}>
-                                Each column can be filtered by passing a props named 'filterContext'.
-                                In this case, filtered column is a 'Hidden' column.
-                                'Accessor' of this column is 'app_bundle_id'. Such as 'com.google.Job'.
+                                You can filter the data in each column using the filterContext prop. For instance, if
+                                you want to filter by 'app_bundle_id', set the filterContext to target this specific
+                                column. Example filter input for 'app_bundle_id' could be 'com.google.Job'.
                             </Message>
 
                             <Input placeholder='app_bundle_id filter example' fluid
@@ -81,8 +78,8 @@ export class BasicTableDemo extends Component {
                             </Header>
 
                             <Message color={'yellow'}>
-                                Check Box value array depends on the given 'Accessor' of certain column.
-                                In this case, Accessor is 'ID'.
+                                Select multiple rows using checkboxes. The selected row IDs are collected based on the
+                                specified 'Accessor' for that column. Example output for selected rows.
                             </Message>
 
                             <strong>checkedCallBackFunction:</strong>
@@ -92,35 +89,40 @@ export class BasicTableDemo extends Component {
                         <Segment>
 
                             <Header as={'h5'}>
-                                Customized cell context:
+                                Custom Cell Content
                             </Header>
 
                             <Message color={'blue'}>
-                                This example is concatenating first_name and last_name, then wrap it in a 'Label Tag'.
+                                You can customize cell contents. Here's an example where we concatenate 'first_name' and
+                                'last_name' and display them within a label tag. .
                             </Message>
 
                             <Header as={'h5'}>
-                                Pagination:
+                                Pagination Options :
                             </Header>
 
                             <Message color={'yellow'}>
-                                'Primary Pagination' has a page size selection, 'Secondary Pagination' does't.
+                                We offer two types of pagination: 'Primary Pagination' includes a dropdown for page size
+                                selection, while 'Secondary Pagination' is simpler, with no page size option.
                             </Message>
 
                             <Header as={'h5'}>
-                                Sortable column:
+                                Sorting Columns :
                             </Header>
 
                             <Message color={'blue'}>
-                                Click on table header.
+                                Make any column sortable by clicking its header. This toggles the sort order for that
+                                column.
                             </Message>
 
                             <Header as={'h5'}>
-                                Customized footer:
+                                Custom Footer :
                             </Header>
 
                             <Message color={'yellow'}>
-                                This example adds 2 'Button' in footer,
+                                You can add custom elements to the table footer. For example, this table includes two
+                                buttons in the footer. Pressing the blue button will demonstrate a customized footer
+                                action.
                             </Message>
                             <Header as={'h5'} color={btnName}>You are
                                 clicking {btnName === "black" ? "" : btnName} Button in customized footer.</Header>

@@ -1,121 +1,96 @@
-import React, {Component} from 'react'
-import {Menu, Icon, Dropdown} from 'semantic-ui-react'
-import {withRouter} from "react-router-dom";
+import React, {useState} from 'react';
+import {Dropdown, Icon, Menu} from 'semantic-ui-react';
+import {useLocation, useNavigate} from 'react-router-dom';
 
-class MainMenu extends Component {
+const MainMenu = () => {
+    const [activeItem, setActiveItem] = useState('');
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    state = {}
+    const handleItemClick = (name, nextUrl) => {
+        setActiveItem(name);
+        navigate(`${location.pathname}/${nextUrl}`);
+    };
 
-    handleItemClick = (e, {name, nexturl}) => {
-        this.setState(
-            {
-                activeItem: name
-            }
-        );
-        const {history, match} = this.props;
-        //console.log(history);
-        history.push(`${match.url}/${nexturl}`);
-    }
+    const handleClick = (name, nextUrl) => {
+        setActiveItem(name);
+        navigate(`/${nextUrl}`);
+    };
 
-    handleClick = (e, {name, nexturl}) => {
-        this.setState(
-            {
-                activeItem: name
-            }
-        );
-        const {history, match} = this.props;
-        //console.log(history);
-        history.push(`/${nexturl}`);
-    }
-
-    onRepoNameClick() {
+    const onRepoNameClick = () => {
         window.location.href = "https://github.com/fireHedgehog/react-smtc-ui-utils";
-    }
+    };
 
-    render() {
-        const {activeItem} = this.state
-
-        //const {match} = this.props;
-
-        //console.log(match);
-        return (
-            <Menu inverted
-                  tabular
-                  stackable
-                  size={'massive'}
+    return (
+        <Menu inverted tabular stackable size={'massive'}>
+            <Menu.Item
+                name='Home'
+                nexturl='react-smtc-ui-utils'
+                active={activeItem === 'Home'}
+                color={activeItem === 'Home' ? 'blue' : 'black'}
+                onClick={(e) => handleClick('Home', 'react-smtc-ui-utils')}
             >
+                <Icon name="home"/>
+            </Menu.Item>
 
-                <Menu.Item
-                    name='Home'
-                    nexturl='react-smtc-ui-utils'
-                    active={activeItem === 'Home'}
-                    color={activeItem === 'Home' ? 'blue' : 'black'}
-                    onClick={this.handleClick}>
-                    <Icon name="home"/>
-                </Menu.Item>
+            <Menu.Item
+                header
+                onClick={onRepoNameClick}
+            >
+                react-smtc-ui-utils
+            </Menu.Item>
 
+            <Menu.Menu position='right'>
                 <Menu.Item
-                    header
-                    onClick={() => this.onRepoNameClick()}
+                    name='start'
+                    nexturl='react-smtc-ui-utils/start'
+                    active={activeItem === 'start'}
+                    color={activeItem === 'start' ? 'blue' : 'black'}
+                    onClick={(e) => handleClick('start', 'react-smtc-ui-utils/start')}
                 >
-                    react-smtc-ui-utils
+                    Get Start
                 </Menu.Item>
 
-                <Menu.Menu position='right'>
-                    <Menu.Item
-                        name='start'
-                        nexturl='react-smtc-ui-utils/start'
-                        active={activeItem === 'start'}
-                        color={activeItem === 'start' ? 'blue' : 'black'}
-                        onClick={this.handleClick}
-                    >
-                        Get Start
-                    </Menu.Item>
+                <Dropdown item text='Data Table'>
+                    <Dropdown.Menu>
+                        <Dropdown.Item
+                            onClick={(e) => handleClick('table', 'react-smtc-ui-utils/table')}
+                        >
+                            Demo
+                        </Dropdown.Item>
 
-                    <Dropdown item text='Data Table'>
-                        <Dropdown.Menu>
-                            <Dropdown.Item
-                                nexturl="react-smtc-ui-utils/table"
-                                onClick={this.handleClick}>
-                                Demo
-                            </Dropdown.Item>
+                        <Dropdown.Item
+                            onClick={(e) => handleClick('props', 'react-smtc-ui-utils/Props')}
+                        >
+                            Props Document
+                        </Dropdown.Item>
 
-                            <Dropdown.Item
-                                nexturl="react-smtc-ui-utils/Props"
-                                onClick={this.handleClick}>
-                                Props Document
-                            </Dropdown.Item>
+                        <Dropdown.Item
+                            onClick={(e) => handleClick('tableProps', 'react-smtc-ui-utils/tableProps')}
+                        >
+                            Props Examples
+                        </Dropdown.Item>
 
-                            <Dropdown.Item
-                                nexturl="react-smtc-ui-utils/tableProps"
-                                onClick={this.handleClick}>
-                                Props Examples
-                            </Dropdown.Item>
+                        <Dropdown.Item
+                            onClick={(e) => handleClick('responsive', 'react-smtc-ui-utils/responsive')}
+                        >
+                            Responsive Examples
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
 
-                            <Dropdown.Item
-                                nexturl="react-smtc-ui-utils/responsive"
-                                onClick={this.handleClick}>
-                                Responsive Examples
-                            </Dropdown.Item>
+                <Menu.Item
+                    nexturl="react-smtc-ui-utils/others"
+                    name='others'
+                    active={activeItem === 'others'}
+                    color={activeItem === 'others' ? 'blue' : 'black'}
+                    onClick={(e) => handleClick('others', 'react-smtc-ui-utils/others')}
+                >
+                    Others
+                </Menu.Item>
+            </Menu.Menu>
+        </Menu>
+    );
+};
 
-                        </Dropdown.Menu>
-                    </Dropdown>
-
-                    <Menu.Item
-                        nexturl="react-smtc-ui-utils/others"
-                        name='others'
-                        active={activeItem === 'others'}
-                        color={activeItem === 'others' ? 'blue' : 'black'}
-                        onClick={this.handleClick}
-                    >
-                        Others
-                    </Menu.Item>
-                </Menu.Menu>
-
-
-            </Menu>
-        )
-    }
-}
-
-export default withRouter(MainMenu);
+export default MainMenu;

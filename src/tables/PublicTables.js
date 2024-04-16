@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {NoPaginationUserFooter, PaginationFooter, PaginationFooterSecondary} from "./PublicTableFooters";
 import {getRandomNumber, isStringEmpty} from "../static/ObjectsUtils";
 import _ from 'lodash';
-import ReactResizeDetector from 'react-resize-detector';
+import ResizeDetector from "../ReactResizeDetector";
 import DefaultResponsiveTableBody from "./DefaultResponsiveTableBody";
 
 //import update from "immutability-helper";
@@ -214,7 +214,6 @@ export default class PublicTables extends React.Component {
     }
 
     onResize = (width, height) => {
-
         this.setState({
             tableWidth: width,
             tableHeight: height,
@@ -832,10 +831,8 @@ export default class PublicTables extends React.Component {
                 <Table.Footer>
                     <Table.Row>
                         <Table.Cell colSpan={colCount}>
-                            <ReactResizeDetector
-                                handleWidth
-                                handleHeight
-                                onResize={this.onResize}
+                            <ResizeDetector
+                                onResizeCallback={this.onResize}
                             />
                         </Table.Cell>
                     </Table.Row>
