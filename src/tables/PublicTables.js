@@ -661,10 +661,10 @@ export default class PublicTables extends React.Component {
                                             key={i}
                                             collapsing={collapsing}
                                             textAlign={textAlign}
-                                            sorted={column === accessor ? direction : null}
+                                            sorted={this.state.column === accessor ? direction : null}
                                             onClick={() => this.onHeaderClickCallBack(accessor, sortable, onHeaderClickCallBack, notSortable)}
                                         >
-                                            {header} {notSortable || !sortable ? null : <Icon name='sort'/>}
+                                            {header}
                                         </Table.HeaderCell>
 
                                     );
