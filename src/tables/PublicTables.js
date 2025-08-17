@@ -190,6 +190,7 @@ export default class PublicTables extends React.Component {
         // return the data of current page, when clicking the page button
         onPageClickGetDataCallBack: PropTypes.func,
         notCheckableCondition: PropTypes.func,
+        hideHeading: PropTypes.bool,
     };
 
     constructor(props) {
@@ -577,6 +578,7 @@ export default class PublicTables extends React.Component {
             striped,
             showPaginationAtTopAndBottom,
             notCheckableCondition,
+            hideHeading,
         } = this.props; // most common styles of semantic ui
 
         return (
@@ -603,79 +605,81 @@ export default class PublicTables extends React.Component {
                 columns={columns}
                 striped={striped}
             >
-                <Table.Header>
-                    {
-                        showPaginationAtTopAndBottom ? (
-                            <Table.Row>
-                                <Table.HeaderCell colSpan={colCount}>
-                                    {paginationFooter}
-                                </Table.HeaderCell>
-                            </Table.Row>
-                        ) : null
-                    }
-
-                    <Table.Row>
-
+                {!hideHeading && (
+                    <Table.Header>
                         {
-                            headerMap.map((column, i) => {
-
-                                const {
-                                    accessor,
-                                    colAsCheckBox,
-                                    textAlign,
-                                    collapsing,
-                                    customizeText,
-                                    onHeaderClickCallBack,
-                                    notSortable
-                                } = column.props;
-                                let header = column.props.header === undefined ? 'undefined' : column.props.header;
-                                //TODO: structured table :  const rowSpan = column.props.rowSpan;
-
-                                // if customizeText is not none, call this function
-                                if (customizeText) {
-                                    //call back function send header value and row object
-                                    header = customizeText(header, column);
-                                }
-
-                                /*
-                                   if and only if this column is shown as a check box and header shown as check all
-                                   return the header as a checked all
-                                */
-                                if (showAllCheck === true && colAsCheckBox === true) {
-
-                                    return (
-                                        <Table.HeaderCell collapsing key={i}>
-                                            <Checkbox
-                                                onChange={() => this.toggleCheckAll(accessor, dataSet)}
-                                                checked={allChecked}
-                                            />
-                                        </Table.HeaderCell>
-                                    )
-                                } else {
-
-                                    //if this column can be sorted
-
-                                    return (
-
-                                        <Table.HeaderCell
-                                            key={i}
-                                            collapsing={collapsing}
-                                            textAlign={textAlign}
-                                            sorted={column === accessor ? direction : null}
-                                            onClick={() => this.onHeaderClickCallBack(accessor, sortable, onHeaderClickCallBack, notSortable)}
-                                        >
-                                            {header} {notSortable || !sortable ? null : <Icon name='sort'/>}
-                                        </Table.HeaderCell>
-
-                                    );
-                                }
-
-
-                            })
+                            showPaginationAtTopAndBottom ? (
+                                <Table.Row>
+                                    <Table.HeaderCell colSpan={colCount}>
+                                        {paginationFooter}
+                                    </Table.HeaderCell>
+                                </Table.Row>
+                            ) : null
                         }
 
-                    </Table.Row>
-                </Table.Header>
+                        <Table.Row>
+
+                            {
+                                headerMap.map((column, i) => {
+
+                                    const {
+                                        accessor,
+                                        colAsCheckBox,
+                                        textAlign,
+                                        collapsing,
+                                        customizeText,
+                                        onHeaderClickCallBack,
+                                        notSortable
+                                    } = column.props;
+                                    let header = column.props.header === undefined ? 'undefined' : column.props.header;
+                                    //TODO: structured table :  const rowSpan = column.props.rowSpan;
+
+                                    // if customizeText is not none, call this function
+                                    if (customizeText) {
+                                        //call back function send header value and row object
+                                        header = customizeText(header, column);
+                                    }
+
+                                    /*
+                                       if and only if this column is shown as a check box and header shown as check all
+                                       return the header as a checked all
+                                    */
+                                    if (showAllCheck === true && colAsCheckBox === true) {
+
+                                        return (
+                                            <Table.HeaderCell collapsing key={i}>
+                                                <Checkbox
+                                                    onChange={() => this.toggleCheckAll(accessor, dataSet)}
+                                                    checked={allChecked}
+                                                />
+                                            </Table.HeaderCell>
+                                        )
+                                    } else {
+
+                                        //if this column can be sorted
+
+                                        return (
+
+                                            <Table.HeaderCell
+                                                key={i}
+                                                collapsing={collapsing}
+                                                textAlign={textAlign}
+                                                sorted={column === accessor ? direction : null}
+                                                onClick={() => this.onHeaderClickCallBack(accessor, sortable, onHeaderClickCallBack, notSortable)}
+                                            >
+                                                {header} {notSortable || !sortable ? null : <Icon name='sort'/>}
+                                            </Table.HeaderCell>
+
+                                        );
+                                    }
+
+
+                                })
+                            }
+                        </Table.Row>
+                    </Table.Header>
+                )}
+
 
                 <Table.Body key={bodyKey}>
 
